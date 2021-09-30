@@ -35,6 +35,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         [null, {
           "packageLocation": "./",
           "packageDependencies": [
+            ["@stitches/react", "virtual:d9650954c7f1725ea712d2e40695de9ea5d1c0fa9b89379134c62909d440d91b03d6c37e2823804a3404472b90a5bec73c82193190dd3c4db4c9e9edd75db91e#npm:1.2.1"],
             ["@types/jest", "npm:27.0.2"],
             ["@types/node", "npm:16.10.2"],
             ["@types/react", "npm:17.0.26"],
@@ -448,6 +449,28 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@rushstack-eslint-patch-npm-1.0.7-f17cfc5c2e-2b013723a2.zip/node_modules/@rushstack/eslint-patch/",
           "packageDependencies": [
             ["@rushstack/eslint-patch", "npm:1.0.7"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@stitches/react", [
+        ["npm:1.2.1", {
+          "packageLocation": "./.yarn/cache/@stitches-react-npm-1.2.1-921a79a9e1-66afcd0513.zip/node_modules/@stitches/react/",
+          "packageDependencies": [
+            ["@stitches/react", "npm:1.2.1"]
+          ],
+          "linkType": "SOFT",
+        }],
+        ["virtual:d9650954c7f1725ea712d2e40695de9ea5d1c0fa9b89379134c62909d440d91b03d6c37e2823804a3404472b90a5bec73c82193190dd3c4db4c9e9edd75db91e#npm:1.2.1", {
+          "packageLocation": "./.yarn/__virtual__/@stitches-react-virtual-1b14889fcb/0/cache/@stitches-react-npm-1.2.1-921a79a9e1-66afcd0513.zip/node_modules/@stitches/react/",
+          "packageDependencies": [
+            ["@stitches/react", "virtual:d9650954c7f1725ea712d2e40695de9ea5d1c0fa9b89379134c62909d440d91b03d6c37e2823804a3404472b90a5bec73c82193190dd3c4db4c9e9edd75db91e#npm:1.2.1"],
+            ["@types/react", "npm:17.0.26"],
+            ["react", "npm:17.0.2"]
+          ],
+          "packagePeers": [
+            "@types/react",
+            "react"
           ],
           "linkType": "HARD",
         }]
@@ -2540,6 +2563,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./",
           "packageDependencies": [
             ["frontend", "workspace:."],
+            ["@stitches/react", "virtual:d9650954c7f1725ea712d2e40695de9ea5d1c0fa9b89379134c62909d440d91b03d6c37e2823804a3404472b90a5bec73c82193190dd3c4db4c9e9edd75db91e#npm:1.2.1"],
             ["@types/jest", "npm:27.0.2"],
             ["@types/node", "npm:16.10.2"],
             ["@types/react", "npm:17.0.26"],
