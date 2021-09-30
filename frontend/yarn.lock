@@ -325,6 +325,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@stitches/react@npm:^1.2.1":
+  version: 1.2.1
+  resolution: "@stitches/react@npm:1.2.1"
+  peerDependencies:
+    react: ">= 16.3.0"
+  checksum: 66afcd051371665f23ca5a62bad57495fc45436a6043cd6a28d36213d4636a1ad8ab65d9c3e548efed498bf6bb47a7cb20e3e26855a6db09093a9fc7e6825c12
+  languageName: node
+  linkType: hard
+
 "@tootallnate/once@npm:1":
   version: 1.1.2
   resolution: "@tootallnate/once@npm:1.1.2"
@@ -2054,6 +2063,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "frontend@workspace:."
   dependencies:
+    "@stitches/react": ^1.2.1
     "@types/jest": ^27.0.2
     "@types/node": ^16.10.2
     "@types/react": 17.0.26
