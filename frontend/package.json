@@ -1,12 +1,14 @@
 {
-  "name": "frontend",
+  "name": "writing-hub-frontend",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "deploy": "serverless",
+    "deploy:remove": "serverless remove"
   },
   "dependencies": {
     "@stitches/react": "^1.2.1",
@@ -21,6 +23,7 @@
     "@types/react-dom": "^17.0.9",
     "eslint": "7.32.0",
     "eslint-config-next": "11.1.2",
+    "serverless": "^2.60.3",
     "typescript": "4.4.3"
   },
   "packageManager": "yarn@3.0.2"

@@ -1,0 +1,9 @@
+writingHubNextApp:
+  component: "@sls-next/serverless-component"
+  inputs:
+    publicDirectoryCache:
+      value: public, max-age=604800
+      test: /\.(gif|jpe?g|png|txt|xml)$/i
+    bucketName: "writing-hub-frontend"
+    cloudFront:
+      distributeId: "E1KO9X7NKJSYKD"
