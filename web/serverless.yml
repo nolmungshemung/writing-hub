@@ -1,0 +1,11 @@
+# dev와 동일. local 배포용
+name: writinghub
+
+writinghub:
+  component: "@sls-next/serverless-component@3.4.0"
+  inputs:
+    publicDirectoryCache: false
+    useServerlessTraceTarget: true
+    bucketName: "writing-hub-web-dev"
+    cloudFront:
+      distributeId: "E3H4IJFZUH68XZ"
