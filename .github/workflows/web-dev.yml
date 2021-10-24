@@ -14,6 +14,8 @@ env:
   AWS_SECRET_ACCESS_KEY: ${{ secrets.DEV_AWS_SECRET_ACCESS_KEY }}
   NODE_OPTIONS: --max_old_space_size=4096
   CF_DISTRIBUTION_ID: ${{ secrets.WEB_DEV_CF_DISTRIBUTION_ID }}
+  ACM_CERTIFICATE_ARN: ${{ secrets.ACM_CERTIFICATE_ARN }}
+  BUCKET_NAME: writing-hub-web-dev
 
 defaults:
   run:
@@ -34,23 +36,23 @@ jobs:
       - name: Install dependencies
         run: yarn install --immutable --immutable-cache
 
-  lint:
-    runs-on: ubuntu-latest
-    needs: [install-dependencies]
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+  # lint:
+  #   runs-on: ubuntu-latest
+  #   needs: [install-dependencies]
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v2
 
-      - name: Setup node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: "14"
+  #     - name: Setup node.js
+  #       uses: actions/setup-node@v2
+  #       with:
+  #         node-version: "14"
 
-      - name: Install dependencies
-        run: yarn install --immutable --immutable-cache
+  #     - name: Install dependencies
+  #       run: yarn install --immutable --immutable-cache
 
-      - name: Lint
-        run: yarn lint
+  #     - name: Lint
+  #       run: yarn lint
 
   unit-testing:
     runs-on: ubuntu-latest

@@ -5,6 +5,6 @@ writinghub:
   inputs:
     publicDirectoryCache: false
     useServerlessTraceTarget: true
-    bucketName: writing-hub-web-dev
-    cloudFront:
-      distributeId: E3U5Z3SVRTHT3W
+    bucketName: ${env.BUCKET_NAME}
+    cloudfront:
+      distributionId: ${env.CF_DISTRIBUTION_ID}
