@@ -15,6 +15,10 @@ env:
   NODE_OPTIONS: --max_old_space_size=4096
   CF_DISTRIBUTION_ID: ${{ secrets.WEB_DEV_CF_DISTRIBUTION_ID }}
 
+defaults:
+  run:
+    working-directory: web
+
 jobs:
   install-dependencies:
     runs-on: ubuntu-latest
@@ -79,11 +83,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - uses: canastro/copy-file-action@master
-        with:
-          source: "serverless-dev.yml"
-          target: "serverless.yml"
-
       - name: Setup node.js
         uses: actions/setup-node@v2
         with:
@@ -97,14 +96,6 @@ jobs:
         with:
           args: export --format dotenv --output-file .env dev/writinghub-web
 
-      - name: Serverless AWS authentication
-        run: yarn serverless --component=serverless-next config credentials --provider aws --key ${{ secrets.DEV_AWS_ACCESS_KEY_ID }} --secret ${{ secrets.DEV_AWS_SECRET_ACCESS_KEY }}
-
-      - name: Download `.serverless` state from S3
-        run: aws s3 sync s3://sls-norsh-dev-us-east-1/serverless/writinghub-web/dev/.serverless .serverless --delete
-
       - name: Deploy to AWS
-        run: yarn serverless
-
-      - name: Upload `.serverless` state to S3
-        run: aws s3 sync .serverless s3://sls-norsh-dev-us-east-1/serverless/writinghub-web/dev/.serverless --delete
+        working-directory: ./web
+        run: yarn deploy
