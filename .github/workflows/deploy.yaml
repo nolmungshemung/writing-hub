@@ -14,9 +14,6 @@ on:
     paths:
       - "backend/**"
       - ".github/workflows/deploy.yaml"
-defaults:
-  run:
-    working-directory: backend
 jobs:
   ci_part:
     runs-on: [ubuntu-latest]
@@ -26,7 +23,7 @@ jobs:
        uses: actions/checkout@v2
 
      - name: Make zip pkg
-       run: zip -r ${{ env.DEPLOY_PKG_NAME }} ./ -x *.git*
+       run: zip -r ${{ env.DEPLOY_PKG_NAME }} ./backend/ -x *.git*
 
      - name: Config Access to AWS
        uses: aws-actions/configure-aws-credentials@v1
