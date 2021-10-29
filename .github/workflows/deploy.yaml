@@ -4,7 +4,7 @@ env:
   APP_S3_BUCKET_NAME: elasticbeanstalk-ap-northeast-2-829844905301
   APP_NAME : writinghub-api
   ENV_NAME: Writinghubapi-env-2
-  DEPLOY_PKG_NAME: github-action-dev-deeplol-app_${{ github.sha }}.zip
+  DEPLOY_PKG_NAME: github-action-writinghub-api_${{ github.sha }}.zip
   AWS_REGION_NAME: ap-northeast-2
 
 on:
