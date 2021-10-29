@@ -1,0 +1,47 @@
+os: linux
+dist: bionic
+language: python
+services:
+  - docker
+python:
+  - 3.8
+before_install:
+  - pip install awscli
+  - export PATH=$PATH:$HOME/.local/bin
+script:
+  - pytest -v
+before_deploy:
+  - if [ $TRAVIS_BRANCH == "master" ]; then export EB_ENV=Writinghubapi-env-2; fi
+  - export REPO_NAME=$(echo $TRAVIS_REPO_SLUG | sed "s_^.*/__")
+  - export ELASTIC_BEANSTALK_LABEL=${REPO_NAME}-${TRAVIS_COMMIT::7}-$(date +%y%m%d%H%M%S)
+deploy:
+  skip_cleanup: true
+  provider: elasticbeanstalk
+  access_key_id: $AWS_ACCESS
+  secret_access_key: $AWS_SECRET
+  region: ap-northeast-2
+  bucket: elasticbeanstalk-ap-northeast-2-829844905301
+  bucket_path: 	writinghub-api
+  app: 	writinghub-api
+  env: $EB_ENV
+  on:
+    all_branches: true
+    condition: $TRAVIS_BRANCH =~ ^develop|master
+
+#notifications:
+#  slack:
+#    - rooms:
+#      - secure: ***********
+#      if: branch = master
+#      template:
+#        - "Repo `%{repository_slug}` *%{result}* build (<%{build_url}|#%{build_number}>) for commit (<%{compare_url}|%{commit}>) on branch `%{branch}`."
+#    - rooms:
+#      - secure: ***********
+#      if: branch = staging
+#      template:
+#        - "Repo `%{repository_slug}` *%{result}* build (<%{build_url}|#%{build_number}>) for commit (<%{compare_url}|%{commit}>) on branch `%{branch}`."
+#    - rooms:
+#      - secure: ***********
+#      if: branch = develop
+#      template:
+#        - "Repo `%{repository_slug}` *%{result}* build (<%{build_url}|#%{build_number}>) for commit (<%{compare_url}|%{commit}>) on branch `%{branch}`."
