@@ -1,6 +1,6 @@
-import axios from "axios";
+import axios from 'axios';
 
-const ENDPOINT = "https://pokeapi.co/api/v2/pokemon";
+const ENDPOINT = 'https://pokeapi.co/api/v2/pokemon';
 
 export interface IPokemon {
   count: number;
