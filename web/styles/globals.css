@@ -14,3 +14,15 @@ a {
 * {
   box-sizing: border-box;
 }
+
+.App__Container {
+	padding: 2rem;
+}
+
+.Todo__Item {
+	padding: 0;
+}
+
+.Create__Button, .Update__Button, .Delete__Button {
+	margin-left: 10px;
+}
