@@ -1,16 +1,11 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import { useState, ChangeEvent, MouseEvent } from 'react';
-import { dehydrate, QueryClient, useQueryClient } from 'react-query';
-import { getTodos } from '~/data/todo/todo.api';
+import { useState, ChangeEvent } from 'react';
+import { useQueryClient } from 'react-query';
 import TodoItem from '~/components/Todo/TodoItem';
-import {
-  useTodoList,
-  useCreateTodo,
-  useDeleteTodo,
-} from '~/data/todo/todo.hooks';
+import { useTodoList, useCreateTodo } from '~/data/todo/todo.hooks';
 
-const Home: NextPage = () => {
+const Home: NextPage = function () {
   const queryClient = useQueryClient();
 
   const [value, setValue] = useState('');
@@ -19,8 +14,8 @@ const Home: NextPage = () => {
     onSuccess() {
       queryClient.invalidateQueries('todos');
     },
-    onError(error) {
-      console.error(error);
+    onError(e) {
+      console.error(e);
     },
   });
 
@@ -28,10 +23,10 @@ const Home: NextPage = () => {
     setValue(e.target.value);
   };
 
-  const onClick = (e: MouseEvent<HTMLButtonElement>) => {
-    if (!!todos) {
-      const newId = todos.reduce((newId, todo) => {
-        return newId > todo.id ? newId : todo.id;
+  const onClick = () => {
+    if (todos) {
+      const newId = todos.reduce((_newId, todo) => {
+        return _newId > todo.id ? _newId : todo.id;
       }, 0);
 
       createMutation.mutate({
@@ -52,7 +47,7 @@ const Home: NextPage = () => {
       return <div>error...</div>;
     }
 
-    if (!!todos) {
+    if (todos) {
       return (
         <div className="App__Container">
           <input type="text" value={value} onChange={onChange} />
@@ -64,9 +59,8 @@ const Home: NextPage = () => {
           ))}
         </div>
       );
-    } else {
-      return <div>empty Todo data...</div>;
     }
+    return <div>empty Todo data...</div>;
   };
 
   return (
