@@ -14,6 +14,7 @@
     "deploy:remove": "serverless remove"
   },
   "dependencies": {
+    "@nolmungshemung/ui-kits": "^0.0.1",
     "@stitches/react": "^1.2.1",
     "axios": "^0.24.0",
     "next": "11.1.2",

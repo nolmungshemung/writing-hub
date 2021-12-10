@@ -4,6 +4,7 @@ import { useState, ChangeEvent } from 'react';
 import { useQueryClient } from 'react-query';
 import TodoItem from '~/components/Todo/TodoItem';
 import { useTodoList, useCreateTodo } from '~/data/todo/todo.hooks';
+import { DefaultButton } from '@nolmungshemung/ui-kits';
 
 const Home: NextPage = function () {
   const queryClient = useQueryClient();
@@ -71,6 +72,7 @@ const Home: NextPage = function () {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div>{renderTodoList()}</div>
+      <DefaultButton>test</DefaultButton>
     </div>
   );
 };
