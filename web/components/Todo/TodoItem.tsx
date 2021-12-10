@@ -30,9 +30,9 @@ function TodoItem({ todo }: TodoItemProps) {
     },
   });
 
-  const onUpdate = (todo: Todo) => {
+  const onUpdate = (newTodo: Todo) => {
     updateMutation.mutate({
-      ...todo,
+      ...newTodo,
     });
   };
 

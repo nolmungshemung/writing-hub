@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Todo } from './todo.model';
 
-const ENDPOINT = 'http://localhost:3000/api';
+const ENDPOINT = '/api';
 
 export async function getTodos() {
   const { data } = await axios.get<Todo[]>(`${ENDPOINT}/todo`);
@@ -13,11 +13,13 @@ export async function createTodo(requestBody: Todo) {
 }
 
 export async function updateTodo(requestBody: Todo) {
-  return await axios.put<unknown>(`${ENDPOINT}/todo`, requestBody);
+  const response = await axios.put<unknown>(`${ENDPOINT}/todo`, requestBody);
+  return response;
 }
 
 export async function deleteTodo(data: { id: number }) {
-  return await axios.delete<unknown>(`${ENDPOINT}/todo`, {
+  const response = await axios.delete<unknown>(`${ENDPOINT}/todo`, {
     data,
   });
+  return response;
 }
