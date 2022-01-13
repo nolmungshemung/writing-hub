@@ -14,7 +14,7 @@
     "deploy:remove": "serverless remove"
   },
   "dependencies": {
-    "@nolmungshemung/ui-kits": "^0.0.1",
+    "@nolmungshemung/ui-kits": "0.0.8",
     "@stitches/react": "^1.2.1",
     "axios": "^0.24.0",
     "msw": "^0.36.3",
@@ -45,7 +45,7 @@
     "typescript": "4.4.3"
   },
   "packageManager": "yarn@3.0.2",
-	"msw": {
+  "msw": {
     "workerDirectory": "public"
   }
 }

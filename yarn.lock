@@ -1784,14 +1784,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nolmungshemung/ui-kits@npm:^0.0.1":
-  version: 0.0.1
-  resolution: "@nolmungshemung/ui-kits@npm:0.0.1::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40nolmungshemung%2Fui-kits%2F0.0.1%2F6fc5f09e1fc3210fc6bec87ba70c2d638e52bcbd63a65897717e80e618e999b3"
+"@nolmungshemung/ui-kits@npm:0.0.8":
+  version: 0.0.8
+  resolution: "@nolmungshemung/ui-kits@npm:0.0.8::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40nolmungshemung%2Fui-kits%2F0.0.8%2F4e12b28fca61795af3c535838115a04e42b52c09f4558ac493b9f43b04624849"
   dependencies:
     "@stitches/react": ^1.2.5
     react: ^17.0.2
     react-dom: ^17.0.2
-  checksum: 9a9c84fee64634a417b95e2178af8779b50d8063c661514dff64a2238daa693b9e5fbca5fa6f59e530f3c2a82a84b951a02efdb42df9146000a4ce6b6cca53fd
+  checksum: 0c1d174c204b857bdd2d07b67c927cdec20f8a93ae6371de37eeaa626c16972ba730e10c3c151a6b47fa18153002e117a9579a3b37ccad06d37861cb7a59f82b
   languageName: node
   linkType: hard
 
@@ -13310,7 +13310,7 @@ typescript@4.4.3:
   dependencies:
     "@babel/core": ^7.15.8
     "@babel/preset-env": ^7.15.8
-    "@nolmungshemung/ui-kits": ^0.0.1
+    "@nolmungshemung/ui-kits": 0.0.8
     "@stitches/react": ^1.2.1
     "@types/jest": ^27.0.2
     "@types/node": ^16.10.2
