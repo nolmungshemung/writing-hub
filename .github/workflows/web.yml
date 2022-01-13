@@ -4,9 +4,6 @@ on:
   push:
     branches-ignore:
       - main
-    paths:
-      - "web/**"
-      - ".github/workflows/web-dev.yml"
 
 env:
   AWS_DEFAULT_REGION: us-east-1
@@ -17,10 +14,6 @@ env:
   ACM_CERTIFICATE_ARN: ${{ secrets.ACM_CERTIFICATE_ARN }}
   GITHUB_ACCESS_TOKEN: ${{ secrets.NPM_GITHUB_ACCESS_TOKEN }}
   BUCKET_NAME: writing-hub-web-dev
-
-defaults:
-  run:
-    working-directory: web
 
 jobs:
   install-dependencies:
@@ -100,5 +93,4 @@ jobs:
           args: export --format dotenv --output-file .env dev/writinghub-web
 
       - name: Deploy to AWS
-        working-directory: ./web
         run: yarn deploy
