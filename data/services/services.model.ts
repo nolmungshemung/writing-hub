@@ -1,15 +1,15 @@
 export interface MainContents {
-  contents_id: number;
+  contentsId: number;
   title: string;
   thumbnail: string;
   introduction: string;
   writer: Writer;
   language: string;
-  is_translate: boolean;
-  original_id: number;
+  isTranslate: boolean;
+  originalId: number;
 }
 
 export interface Writer {
-  writer_name: string;
-  writer_id: string;
+  writerName: string;
+  writerId: string;
 }
