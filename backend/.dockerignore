@@ -1,9 +1,0 @@
-.git/
-.gitignore
-.idea/
-README.md
-Dockerfile
-__pycache__
-docker-compose.yml
-venv/
-tests/
