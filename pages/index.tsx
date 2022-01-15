@@ -2,6 +2,10 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 import { useMainContents } from '~/data/services/services.hooks';
 
+/* TO-DO : 로그인 여부 체크해서 로그인했을경우 메인페이지 아니면 로그인 페이지 띄우기
+ * 기획 상 로그인 여부와 상관없이 메인 페이지 접근 가능할경우 여기를 메인으로 써야함
+ */
+
 const Home: NextPage = function () {
   const { data: mainContents, error } = useMainContents('invalid');
 
