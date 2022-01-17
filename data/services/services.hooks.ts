@@ -1,13 +1,11 @@
 import { useQuery, UseQueryOptions } from 'react-query';
 import { AxiosError } from 'axios';
-import { Response } from '~/shared/types';
-import { MainContents } from './services.model';
+import { SuccessResponse } from '~/shared/types';
+import { Contents } from './services.model';
 import { getMainContents } from './services.api';
 
 export function useMainContents(
-  params: {
-    keyword: string;
-  },
+  keyword?: string,
   /**
    * @see https://github.com/tannerlinsley/react-query/discussions/1195
    * query variables가 필요할 때
@@ -20,15 +18,15 @@ export function useMainContents(
    */
   options:
     | UseQueryOptions<
-        Response<MainContents[]>,
+        SuccessResponse<Contents[]>,
         AxiosError<unknown>,
-        Response<MainContents[]>
+        SuccessResponse<Contents[]>
       >
     | undefined = {},
 ) {
-  return useQuery<Response<MainContents[]>, AxiosError>(
-    ['/services/main_contents', params],
-    () => getMainContents(params),
+  return useQuery<SuccessResponse<Contents[]>, AxiosError>(
+    ['/services/main_contents', keyword],
+    () => getMainContents(keyword),
     {
       retry: 2,
       ...options,
