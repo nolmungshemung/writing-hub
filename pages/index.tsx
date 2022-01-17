@@ -3,7 +3,7 @@ import Head from 'next/head';
 import { useMainContents } from '~/data/services/services.hooks';
 
 const Home: NextPage = function () {
-  const { data: mainContents } = useMainContents({ keyword: 'test' });
+  const { data: mainContents } = useMainContents('test');
 
   console.log(mainContents);
   return (
