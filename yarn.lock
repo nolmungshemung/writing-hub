@@ -1330,6 +1330,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@faker-js/faker@npm:^6.0.0-alpha.3":
+  version: 6.0.0-alpha.3
+  resolution: "@faker-js/faker@npm:6.0.0-alpha.3"
+  checksum: 8c7a53b04c943329b1e815995e7858fd43d1dd8d81f84488aad000710e308d51c3225b39abeedbaf2cb440a351b5d88f44c9991a2a39bdab3c5ebff5b36f010a
+  languageName: node
+  linkType: hard
+
 "@gar/promisify@npm:^1.0.1":
   version: 1.1.2
   resolution: "@gar/promisify@npm:1.1.2"
@@ -2332,6 +2339,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/faker@npm:^5.5.9":
+  version: 5.5.9
+  resolution: "@types/faker@npm:5.5.9"
+  checksum: c2cbd082abe29047c89cf29b86257e582d2a177a9d1ed3abf99aa1cc025d5e8a3d201dfaddf8441bfcc57ed43e4da80e666951e1c23a5b759ac441a5855b5c36
+  languageName: node
+  linkType: hard
+
 "@types/graceful-fs@npm:^4.1.2":
   version: 4.1.5
   resolution: "@types/graceful-fs@npm:4.1.5"
@@ -2519,6 +2533,13 @@ __metadata:
   dependencies:
     "@types/node": "*"
   checksum: e99fc7cc6265407987b30deda54c1c24bb1478803faf6037557a774b2f034c5b097ffd65847daa87e82a61a250d919f35c3588654b0fdaa816906650f596d1b0
+  languageName: node
+  linkType: hard
+
+"@types/rosie@npm:^0.0.40":
+  version: 0.0.40
+  resolution: "@types/rosie@npm:0.0.40"
+  checksum: 4f548c83e3e3322ddced5f50dc55714d07724d7af9f214ccfaaa760995bf7800e54580802c1146f31d0eb16f1d0019d936601e45ecf42ba60b20e676c4c8e20f
   languageName: node
   linkType: hard
 
@@ -11233,6 +11254,13 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
+"rosie@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "rosie@npm:2.1.0"
+  checksum: 96d40ba3dcbadcc0e6899de01557183eced599abc0b55d450b835374374e84cecaabe111bd6502cdc62e34c077692734e2056f9acb00fb59e580e1e3603cba2f
+  languageName: node
+  linkType: hard
+
 "run-async@npm:^2.2.0, run-async@npm:^2.4.0":
   version: 2.4.1
   resolution: "run-async@npm:2.4.1"
@@ -13340,14 +13368,17 @@ typescript@4.4.3:
   dependencies:
     "@babel/core": ^7.15.8
     "@babel/preset-env": ^7.15.8
+    "@faker-js/faker": ^6.0.0-alpha.3
     "@nolmungshemung/ui-kits": 0.0.8
     "@stitches/react": ^1.2.1
+    "@types/faker": ^5.5.9
     "@types/humps": ^2.0.1
     "@types/jest": ^27.0.2
     "@types/node": ^16.10.2
     "@types/qs": ^6.9.7
     "@types/react": 17.0.26
     "@types/react-dom": ^17.0.9
+    "@types/rosie": ^0.0.40
     "@typescript-eslint/eslint-plugin": ^5.6.0
     "@typescript-eslint/parser": ^5.6.0
     axios: ^0.24.0
@@ -13367,6 +13398,7 @@ typescript@4.4.3:
     react: 17.0.2
     react-dom: 17.0.2
     react-query: ^3.29.1
+    rosie: ^2.1.0
     serverless: ^2.60.3
     typescript: 4.4.3
   languageName: unknown
