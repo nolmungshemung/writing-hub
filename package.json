@@ -11,7 +11,8 @@
     "prettier": "prettier --write --config ./.prettierrc \"./src/**/*.{ts,tsx,js,jsx}\" || true",
     "test": "jest",
     "deploy": "serverless",
-    "deploy:remove": "serverless remove"
+    "deploy:remove": "serverless remove",
+    "postinstall": "patch-package"
   },
   "dependencies": {
     "@faker-js/faker": "^6.0.0-alpha.3",
@@ -48,6 +49,8 @@
     "eslint-plugin-react": "^7.27.1",
     "eslint-plugin-react-hooks": "^4.3.0",
     "jest": "^27.3.1",
+    "patch-package": "^6.4.7",
+    "postinstall-postinstall": "^2.1.0",
     "prettier": "^2.5.1",
     "serverless": "^2.60.3",
     "typescript": "4.4.3"
