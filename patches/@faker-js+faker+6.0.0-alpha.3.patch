@@ -1,0 +1,10 @@
+diff --git a/node_modules/@faker-js/faker/index.ts b/node_modules/@faker-js/faker/index.ts
+index fd90f2b..831d2fe 100644
+--- a/node_modules/@faker-js/faker/index.ts
++++ b/node_modules/@faker-js/faker/index.ts
+@@ -1,4 +1,4 @@
+ // since we are requiring the top level of faker, load all locales by default
+ import { Faker } from './lib';
+ const faker: Faker = new Faker({ locales: require('./lib/locales') });
+-export = faker;
++export default faker;
