@@ -2486,6 +2486,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/quill@npm:1.3.10":
+  version: 1.3.10
+  resolution: "@types/quill@npm:1.3.10"
+  dependencies:
+    parchment: ^1.1.2
+  checksum: e629157d11a8398c945e9d9e6b3ebb678f996b195976ddfcabd9771ac7e55a4ebbab3b0c320dc8eb0033715ea5fd197758ac14b4f50bf1d12fd3648fe24d1cb5
+  languageName: node
+  linkType: hard
+
 "@types/react-dom@npm:^17.0.9":
   version: 17.0.9
   resolution: "@types/react-dom@npm:17.0.9"
@@ -4302,6 +4311,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"clone@npm:^2.1.1":
+  version: 2.1.2
+  resolution: "clone@npm:2.1.2"
+  checksum: aaf106e9bc025b21333e2f4c12da539b568db4925c0501a1bf4070836c9e848c892fa22c35548ce0d1132b08bbbfa17a00144fe58fccdab6fa900fec4250f67d
+  languageName: node
+  linkType: hard
+
 "co@npm:^4.6.0":
   version: 4.6.0
   resolution: "co@npm:4.6.0"
@@ -4649,6 +4665,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"create-react-class@npm:^15.6.0":
+  version: 15.7.0
+  resolution: "create-react-class@npm:15.7.0"
+  dependencies:
+    loose-envify: ^1.3.1
+    object-assign: ^4.1.1
+  checksum: 0c5f43da705fa9f67ec289051dd5780792652d440dfa17cd2c7d8423c1f604609596f895dabf46fda1960ddd93ee96fe1b61ef4d55a94fc4271b07d515486714
+  languageName: node
+  linkType: hard
+
 "cross-spawn@npm:^6.0.5":
   version: 6.0.5
   resolution: "cross-spawn@npm:6.0.5"
@@ -4948,6 +4974,20 @@ __metadata:
   version: 0.7.0
   resolution: "dedent@npm:0.7.0"
   checksum: 87de191050d9a40dd70cad01159a0bcf05ecb59750951242070b6abf9569088684880d00ba92a955b4058804f16eeaf91d604f283929b4f614d181cd7ae633d2
+  languageName: node
+  linkType: hard
+
+"deep-equal@npm:^1.0.1":
+  version: 1.1.1
+  resolution: "deep-equal@npm:1.1.1"
+  dependencies:
+    is-arguments: ^1.0.4
+    is-date-object: ^1.0.1
+    is-regex: ^1.0.4
+    object-is: ^1.0.1
+    object-keys: ^1.1.1
+    regexp.prototype.flags: ^1.2.0
+  checksum: f92686f2c5bcdf714a75a5fa7a9e47cb374a8ec9307e717b8d1ce61f56a75aaebf5619c2a12b8087a705b5a2f60d0292c35f8b58cb1f72e3268a3a15cab9f78d
   languageName: node
   linkType: hard
 
@@ -5998,6 +6038,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"eventemitter3@npm:^2.0.3":
+  version: 2.0.3
+  resolution: "eventemitter3@npm:2.0.3"
+  checksum: dfbf4a07144afea0712d8e6a7f30ae91beb7c12c36c3d480818488aafa437d9a331327461f82c12dfd60a4fbad502efc97f684089cda02809988b84a23630752
+  languageName: node
+  linkType: hard
+
 "events@npm:1.1.1":
   version: 1.1.1
   resolution: "events@npm:1.1.1"
@@ -6103,7 +6150,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"extend@npm:^3.0.0, extend@npm:~3.0.2":
+"extend@npm:^3.0.0, extend@npm:^3.0.2, extend@npm:~3.0.2":
   version: 3.0.2
   resolution: "extend@npm:3.0.2"
   checksum: a50a8309ca65ea5d426382ff09f33586527882cf532931cb08ca786ea3146c0553310bda688710ff61d7668eba9f96b923fe1420cdf56a2c3eaf30fcab87b515
@@ -6139,6 +6186,13 @@ __metadata:
   version: 3.1.3
   resolution: "fast-deep-equal@npm:3.1.3"
   checksum: e21a9d8d84f53493b6aa15efc9cfd53dd5b714a1f23f67fb5dc8f574af80df889b3bce25dc081887c6d25457cce704e636395333abad896ccdec03abaf1f3f9d
+  languageName: node
+  linkType: hard
+
+"fast-diff@npm:1.1.2":
+  version: 1.1.2
+  resolution: "fast-diff@npm:1.1.2"
+  checksum: 2ef726603e22a89ef27225bfaef24c17e3aec188df24da4629d5f012b23a884e09a0c7299ff37a0aec7aa788755bd554f5801f698de4deeffce83308bd11405d
   languageName: node
   linkType: hard
 
@@ -7568,7 +7622,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"is-regex@npm:^1.1.4":
+"is-regex@npm:^1.0.4, is-regex@npm:^1.1.4":
   version: 1.1.4
   resolution: "is-regex@npm:1.1.4"
   dependencies:
@@ -8875,7 +8929,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"loose-envify@npm:^1.1.0, loose-envify@npm:^1.4.0":
+"loose-envify@npm:^1.1.0, loose-envify@npm:^1.3.1, loose-envify@npm:^1.4.0":
   version: 1.4.0
   resolution: "loose-envify@npm:1.4.0"
   dependencies:
@@ -10111,6 +10165,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"parchment@npm:^1.1.2, parchment@npm:^1.1.4":
+  version: 1.1.4
+  resolution: "parchment@npm:1.1.4"
+  checksum: 47997567424d1ad8648046091a06b3a5423ed83f9dfa421d7fd93e0032e79aedd8db5499ff55327e08eebd89d8e927704a646f87d45d4bcfe63016aa5a88947d
+  languageName: node
+  linkType: hard
+
 "parent-module@npm:^1.0.0":
   version: 1.0.1
   resolution: "parent-module@npm:1.0.1"
@@ -10609,6 +10670,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"prop-types@npm:^15.5.10":
+  version: 15.8.1
+  resolution: "prop-types@npm:15.8.1"
+  dependencies:
+    loose-envify: ^1.4.0
+    object-assign: ^4.1.1
+    react-is: ^16.13.1
+  checksum: c056d3f1c057cb7ff8344c645450e14f088a915d078dcda795041765047fa080d38e5d626560ccaac94a4e16e3aa15f3557c1a9a8d1174530955e992c675e459
+  languageName: node
+  linkType: hard
+
 "prop-types@npm:^15.7.2":
   version: 15.7.2
   resolution: "prop-types@npm:15.7.2"
@@ -10794,6 +10866,31 @@ __metadata:
   languageName: node
   linkType: hard
 
+"quill-delta@npm:^3.6.2":
+  version: 3.6.3
+  resolution: "quill-delta@npm:3.6.3"
+  dependencies:
+    deep-equal: ^1.0.1
+    extend: ^3.0.2
+    fast-diff: 1.1.2
+  checksum: e62ed339838077841db401da3181bdf559c6667d014a671767788380c5be13a6205603bcdd27445260e6f6b2b5519161e1000023e521e3b2ff087270fa67fef6
+  languageName: node
+  linkType: hard
+
+"quill@npm:^1.3.7":
+  version: 1.3.7
+  resolution: "quill@npm:1.3.7"
+  dependencies:
+    clone: ^2.1.1
+    deep-equal: ^1.0.1
+    eventemitter3: ^2.0.3
+    extend: ^3.0.2
+    parchment: ^1.1.4
+    quill-delta: ^3.6.2
+  checksum: db3e265a8410a4554e50a18cae4ebc0b43a996a776bcf03e26abcadbf617f4db329d49a0fa3ada6a70538a369bbbdc8fa7a66086f194b481914bf1adbab16f8f
+  languageName: node
+  linkType: hard
+
 "ramda@npm:^0.26.1":
   version: 0.26.1
   resolution: "ramda@npm:0.26.1"
@@ -10853,6 +10950,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-dom-factories@npm:^1.0.0":
+  version: 1.0.2
+  resolution: "react-dom-factories@npm:1.0.2"
+  checksum: 2ef14d4bb1d33ebcc52a752f9d32820ce57d7ac4e0fe53b90f98adf5310f604b120ee7bb1ba2f1b36eb487b02e5cd4b1b52f138f49a82303672b971a3eb92b6a
+  languageName: node
+  linkType: hard
+
 "react-dom@npm:17.0.2, react-dom@npm:^17.0.2":
   version: 17.0.2
   resolution: "react-dom@npm:17.0.2"
@@ -10873,7 +10977,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-is@npm:^16.8.1":
+"react-is@npm:^16.13.1, react-is@npm:^16.8.1":
   version: 16.13.1
   resolution: "react-is@npm:16.13.1"
   checksum: f7a19ac3496de32ca9ae12aa030f00f14a3d45374f1ceca0af707c831b2a6098ef0d6bdae51bd437b0a306d7f01d4677fcc8de7c0d331eb47ad0f46130e53c5f
@@ -10895,6 +10999,22 @@ __metadata:
     react-native:
       optional: true
   checksum: cac9c13def201f16a3afd3418595738572a63f7c0eafb8be0e1e18ac5dfb92bf5d8e4e102c41fbbc0399248deabd3aabf27dfd820a83eb2a52fcd1507d0945e1
+  languageName: node
+  linkType: hard
+
+"react-quill@npm:^1.3.5":
+  version: 1.3.5
+  resolution: "react-quill@npm:1.3.5"
+  dependencies:
+    "@types/quill": 1.3.10
+    create-react-class: ^15.6.0
+    lodash: ^4.17.4
+    prop-types: ^15.5.10
+    quill: ^1.3.7
+    react-dom-factories: ^1.0.0
+  peerDependencies:
+    react: ^0.14.9 || ^15.3.0 || ^16.0.0
+  checksum: c0bfa816c29eeb8bb361b43c753e907c5fa1882afd843055393e361219319226dc4a0570510bd460fc10fd8b22f1b40da28fbf8b8dece19add71103d63727fa6
   languageName: node
   linkType: hard
 
@@ -11027,6 +11147,16 @@ __metadata:
   dependencies:
     "@babel/runtime": ^7.8.4
   checksum: a467a3b652b4ec26ff964e9c5f1817523a73fc44cb928b8d21ff11aebeac5d10a84d297fe02cea9f282bcec81a0b0d562237da69ef0f40a0160b30a4fa98bc94
+  languageName: node
+  linkType: hard
+
+"regexp.prototype.flags@npm:^1.2.0":
+  version: 1.4.1
+  resolution: "regexp.prototype.flags@npm:1.4.1"
+  dependencies:
+    call-bind: ^1.0.2
+    define-properties: ^1.1.3
+  checksum: 77944a3ea5ae84f391fa80bff9babfedc47eadc9dc38e282b5fd746368fb787deec89c68ce3114195bf6b5782b160280a278b62d41ccc6e125afab1a7f816de8
   languageName: node
   linkType: hard
 
@@ -13491,6 +13621,7 @@ typescript@4.4.3:
     react: 17.0.2
     react-dom: 17.0.2
     react-query: ^3.29.1
+    react-quill: ^1.3.5
     rosie: ^2.1.0
     serverless: ^2.60.3
     typescript: 4.4.3
