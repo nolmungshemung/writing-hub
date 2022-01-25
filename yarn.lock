@@ -12284,7 +12284,11 @@ typescript@4.4.3:
     "@babel/preset-env": ^7.15.8
     "@faker-js/faker": ^6.0.0-alpha.3
     "@nolmungshemung/ui-kits": 0.0.10
+<<<<<<< HEAD
     "@stitches/react": ^1.2.6
+=======
+    "@stitches/react": ^1.2.1
+>>>>>>> a94a8fd (chore: yarn 패키지 변경)
     "@types/faker": ^5.5.9
     "@types/humps": ^2.0.1
     "@types/jest": ^27.0.2
