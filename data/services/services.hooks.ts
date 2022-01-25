@@ -1,10 +1,13 @@
 import { useQuery, UseQueryOptions } from 'react-query';
 import { AxiosError } from 'axios';
 import { SuccessResponse } from '~/shared/types';
-import { Contents } from './services.model';
-import { getMainContents } from './services.api';
+import { Contents, Writer } from './services.model';
+import { getMainContents, getMainWriters } from './services.api';
 
 export function useMainContents(
+  start?: number,
+  count?: number,
+  baseTime?: number,
   keyword?: string,
   /**
    * @see https://github.com/tannerlinsley/react-query/discussions/1195
@@ -25,8 +28,31 @@ export function useMainContents(
     | undefined = {},
 ) {
   return useQuery<SuccessResponse<Contents[]>, AxiosError>(
-    ['/services/main_contents', keyword],
-    () => getMainContents(keyword),
+    ['/services/main_contents', start, count, baseTime, keyword],
+    () => getMainContents(start, count, baseTime, keyword),
+    {
+      retry: 2,
+      ...options,
+    },
+  );
+}
+
+export function useMainWriters(
+  start?: number,
+  count?: number,
+  baseTime?: number,
+  keyword?: string,
+  options:
+    | UseQueryOptions<
+        SuccessResponse<Writer[]>,
+        AxiosError<unknown>,
+        SuccessResponse<Writer[]>
+      >
+    | undefined = {},
+) {
+  return useQuery<SuccessResponse<Writer[]>, AxiosError>(
+    ['/services/main_writers', start, count, baseTime, keyword],
+    () => getMainWriters(start, count, baseTime, keyword),
     {
       retry: 2,
       ...options,

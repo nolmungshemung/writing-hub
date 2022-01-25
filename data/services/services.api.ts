@@ -9,11 +9,19 @@ import {
   WritingContentsRequest,
 } from './services.model';
 
-export async function getMainContents(keyword?: string) {
+export async function getMainContents(
+  start?: number,
+  count?: number,
+  baseTime?: number,
+  keyword?: string,
+) {
   const { data } = await axios.get<SuccessResponse<Contents[]>>(
     '/services/main_contents',
     {
       params: {
+        start,
+        count,
+        baseTime,
         keyword,
       },
     },
@@ -21,11 +29,19 @@ export async function getMainContents(keyword?: string) {
   return data;
 }
 
-export async function getMainWriters(keyword?: string) {
+export async function getMainWriters(
+  start?: number,
+  count?: number,
+  baseTime?: number,
+  keyword?: string,
+) {
   const { data } = await axios.get<SuccessResponse<Writer[]>>(
     '/services/main_writers',
     {
       params: {
+        start,
+        count,
+        baseTime,
         keyword,
       },
     },

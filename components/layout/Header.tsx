@@ -1,8 +1,8 @@
 import Link from 'next/link';
-import { Text, Button } from '@nolmungshemung/ui-kits';
+import { Text, Button, AppBar } from '@nolmungshemung/ui-kits';
 import { styled } from '../../stitches.config';
 
-const StyledHeader = styled('div', {
+const StyledAppBar = styled(AppBar, {
   gridArea: 'header',
   display: 'flex',
   alignItems: 'center',
@@ -16,7 +16,7 @@ const StyledHeader = styled('div', {
 });
 
 const Header = () => (
-  <StyledHeader>
+  <StyledAppBar>
     {/* passHref: href 속성을 Link의 children에게 전달 */}
     <Link href="/main" passHref>
       <Text>Writing Hub</Text>
@@ -24,7 +24,7 @@ const Header = () => (
     <Button outline="black" size="md">
       로그인
     </Button>
-  </StyledHeader>
+  </StyledAppBar>
 );
 
 export default Header;
