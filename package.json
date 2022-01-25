@@ -16,8 +16,8 @@
   },
   "dependencies": {
     "@faker-js/faker": "^6.0.0-alpha.3",
-    "@nolmungshemung/ui-kits": "0.0.8",
-    "@stitches/react": "^1.2.1",
+    "@nolmungshemung/ui-kits": "0.0.10",
+    "@stitches/react": "^1.2.6",
     "axios": "^0.24.0",
     "humps": "^2.0.1",
     "msw": "^0.36.3",
