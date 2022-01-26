@@ -10001,10 +10001,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+<<<<<<< HEAD
 "react-is@npm:^17.0.1":
   version: 17.0.2
   resolution: "react-is@npm:17.0.2"
   checksum: 9d6d111d8990dc98bc5402c1266a808b0459b5d54830bbea24c12d908b536df7883f268a7868cfaedde3dd9d4e0d574db456f84d2e6df9c4526f99bb4b5344d8
+=======
+"react-loading-skeleton@npm:^3.0.2":
+  version: 3.0.2
+  resolution: "react-loading-skeleton@npm:3.0.2"
+  peerDependencies:
+    react: ">=16.8.0"
+  checksum: 0c8ebdd533ca9d943d336c8f09c440034008133b3a889e5932ffc2ebc9a75c22c771f2b6e8e9151bab6bd3a441e5c9798d36100bc8077e49bc2a3c507b05c88e
+>>>>>>> e327b8b (chore(skeleton): Skeleton UI 사용을 위한 라이브러리 추가)
   languageName: node
   linkType: hard
 
@@ -12325,6 +12334,7 @@ typescript@4.4.3:
     qs: ^6.10.3
     react: 17.0.2
     react-dom: 17.0.2
+    react-loading-skeleton: ^3.0.2
     react-query: ^3.29.1
     react-quill: ^1.3.5
     rosie: ^2.1.0
