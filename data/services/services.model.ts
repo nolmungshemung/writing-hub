@@ -36,8 +36,8 @@ export interface WritingContentsRequest {
   thumbnail: string;
   introduction: string;
   contents: string;
-  writer_id: string;
+  writerId: string;
   language: string;
-  is_translate: boolean;
-  original_id: number;
+  isTranslate: boolean;
+  originalId: number;
 }
