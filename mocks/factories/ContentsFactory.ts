@@ -6,8 +6,8 @@ import { WriterFactory } from './WriterFactory';
 export const ContentsFactory = Factory.define<Contents>('Contents').attrs({
   contentsId: () => faker.datatype.number(),
   title: () => faker.name.title(),
-  thumbnail: () => faker.image.imageUrl(),
-  introduction: () => faker.lorem.sentences(),
+  thumbnail: () => faker.lorem.sentences(1),
+  introduction: () => faker.lorem.sentences(1),
   writer: () => WriterFactory.build(),
   language: () => 'ko',
   isTranslate: () => faker.datatype.boolean(),
