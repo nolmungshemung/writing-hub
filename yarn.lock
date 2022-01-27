@@ -1791,14 +1791,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nolmungshemung/ui-kits@npm:0.0.8":
-  version: 0.0.8
-  resolution: "@nolmungshemung/ui-kits@npm:0.0.8::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40nolmungshemung%2Fui-kits%2F0.0.8%2F4e12b28fca61795af3c535838115a04e42b52c09f4558ac493b9f43b04624849"
+"@nolmungshemung/ui-kits@npm:0.0.10":
+  version: 0.0.10
+  resolution: "@nolmungshemung/ui-kits@npm:0.0.10::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40nolmungshemung%2Fui-kits%2F0.0.10%2F76be78f0f243dc0cdde1610c253c681b6fa6a4149b53ba1f221b4e47bfd7412c"
   dependencies:
     "@stitches/react": ^1.2.5
     react: ^17.0.2
     react-dom: ^17.0.2
-  checksum: 0c1d174c204b857bdd2d07b67c927cdec20f8a93ae6371de37eeaa626c16972ba730e10c3c151a6b47fa18153002e117a9579a3b37ccad06d37861cb7a59f82b
+    react-icons: ^4.3.1
+  checksum: eb4716b5fdf03daa7405b40838046f6f3c387eacc046e6505950f34fd23fc9d5563709714420a25e329afcbfffaf3b55b07a7d3aa94199c2226bae59624a6397
   languageName: node
   linkType: hard
 
@@ -2210,16 +2211,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@stitches/react@npm:^1.2.1":
-  version: 1.2.1
-  resolution: "@stitches/react@npm:1.2.1"
-  peerDependencies:
-    react: ">= 16.3.0"
-  checksum: 66afcd051371665f23ca5a62bad57495fc45436a6043cd6a28d36213d4636a1ad8ab65d9c3e548efed498bf6bb47a7cb20e3e26855a6db09093a9fc7e6825c12
-  languageName: node
-  linkType: hard
-
-"@stitches/react@npm:^1.2.5":
+"@stitches/react@npm:^1.2.5, @stitches/react@npm:^1.2.6":
   version: 1.2.6
   resolution: "@stitches/react@npm:1.2.6"
   peerDependencies:
@@ -10970,6 +10962,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-icons@npm:^4.3.1":
+  version: 4.3.1
+  resolution: "react-icons@npm:4.3.1"
+  peerDependencies:
+    react: "*"
+  checksum: 2cc608acdd3e906aa3aaee290b8398220639677c949382d86e554020e5dab6a9f1ed7484418aa5272cb5c5c018e1fc9a323d433d901697a76530029f9ecb1263
+  languageName: node
+  linkType: hard
+
 "react-is@npm:17.0.2, react-is@npm:^17.0.1":
   version: 17.0.2
   resolution: "react-is@npm:17.0.2"
@@ -13590,8 +13591,8 @@ typescript@4.4.3:
     "@babel/core": ^7.15.8
     "@babel/preset-env": ^7.15.8
     "@faker-js/faker": ^6.0.0-alpha.3
-    "@nolmungshemung/ui-kits": 0.0.8
-    "@stitches/react": ^1.2.1
+    "@nolmungshemung/ui-kits": 0.0.10
+    "@stitches/react": ^1.2.6
     "@types/faker": ^5.5.9
     "@types/humps": ^2.0.1
     "@types/jest": ^27.0.2
