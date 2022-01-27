@@ -4,9 +4,9 @@ import { useState } from 'react';
 import { Contents, Writer } from '~/data/services/services.model';
 import { getMainContents, getMainWriters } from '~/data/services/services.api';
 import { Box, Button, Search } from '@nolmungshemung/ui-kits';
-import Card from '~/components/index/Card';
 import { NextPage } from 'next';
 import { SuccessResponse } from '~/shared/types';
+import CardList from '~/components/index/CardList';
 
 const StyledMain = styled('div', {
   gridArea: 'main',
@@ -28,25 +28,15 @@ const StyledSearch = styled(Search, {
 
 const StyledToggleButton = styled(Button, {});
 
-const StyledResultList = styled(Box, {
-  gridArea: 'result',
-  display: 'grid',
-  gridTemplateColumns: 'repeat(4, 1fr)',
-  gridTemplateRows: 'repeat(5, 1fr)',
-  columnGap: '1.5rem',
-  rowGap: '0.875rem',
-});
-
 const DEFAULT_SEARCH_RANGE = 20;
 
 //  props가 SuccessResponse<Contents[]>로 받으면 data가 비어져있음
-const Main: NextPage = function ({ initSearchResult }: any) {
-  const [searchContents, setSearchContents] =
+const Main: NextPage = function ({ data }: SuccessResponse<Contents[]>) {
+  const [searchResult, setSearchResult] =
     useState<SuccessResponse<Contents[]>>();
-  const [searchWriters, setSearchWriters] =
-    useState<SuccessResponse<Writer[]>>();
   const [searchStartIndex, setSearchStartIndex] = useState<number>(0);
   const [searchBaseTime, setSearchBaseTime] = useState<number>(Date.now());
+  const [isInitResult, setIsInitResult] = useState<boolean>(true);
   const [isTargetContents, setIsTargetContents] = useState<boolean>(true);
 
   const doSearchTitle = async (keyword: string) => {
@@ -63,25 +53,27 @@ const Main: NextPage = function ({ initSearchResult }: any) {
           searchBaseTime,
           keyword,
         );
-        setSearchContents(res);
+        if (isInitResult) setIsInitResult(false);
+        setSearchResult(res);
         setSearchStartIndex((prev) => prev + DEFAULT_SEARCH_RANGE);
         console.log(res);
-      } else {
-        const res = await getMainWriters(
-          searchStartIndex,
-          DEFAULT_SEARCH_RANGE,
-          searchBaseTime,
-          keyword,
-        );
-        setSearchWriters(res);
-        setSearchStartIndex((prev) => prev + DEFAULT_SEARCH_RANGE);
       }
+      // } else {
+      //   const res = await getMainWriters(
+      //     searchStartIndex,
+      //     DEFAULT_SEARCH_RANGE,
+      //     searchBaseTime,
+      //     keyword,
+      //   );
+      //   if (isInitResult) setIsInitResult(false);
+      //   setSearchResult(res);
+      //   setSearchStartIndex((prev) => prev + DEFAULT_SEARCH_RANGE);
+      // }
     } catch (e) {
       console.error(e);
     }
   };
   const { onChange, onEnter, onSearch } = useSearch(doSearchTitle);
-
   return (
     <StyledMain>
       <SytledTopArea>
@@ -109,36 +101,11 @@ const Main: NextPage = function ({ initSearchResult }: any) {
           </StyledToggleButton>
         )}
       </SytledTopArea>
-      <StyledResultList>
-        {searchContents === undefined && searchWriters === undefined ? (
-          initSearchResult.map((search: Contents) => (
-            <Card
-              key={search.contentsId}
-              contentsId={search.contentsId}
-              title={search.title}
-              thumbnail={search.thumbnail}
-              introduction={search.introduction}
-              isTranslate={search.isTranslate}
-              language={search.language}
-              writer={search.writer}
-            />
-          ))
-        ) : (
-          <div></div>
-        )}
-        {/* searchContents!.map((search: Contents) => (
-              <Card
-                key={search.contentsId}
-                contentsId={search.contentsId}
-                title={search.title}
-                thumbnail={search.thumbnail}
-                introduction={search.introduction}
-                isTranslate={search.isTranslate}
-                language={search.language}
-                writer={search.writer}
-              />
-            )) */}
-      </StyledResultList>
+      {isInitResult ? (
+        <CardList resultList={data} />
+      ) : (
+        <CardList resultList={searchResult} />
+      )}
     </StyledMain>
   );
 };
@@ -149,7 +116,7 @@ export async function getServerSideProps() {
     const res = await getMainContents(0, DEFAULT_SEARCH_RANGE, Date.now());
     return {
       props: {
-        initSearchResult: res,
+        data: res,
       },
     };
   } catch (e) {
