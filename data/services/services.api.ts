@@ -7,14 +7,15 @@ import {
   TranslatingContentsData,
   FeedContentsData,
   WritingContentsRequest,
+  ContentsSearchParams,
 } from './services.model';
 
-export async function getMainContents(
-  start?: number,
-  count?: number,
-  baseTime?: number,
-  keyword?: string,
-) {
+export async function getMainContents({
+  start,
+  count,
+  baseTime,
+  keyword,
+}: ContentsSearchParams) {
   const { data } = await axios.get<SuccessResponse<Contents[]>>(
     '/services/main_contents',
     {
@@ -29,12 +30,12 @@ export async function getMainContents(
   return data;
 }
 
-export async function getMainWriters(
-  start?: number,
-  count?: number,
-  baseTime?: number,
-  keyword?: string,
-) {
+export async function getMainWriters({
+  start,
+  count,
+  baseTime,
+  keyword,
+}: ContentsSearchParams) {
   const { data } = await axios.get<SuccessResponse<Writer[]>>(
     '/services/main_writers',
     {
