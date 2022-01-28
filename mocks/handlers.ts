@@ -1,4 +1,5 @@
-import { rest } from 'msw';
+import { rest, RestRequest } from 'msw';
+import { WritingContentsRequest } from '~/data/services/services.model';
 import { API_URL } from '~/shared/constants/environments';
 import { ContentsFactory, ErrorResponseFactory } from './factories';
 
@@ -55,4 +56,22 @@ export const handlers = [
       }),
     );
   }),
+  rest.post(
+    `${API_URL}/services/writing_contents`,
+    (req: RestRequest<WritingContentsRequest>, res, ctx) => {
+      const writingContents = req.body;
+      if (writingContents?.title === '' || writingContents?.contents === '') {
+        const errorResponse = ErrorResponseFactory.build();
+        return res(ctx.status(422), ctx.json(errorResponse));
+      }
+      console.log(writingContents);
+      return res(
+        ctx.status(200),
+        ctx.json({
+          msg: '응답 성공',
+          data: {},
+        }),
+      );
+    },
+  ),
 ];

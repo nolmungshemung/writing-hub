@@ -1,8 +1,8 @@
-import { useQuery, UseQueryOptions } from 'react-query';
+import { useMutation, useQuery, UseQueryOptions } from 'react-query';
 import { AxiosError } from 'axios';
 import { SuccessResponse } from '~/shared/types';
-import { Contents } from './services.model';
-import { getMainContents } from './services.api';
+import { Contents, WritingContentsRequest } from './services.model';
+import { getMainContents, postWritingContents } from './services.api';
 
 export function useMainContents(
   keyword?: string,
@@ -31,5 +31,12 @@ export function useMainContents(
       retry: 2,
       ...options,
     },
+  );
+}
+
+export function usePostContents(contents: WritingContentsRequest) {
+  return useMutation<SuccessResponse, AxiosError>(
+    '/services/writing_contents',
+    () => postWritingContents(contents),
   );
 }

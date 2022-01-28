@@ -6,6 +6,7 @@ import * as Table from '~/components/Table';
 import { NextPage } from 'next';
 import { WritingContentsRequest } from '~/data/services/services.model';
 import TextEditor from '~/components/TextEditor/TextEditor';
+import { usePostContents } from '~/data/services/services.hooks';
 
 interface WritingContentsType extends WritingContentsRequest {
   folder: number;
@@ -30,29 +31,37 @@ const Writing: NextPage = function () {
     { value: 3, folder: 'option 3' },
   ];
   const imageList = [0, 1, 2, 3];
+
   const [data, setData] = useState<WritingContentsType>(initialWriting);
+
+  const mutation = usePostContents(data);
+
   const onFolderChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { value } = e.target;
     setData((prev) => ({ ...prev, folder: parseInt(value) }));
   };
+
   const onTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     setData({ ...data, title: value });
   };
+
   const onContentsChange = (value: string) => {
     setData({ ...data, contents: value });
   };
+
   const onDescChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     setData({ ...data, introduction: value });
   };
+
   const onThumbnailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     setData({ ...data, thumbnail: value });
   };
 
   const onSubmit = () => {
-    console.log(`call postWritingContents with`, { ...data });
+    mutation.mutate();
   };
 
   return (
