@@ -17,10 +17,8 @@ interface CardListProps {
 }
 
 const CardList = function ({ resultList }: CardListProps) {
-  console.log(resultList);
   return (
     <StyledCardList>
-      {/* TO-DO : Writer 대응 */}
       {resultList.map((search: Contents) => (
         <Card
           key={search.contentsId}

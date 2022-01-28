@@ -16,6 +16,13 @@ export interface Contents {
   transitionNum: number;
 }
 
+export interface ContentsSearchParams {
+  start?: number;
+  count?: number;
+  baseTime?: number;
+  keyword?: string;
+}
+
 export interface ReadingContentsData extends Contents {
   contents: string;
   createdDate: number;

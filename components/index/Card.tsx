@@ -68,15 +68,15 @@ const Card = function ({
   writer,
 }: CardProps) {
   return (
-    <StyledCard id={contentsId || Math.floor(1000)}>
+    <StyledCard id={contentsId ?? Math.floor(1000)}>
       <StyledCardHeader>
         {renderTranslate(isTranslate)}
-        <StyledLanguage>{language || <Skeleton />}</StyledLanguage>
+        <StyledLanguage>{language ?? <Skeleton />}</StyledLanguage>
       </StyledCardHeader>
-      <StyledTitle>{title || <Skeleton />}</StyledTitle>
-      <StyledThumbnail>{thumbnail || <Skeleton />}</StyledThumbnail>
-      <StyledIntro>{introduction || <Skeleton />}</StyledIntro>
-      <StyledWriter>{writer?.writerName || <Skeleton />}</StyledWriter>
+      <StyledTitle>{title ?? <Skeleton />}</StyledTitle>
+      <StyledThumbnail>{thumbnail ?? <Skeleton />}</StyledThumbnail>
+      <StyledIntro>{introduction ?? <Skeleton />}</StyledIntro>
+      <StyledWriter>{writer?.writerName ?? <Skeleton />}</StyledWriter>
     </StyledCard>
   );
 };
