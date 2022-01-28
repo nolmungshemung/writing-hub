@@ -6,7 +6,12 @@ import {
 } from 'react-query';
 import { AxiosError } from 'axios';
 import { SuccessResponse } from '~/shared/types';
-import { Contents, WritingContentsRequest, Writer } from './services.model';
+import {
+  Contents,
+  WritingContentsRequest,
+  Writer,
+  ContentsSearchParams,
+} from './services.model';
 import {
   getMainContents,
   postWritingContents,
@@ -14,10 +19,7 @@ import {
 } from './services.api';
 
 export function useMainContents(
-  start?: number,
-  count?: number,
-  baseTime?: number,
-  keyword?: string,
+  { start, count, baseTime, keyword }: ContentsSearchParams,
   /**
    * @see https://github.com/tannerlinsley/react-query/discussions/1195
    * query variables가 필요할 때
@@ -37,8 +39,8 @@ export function useMainContents(
     | undefined = {},
 ) {
   return useQuery<SuccessResponse<Contents[]>, AxiosError>(
-    ['/services/main_contents', start, count, baseTime, keyword],
-    () => getMainContents(start, count, baseTime, keyword),
+    ['/services/main_contents', { start, count, baseTime, keyword }],
+    () => getMainContents({ start, count, baseTime, keyword }),
     {
       retry: 2,
       ...options,
@@ -47,10 +49,7 @@ export function useMainContents(
 }
 
 export function useMainWriters(
-  start?: number,
-  count?: number,
-  baseTime?: number,
-  keyword?: string,
+  { start, count, baseTime, keyword }: ContentsSearchParams,
   options:
     | UseQueryOptions<
         SuccessResponse<Writer[]>,
@@ -60,8 +59,8 @@ export function useMainWriters(
     | undefined = {},
 ) {
   return useQuery<SuccessResponse<Writer[]>, AxiosError>(
-    ['/services/main_writers', start, count, baseTime, keyword],
-    () => getMainWriters(start, count, baseTime, keyword),
+    ['/services/main_writers', { start, count, baseTime, keyword }],
+    () => getMainWriters({ start, count, baseTime, keyword }),
     {
       retry: 2,
       ...options,
