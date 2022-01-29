@@ -5,14 +5,12 @@ import { Contents, ContentsSearchParams } from '~/data/services/services.model';
 import { getMainContents } from '~/data/services/services.api';
 import { Box, Search } from '@nolmungshemung/ui-kits';
 import { NextPage } from 'next';
-import { SuccessResponse } from '~/shared/types';
 import CardList from '~/components/index/CardList';
-import {
-  dehydrate,
-  QueryClient,
-  useInfiniteQuery,
-  useQuery,
-} from 'react-query';
+import { dehydrate, QueryClient } from 'react-query';
+import Header from '~/components/layout/Header';
+import MainLayout from '~/components/layout/DefaultLayout';
+import { useInfinityContents } from '~/data/services/services.hooks';
+import useIntersectionObserver from '~/hooks/useIntersectionObserver';
 
 const StyledMain = styled('div', {
   gridArea: 'main',
@@ -30,63 +28,59 @@ const SytledTopArea = styled(Box, {
 
 const StyledSearch = styled(Search, {
   width: '33.125rem',
+  marginTop: '5rem',
 });
 
-const DEFAULT_SEARCH_RANGE = 20;
+export const DEFAULT_SEARCH_RANGE = 20;
 
-//  props가 SuccessResponse<Contents[]>로 받으면 data가 비어져있음
 const Main: NextPage = function () {
-  const [searchResult, setSearchResult] =
-    useState<SuccessResponse<Contents[]>>();
-  const [searchStartIndex, setSearchStartIndex] = useState(0);
-  const [searchBaseTime, setSearchBaseTime] = useState(Date.now());
-  const [isInitResult, setIsInitResult] = useState(true);
   const [searchParams, setSearchParams] = useState<ContentsSearchParams>({
-    start: searchStartIndex,
+    start: 0,
     count: DEFAULT_SEARCH_RANGE,
-    baseTime: searchBaseTime,
+    baseTime: Date.now(),
     keyword: '',
   });
 
-  const { data, page } = useInfiniteQuery(
-    ['/services/main_contents', searchParams],
-    () => getMainContents(searchParams),
-  );
+  const { data } = useInfinityContents(searchParams);
 
-  console.log(data);
+  const [pages] = (data?.pages ?? []) as unknown as [Contents[]];
 
-  const doSearchTitle = async (keyword: string) => {
+  const doSearchTitle = (keyword: string) => {
     try {
-      if (searchStartIndex === 0) {
-        setSearchBaseTime(Date.now());
-        //  TO-DO : searchBaseTime이 반영이 안된채로 API 호출을 함 => 어떻게 해결?
-      }
-
-      const res = await getMainContents({ ...searchParams, keyword: keyword });
-      if (isInitResult) setIsInitResult(false);
-      setSearchResult(res);
-      setSearchStartIndex((prev) => prev + DEFAULT_SEARCH_RANGE);
+      setSearchParams((prev) => ({
+        ...prev,
+        baseTime: Date.now(),
+        keyword,
+      }));
     } catch (e) {
       console.error(e);
     }
   };
   const { onChange, onEnter, onSearch } = useSearch(doSearchTitle);
+
+  function fetchNextPage() {
+    setSearchParams((prev) => ({
+      ...prev,
+      start: prev.start + prev.count,
+    }));
+  }
+  const createObserver = useIntersectionObserver(fetchNextPage);
+
   return (
-    <StyledMain>
-      <SytledTopArea>
-        <StyledSearch
-          placeholder="검색어를 입력해주세요."
-          onChange={onChange}
-          onEnter={onEnter}
-          onSearch={onSearch}
-        />
-      </SytledTopArea>
-      {/* {isInitResult ? (
-        <CardList resultList={data?.pages.} />
-      ) : (
-        <CardList resultList={searchResult} />
-      )} */}
-    </StyledMain>
+    <MainLayout>
+      <Header />
+      <StyledMain>
+        <SytledTopArea>
+          <StyledSearch
+            placeholder="검색어를 입력해주세요."
+            onChange={onChange}
+            onEnter={onEnter}
+            onSearch={onSearch}
+          />
+        </SytledTopArea>
+        <CardList createObserver={createObserver} resultList={pages} />
+      </StyledMain>
+    </MainLayout>
   );
 };
 
