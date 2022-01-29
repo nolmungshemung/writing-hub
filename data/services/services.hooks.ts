@@ -1,4 +1,6 @@
 import {
+  useInfiniteQuery,
+  UseInfiniteQueryOptions,
   useMutation,
   useQuery,
   UseQueryOptions,
@@ -39,6 +41,26 @@ export function useMainContents(
     | undefined = {},
 ) {
   return useQuery<SuccessResponse<Contents[]>, AxiosError>(
+    ['/services/main_contents', { start, count, baseTime, keyword }],
+    () => getMainContents({ start, count, baseTime, keyword }),
+    {
+      retry: 2,
+      ...options,
+    },
+  );
+}
+
+export function useInfinityContents(
+  { start, count, baseTime, keyword }: ContentsSearchParams,
+  options:
+    | UseInfiniteQueryOptions<
+        SuccessResponse<Contents[]>,
+        AxiosError<unknown>,
+        SuccessResponse<Contents[]>
+      >
+    | undefined = {},
+) {
+  return useInfiniteQuery<SuccessResponse<Contents[]>, AxiosError>(
     ['/services/main_contents', { start, count, baseTime, keyword }],
     () => getMainContents({ start, count, baseTime, keyword }),
     {
