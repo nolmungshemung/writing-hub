@@ -1,4 +1,9 @@
-import { useQuery, UseQueryOptions } from 'react-query';
+import {
+  useInfiniteQuery,
+  UseInfiniteQueryOptions,
+  useQuery,
+  UseQueryOptions,
+} from 'react-query';
 import { AxiosError } from 'axios';
 import { SuccessResponse } from '~/shared/types';
 import { Contents, ContentsSearchParams, Writer } from './services.model';
@@ -25,6 +30,26 @@ export function useMainContents(
     | undefined = {},
 ) {
   return useQuery<SuccessResponse<Contents[]>, AxiosError>(
+    ['/services/main_contents', { start, count, baseTime, keyword }],
+    () => getMainContents({ start, count, baseTime, keyword }),
+    {
+      retry: 2,
+      ...options,
+    },
+  );
+}
+
+export function useInfinityContents(
+  { start, count, baseTime, keyword }: ContentsSearchParams,
+  options:
+    | UseInfiniteQueryOptions<
+        SuccessResponse<Contents[]>,
+        AxiosError<unknown>,
+        SuccessResponse<Contents[]>
+      >
+    | undefined = {},
+) {
+  return useInfiniteQuery<SuccessResponse<Contents[]>, AxiosError>(
     ['/services/main_contents', { start, count, baseTime, keyword }],
     () => getMainContents({ start, count, baseTime, keyword }),
     {

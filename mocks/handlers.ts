@@ -5,11 +5,13 @@ import { ContentsFactory, ErrorResponseFactory } from './factories';
 export const handlers = [
   rest.get(`${API_URL}/services/main_contents`, (req, res, ctx) => {
     const keyword = req.url.searchParams.get('keyword');
+    const start = Number(req.url.searchParams.get('start'));
+    const count = Number(req.url.searchParams.get('count'));
+
+    const contents = ContentsFactory.buildList(100);
 
     if (keyword !== 'invalid') {
-      const random = Math.ceil(Math.random() * 25);
-      const contents = ContentsFactory.buildList(random);
-      return res(ctx.status(200), ctx.json(contents));
+      return res(ctx.status(200), ctx.json(contents.splice(0, start + count)));
     } else {
       const errorResponse = ErrorResponseFactory.build();
       return res(ctx.status(422), ctx.json(errorResponse));

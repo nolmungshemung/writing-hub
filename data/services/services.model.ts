@@ -17,10 +17,10 @@ export interface Contents {
 }
 
 export interface ContentsSearchParams {
-  start?: number;
-  count?: number;
-  baseTime?: number;
-  keyword?: string;
+  start: number;
+  count: number;
+  baseTime: number;
+  keyword: string;
 }
 
 export interface ReadingContentsData extends Contents {
