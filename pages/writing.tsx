@@ -69,7 +69,7 @@ const Writing: NextPage = function () {
       <Box>
         <Table.Wrapper>
           <tbody>
-            <tr>
+            <Table.TableRow>
               <Table.TitleTd>{'폴더'}</Table.TitleTd>
               <Table.ContentsTd>
                 <select value={data.folder} onChange={onFolderChange}>
@@ -80,8 +80,8 @@ const Writing: NextPage = function () {
                   ))}
                 </select>
               </Table.ContentsTd>
-            </tr>
-            <tr>
+            </Table.TableRow>
+            <Table.TableRow>
               <Table.TitleTd>{'제목'}</Table.TitleTd>
               <Table.ContentsTd>
                 <Input.BasicInput
@@ -90,14 +90,14 @@ const Writing: NextPage = function () {
                   placeholder={'제목을 입력해주세요.'}
                 />
               </Table.ContentsTd>
-            </tr>
-            <tr>
+            </Table.TableRow>
+            <Table.TableRow>
               <Table.TitleTd css={{ height: '360px' }}>{'내용'}</Table.TitleTd>
               <Table.ContentsTd css={{ height: '360px' }}>
                 <TextEditor value={data.contents} onChange={onContentsChange} />
               </Table.ContentsTd>
-            </tr>
-            <tr>
+            </Table.TableRow>
+            <Table.TableRow>
               <Table.TitleTd>{'글 소개'}</Table.TitleTd>
               <Table.ContentsTd>
                 <Input.BasicInput
@@ -105,8 +105,8 @@ const Writing: NextPage = function () {
                   onChange={onDescChange}
                 />
               </Table.ContentsTd>
-            </tr>
-            <tr>
+            </Table.TableRow>
+            <Table.TableRow>
               <Table.TitleTd>{'썸네일'}</Table.TitleTd>
               <Table.ContentsTd>
                 <Input.BasicInput
@@ -114,7 +114,7 @@ const Writing: NextPage = function () {
                   onChange={onThumbnailChange}
                 />
               </Table.ContentsTd>
-            </tr>
+            </Table.TableRow>
           </tbody>
         </Table.Wrapper>
       </Box>

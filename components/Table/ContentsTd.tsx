@@ -7,7 +7,6 @@ const StyledContentsTd = styled(DEFAULT_TAG, {
   display: 'inline-block',
   width: '100%',
   padding: '0 10px 0',
-  borderBottom: '1px solid #F0F0F0',
 });
 
 type ContentsTdProps = StitchesProps<typeof StyledContentsTd> &
