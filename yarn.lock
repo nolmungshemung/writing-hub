@@ -1606,6 +1606,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@next-auth/react-query@npm:^0.0.12":
+  version: 0.0.12
+  resolution: "@next-auth/react-query@npm:0.0.12"
+  peerDependencies:
+    next: ^10.0.3
+    next-auth: ^3.15.9
+    react: ^17.0.2
+    react-query: ^3.13.11
+  checksum: bf454d70dfc579d1a486b5a754bf3f14e8244c6f63b7c4434a97f801f0e1e5322fec1c8f8e0aaec9753d55a76842dd377429ee72c882fb0115075c1b37672386
+  languageName: node
+  linkType: hard
+
 "@next/env@npm:12.0.9":
   version: 12.0.9
   resolution: "@next/env@npm:12.0.9"
@@ -12390,6 +12402,7 @@ typescript@4.4.3:
     "@babel/core": ^7.15.8
     "@babel/preset-env": ^7.15.8
     "@faker-js/faker": ^6.0.0-alpha.3
+    "@next-auth/react-query": ^0.0.12
     "@nolmungshemung/ui-kits": 0.0.10
     "@stitches/react": ^1.2.6
     "@types/faker": ^5.5.9
