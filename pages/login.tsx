@@ -1,6 +1,10 @@
 import type { NextPage } from 'next';
 import { NextSeo } from 'next-seo';
 import { Box, AppBar, Text, Button, styled } from '@nolmungshemung/ui-kits';
+import { getProviders, getSession, signIn, useSession } from 'next-auth/react';
+import { useEffect, useState } from 'react';
+import { NextPageContext } from 'next';
+// import { useSession } from '@next-auth/react-query';
 
 const GuideText = styled(Text, {
   color: '$gray',
@@ -9,6 +13,16 @@ const GuideText = styled(Text, {
 });
 
 const Login: NextPage = function () {
+  // const [session] = useSession();
+  const { data: session } = useSession();
+  const [isSigned, setIsSigned] = useState<boolean>(false);
+  if (session) {
+    setIsSigned(true);
+  }
+  const onLoginButtonClick = () => {
+    signIn('kakao');
+  };
+
   return (
     <>
       <NextSeo
@@ -70,9 +84,10 @@ const Login: NextPage = function () {
                 borderRadius: '15px',
                 backgroundColor: '#F4DC01',
               }}
+              onClick={onLoginButtonClick}
             >
               <Text size="xl" css={{ fontWeight: '$bold' }}>
-                카카오톡 로그인
+                {isSigned ? '로그아웃' : '카카오톡 로그인'}
               </Text>
             </Button>
           </Box>
@@ -105,3 +120,20 @@ const Login: NextPage = function () {
 };
 
 export default Login;
+export async function getServerSideProps(context: NextPageContext) {
+  const { req, res } = context;
+  const session = await getSession({ req });
+
+  if (session && res && session.accessToken) {
+    res.writeHead(302, {
+      Location: '/',
+    });
+    res.end();
+    return;
+  }
+  return {
+    props: {
+      providers: await getProviders(),
+    },
+  };
+}

@@ -4,6 +4,7 @@ import { ReactQueryDevtools } from 'react-query/devtools';
 import { APP_STAGE } from '~/shared/constants/environments';
 import { globalCss } from '@nolmungshemung/ui-kits';
 import { reset } from 'stitches-reset';
+import { SessionProvider } from 'next-auth/react';
 
 globalCss({
   ...reset,
@@ -31,12 +32,14 @@ queryClient.setDefaultOptions({
   },
 });
 
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   return (
     <QueryClientProvider client={queryClient}>
       <Hydrate state={pageProps.dehydratedState}>
-        <Component {...pageProps} />
-        <ReactQueryDevtools initialIsOpen={false} />
+        <SessionProvider session={session}>
+          <Component {...pageProps} />
+          <ReactQueryDevtools initialIsOpen={false} />
+        </SessionProvider>
       </Hydrate>
     </QueryClientProvider>
   );
