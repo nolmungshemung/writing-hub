@@ -5,8 +5,10 @@ const DEFAULT_TAG = 'td';
 
 const StyledTitleTd = styled(DEFAULT_TAG, {
   backgroundColor: '#F0F0F0',
-  padding: '0',
+  padding: '$sp-12 $sp-32',
   borderBottom: '1px solid #ffffff',
+  verticalAlign: 'middle',
+  textAlign: 'center',
 });
 
 type TitleTdProps = StitchesProps<typeof StyledTitleTd> &
