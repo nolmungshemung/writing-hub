@@ -4,9 +4,11 @@ import React from 'react';
 const DEFAULT_TAG = 'td';
 
 const StyledContentsTd = styled(DEFAULT_TAG, {
-  display: 'inline-block',
+  display: 'flex',
   width: '100%',
+  height: '100%',
   padding: '0 10px 0',
+  alignItems: 'center',
 });
 
 type ContentsTdProps = StitchesProps<typeof StyledContentsTd> &

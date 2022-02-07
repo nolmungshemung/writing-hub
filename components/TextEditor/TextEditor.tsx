@@ -26,10 +26,9 @@ const TextEditor = function (props: TextEditorProps) {
       modules={modules}
       theme="snow"
       style={{
-        padding: '10px 0 10px',
-        height: '83%',
+        height: '90%',
         width: '100%',
-        marginBottom: '-6%',
+        marginBottom: '40px',
       }}
     />
   );

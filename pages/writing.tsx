@@ -1,18 +1,14 @@
 import React, { useState } from 'react';
-
+import { NextSeo } from 'next-seo';
 import { Box, Button } from '@nolmungshemung/ui-kits';
-import * as Input from '~/components/Input';
+import { BasicInput } from '~/components/Input';
 import * as Table from '~/components/Table';
 import { NextPage } from 'next';
 import { WritingContentsRequest } from '~/data/services/services.model';
 import TextEditor from '~/components/TextEditor/TextEditor';
 import { usePostContents } from '~/data/services/services.hooks';
 
-interface WritingContentsType extends WritingContentsRequest {
-  folder: number;
-}
-const initialWriting: WritingContentsType = {
-  folder: 0,
+const initialWriting: WritingContentsRequest = {
   title: '',
   thumbnail: '',
   introduction: '',
@@ -24,7 +20,7 @@ const initialWriting: WritingContentsType = {
 };
 
 const Writing: NextPage = function () {
-  const [data, setData] = useState<WritingContentsType>(initialWriting);
+  const [data, setData] = useState<WritingContentsRequest>(initialWriting);
 
   const mutation = usePostContents(data);
 
@@ -52,15 +48,25 @@ const Writing: NextPage = function () {
   };
 
   return (
-    <Box css={{ margin: '0 200px 0' }}>
-      <Box>
-        <Table.Wrapper>
+    <>
+      <NextSeo
+        title="WritingHub: 글쓰기"
+        description="라이팅허브 글쓰기 화면"
+      />
+      <Box
+        css={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <Table.Wrapper css={{ width: '1200px', height: '750px' }}>
           <tbody>
             <Table.TableRow>
               <Table.TitleTd>{'제목'}</Table.TitleTd>
               <Table.ContentsTd>
-                <Input.BasicInput
-                  css={{ width: 900 }}
+                <BasicInput
                   onChange={onTitleChange}
                   placeholder={'제목을 입력해주세요.'}
                 />
@@ -69,40 +75,45 @@ const Writing: NextPage = function () {
             <Table.TableRow>
               <Table.TitleTd>{'글 소개'}</Table.TitleTd>
               <Table.ContentsTd>
-                <Input.BasicInput
-                  css={{ width: 900 }}
+                <BasicInput
                   onChange={onDescChange}
+                  placeholder={'"이 글은 어떤 글인가요?" 최대 30자'}
+                  maxLength={30}
                 />
               </Table.ContentsTd>
             </Table.TableRow>
             <Table.TableRow>
               <Table.TitleTd>{'썸네일'}</Table.TitleTd>
               <Table.ContentsTd>
-                <Input.BasicInput
-                  css={{ width: 900 }}
-                  onChange={onThumbnailChange}
-                />
+                <BasicInput onChange={onThumbnailChange} />
               </Table.ContentsTd>
             </Table.TableRow>
-            <Table.TableRow>
-              <Table.TitleTd css={{ height: '360px' }}>{'내용'}</Table.TitleTd>
-              <Table.ContentsTd css={{ height: '360px' }}>
+            <Table.TableRow css={{ height: '600px' }}>
+              <Table.TitleTd>{'내용'}</Table.TitleTd>
+              <Table.ContentsTd>
                 <TextEditor value={data.contents} onChange={onContentsChange} />
               </Table.ContentsTd>
             </Table.TableRow>
           </tbody>
         </Table.Wrapper>
-      </Box>
-      <Box css={{ display: 'flex' }}>
-        <Box css={{ margin: 'auto' }}>
-          <Button css={{ border: '1px solid #C4C7CA', margin: '0 5px 0' }}>
+        <Box css={{ marginTop: '$sp-30' }}>
+          <Button
+            size="lg"
+            css={{
+              width: '5rem',
+              border: '1px solid #C4C7CA',
+              margin: '0 $sp-06',
+              cursor: 'pointer',
+            }}
+          >
             {'취소'}
           </Button>
           <Button
+            size="lg"
+            color="primary"
             css={{
-              color: '#ffffff',
-              background: '$primary',
-              margin: '0 5px 0',
+              width: '5rem',
+              cursor: 'pointer',
             }}
             onClick={onSubmit}
           >
@@ -110,7 +121,7 @@ const Writing: NextPage = function () {
           </Button>
         </Box>
       </Box>
-    </Box>
+    </>
   );
 };
 
