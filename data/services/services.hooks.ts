@@ -16,8 +16,8 @@ import {
 } from './services.model';
 import {
   getMainContents,
-  postWritingContents,
   getMainWriters,
+  postWritingContents,
 } from './services.api';
 
 export function useMainContents(

@@ -1,6 +1,5 @@
 import Link from 'next/link';
-import { Text, Button, AppBar } from '@nolmungshemung/ui-kits';
-import { styled } from '../../stitches.config';
+import { Text, Button, AppBar, styled } from '@nolmungshemung/ui-kits';
 
 const StyledAppBar = styled(AppBar, {
   gridArea: 'header',
