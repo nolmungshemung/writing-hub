@@ -1,7 +1,6 @@
-import { Box } from '@nolmungshemung/ui-kits';
+import { Box, styled } from '@nolmungshemung/ui-kits';
 import { useEffect, useRef } from 'react';
 import { Contents } from '~/data/services/services.model';
-import { styled } from '../../stitches.config';
 import Card from './Card';
 
 const StyledCardList = styled(Box, {
@@ -31,9 +30,9 @@ const CardList = ({ resultList, createObserver }: CardListProps) => {
     <StyledCardList>
       {resultList === (null || undefined)
         ? [...Array(20)].map(() => <Card key={Math.random()} />)
-        : resultList.map((search: Contents) => (
+        : resultList.map((search: Contents, index: number) => (
             <Card
-              key={search.contentsId}
+              key={search.contentsId || index}
               contentsId={search.contentsId}
               title={search.title}
               thumbnail={search.thumbnail}

@@ -1,5 +1,5 @@
 import { HTMLAttributes } from 'react';
-import { styled } from '../../stitches.config';
+import { styled } from '@nolmungshemung/ui-kits';
 
 const StyledMainLayout = styled('div', {
   display: 'grid',

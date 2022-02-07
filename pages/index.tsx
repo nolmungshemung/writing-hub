@@ -1,14 +1,11 @@
-import { styled } from '@nolmungshemung/ui-kits/dist/stitches.config';
 import useSearch from '~/hooks/useSearch';
 import { useState } from 'react';
 import { Contents, ContentsSearchParams } from '~/data/services/services.model';
 import { getMainContents } from '~/data/services/services.api';
-import { Box, Search } from '@nolmungshemung/ui-kits';
+import { Box, Search, styled } from '@nolmungshemung/ui-kits';
 import { NextPage } from 'next';
 import CardList from '~/components/index/CardList';
 import { dehydrate, QueryClient } from 'react-query';
-import Header from '~/components/layout/Header';
-import MainLayout from '~/components/layout/DefaultLayout';
 import { useInfinityContents } from '~/data/services/services.hooks';
 import useIntersectionObserver from '~/hooks/useIntersectionObserver';
 
@@ -42,8 +39,10 @@ const Main: NextPage = function () {
   });
 
   const { data } = useInfinityContents(searchParams);
-
   const [pages] = (data?.pages ?? []) as unknown as [Contents[]];
+  // const results = (data?.pages[0] ?? undefined) as unknown as SuccessResponse<
+  //   Contents[]
+  // >;
 
   const doSearchTitle = (keyword: string) => {
     try {
@@ -67,20 +66,18 @@ const Main: NextPage = function () {
   const createObserver = useIntersectionObserver(fetchNextPage);
 
   return (
-    <MainLayout>
-      <Header />
-      <StyledMain>
-        <SytledTopArea>
-          <StyledSearch
-            placeholder="검색어를 입력해주세요."
-            onChange={onChange}
-            onEnter={onEnter}
-            onSearch={onSearch}
-          />
-        </SytledTopArea>
-        <CardList createObserver={createObserver} resultList={pages} />
-      </StyledMain>
-    </MainLayout>
+    <StyledMain>
+      <SytledTopArea>
+        <StyledSearch
+          placeholder="검색어를 입력해주세요."
+          onChange={onChange}
+          onEnter={onEnter}
+          onSearch={onSearch}
+        />
+      </SytledTopArea>
+      <CardList createObserver={createObserver} resultList={pages} />
+      {/* <CardList createObserver={createObserver} resultList={results?.data} /> */}
+    </StyledMain>
   );
 };
 

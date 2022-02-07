@@ -1,41 +1,70 @@
-import { Box } from '@nolmungshemung/ui-kits';
+import { Box, styled } from '@nolmungshemung/ui-kits';
 import { Writer } from '~/data/services/services.model';
-import { styled } from '../../stitches.config';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
+import { RiDoubleQuotesL, RiDoubleQuotesR } from 'react-icons/ri';
 
 const StyledCard = styled(Box, {
-  display: 'inline-block',
   outline: '1px black solid',
   width: '17.875rem',
   height: '17.875rem',
+  textAlign: 'center',
 });
 
-const StyledCardHeader = styled(Box, {});
-
-const StyledLanguage = styled('span', {
-  fontSize: '0.75rem',
-});
-
-const StyledTitle = styled(Box, {
-  fontSize: '1.125rem',
-});
-
-const StyledThumbnail = styled(Box, {
-  fontSize: '0.875rem',
-});
-
-const StyledIntro = styled(Box, {
-  fontSize: '0.75rem',
-});
-
-const StyledWriter = styled(Box, {
-  fontSize: '0.75rem',
+const StyledCardHeader = styled(Box, {
+  display: 'flex',
+  height: '$height-xl',
+  padding: '$sp-16 0 0 $sp-16',
+  color: '#999999',
+  marginBottom: '$sp-16',
 });
 
 const StyledTranslatedIcon = styled('span', {
-  fontSize: '0.75rem',
-  outline: '1px gray solid',
+  height: '0.8rem',
+  fontSize: '$ft-12',
+  padding: '$sp-04 $sp-08',
+  outline: '1px #CCCCCC solid',
+  borderRadius: '2px',
+});
+
+const StyledLanguage = styled('span', {
+  fontSize: '$ft-12',
+  textAlign: 'left',
+  paddingTop: '$sp-04',
+  paddingLeft: '$sp-08',
+});
+
+const StyledTitle = styled(Box, {
+  fontSize: '$ft-18',
+  fontWeight: '$bold',
+  padding: '0 $sp-16',
+});
+
+const StyledThumbnail = styled(Box, {
+  fontSize: '$ft-14',
+  color: '$d_gray',
+  display: 'grid',
+  lineHeight: '$base',
+  gridTemplateColumns: '5% 90% 5%',
+  padding: '$sp-12 $sp-16 0',
+});
+
+const StyledQuotesRight = styled(RiDoubleQuotesR, {
+  marginTop: '$sp-30',
+});
+
+const StyledIntro = styled(Box, {
+  fontSize: '$ft-12',
+  fontWeight: '$thin',
+  color: '#999999',
+  padding: '0 $sp-16',
+  marginTop: '$sp-16',
+});
+
+const StyledWriter = styled(Box, {
+  fontSize: '$ft-12',
+  color: '#999999',
+  marginTop: '$sp-20',
 });
 
 const renderTranslate = (isTranslate?: boolean) => {
@@ -74,7 +103,11 @@ const Card = function ({
         <StyledLanguage>{language ?? <Skeleton />}</StyledLanguage>
       </StyledCardHeader>
       <StyledTitle>{title ?? <Skeleton />}</StyledTitle>
-      <StyledThumbnail>{thumbnail ?? <Skeleton />}</StyledThumbnail>
+      <StyledThumbnail>
+        <RiDoubleQuotesL />
+        {thumbnail ?? <Skeleton />}
+        <StyledQuotesRight />
+      </StyledThumbnail>
       <StyledIntro>{introduction ?? <Skeleton />}</StyledIntro>
       <StyledWriter>{writer?.writerName ?? <Skeleton />}</StyledWriter>
     </StyledCard>
