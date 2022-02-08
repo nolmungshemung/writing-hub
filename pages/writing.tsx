@@ -20,31 +20,43 @@ const initialWriting: WritingContentsRequest = {
 };
 
 const Writing: NextPage = function () {
-  const [data, setData] = useState<WritingContentsRequest>(initialWriting);
+  const [writingContents, setWritingContents] =
+    useState<WritingContentsRequest>(initialWriting);
 
-  const mutation = usePostContents(data);
+  const {
+    data: response,
+    isLoading,
+    mutate,
+  } = usePostContents({
+    onSuccess() {
+      window.alert(response?.msg ?? '저장되었습니다!');
+    },
+    onError(error) {
+      console.error(error);
+    },
+  });
 
   const onTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
-    setData({ ...data, title: value });
+    setWritingContents({ ...writingContents, title: value });
   };
 
   const onContentsChange = (value: string) => {
-    setData({ ...data, contents: value });
+    setWritingContents({ ...writingContents, contents: value });
   };
 
   const onDescChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
-    setData({ ...data, introduction: value });
+    setWritingContents({ ...writingContents, introduction: value });
   };
 
   const onThumbnailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
-    setData({ ...data, thumbnail: value });
+    setWritingContents({ ...writingContents, thumbnail: value });
   };
 
   const onSubmit = () => {
-    mutation.mutate();
+    mutate(writingContents);
   };
 
   return (
@@ -91,11 +103,15 @@ const Writing: NextPage = function () {
             <Table.TableRow css={{ height: '600px' }}>
               <Table.TitleTd>{'내용'}</Table.TitleTd>
               <Table.ContentsTd>
-                <TextEditor value={data.contents} onChange={onContentsChange} />
+                <TextEditor
+                  value={writingContents.contents}
+                  onChange={onContentsChange}
+                />
               </Table.ContentsTd>
             </Table.TableRow>
           </tbody>
         </Table.Wrapper>
+        {isLoading && <div>Loading...</div>}
         <Box css={{ marginTop: '$sp-30' }}>
           <Button
             size="lg"
