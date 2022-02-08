@@ -2,7 +2,7 @@ name: WritingHub Web Dev
 
 on:
   push:
-    branches-ignore:
+    branches:
       - main
 
 env:
