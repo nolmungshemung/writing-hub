@@ -1,4 +1,9 @@
-import { useMutation, useQuery, UseQueryOptions } from 'react-query';
+import {
+  useMutation,
+  useQuery,
+  UseQueryOptions,
+  UseMutationOptions,
+} from 'react-query';
 import { AxiosError } from 'axios';
 import { SuccessResponse } from '~/shared/types';
 import { Contents, WritingContentsRequest } from './services.model';
@@ -34,9 +39,24 @@ export function useMainContents(
   );
 }
 
-export function usePostContents(contents: WritingContentsRequest) {
-  return useMutation<SuccessResponse, AxiosError>(
+export function usePostContents(
+  /**
+   * TData: 결과값
+   * TError
+   * TVariables: mutation variables
+   */
+  options: UseMutationOptions<
+    SuccessResponse,
+    AxiosError<unknown>,
+    WritingContentsRequest
+  >,
+) {
+  return useMutation<SuccessResponse, AxiosError, WritingContentsRequest>(
     '/services/writing_contents',
-    () => postWritingContents(contents),
+    postWritingContents,
+    {
+      retry: false,
+      ...options,
+    },
   );
 }
