@@ -1,13 +1,19 @@
 import useSearch from '~/hooks/useSearch';
 import { useState } from 'react';
-import { Contents, ContentsSearchParams } from '~/data/services/services.model';
+import {
+  ContentsSearchParams,
+  MainContentsResponse,
+} from '~/data/services/services.model';
 import { getMainContents } from '~/data/services/services.api';
 import { Box, Search, styled } from '@nolmungshemung/ui-kits';
 import { NextPage } from 'next';
-import CardList from '~/components/index/CardList';
+import CardList, { StyledCardList } from '~/components/index/CardList';
 import { dehydrate, QueryClient } from 'react-query';
 import { useInfinityContents } from '~/data/services/services.hooks';
 import useIntersectionObserver from '~/hooks/useIntersectionObserver';
+import { SuccessResponse } from '~/shared/types';
+import Card from '~/components/index/Card';
+import { DEFAULT_SEARCH_RANGE } from '~/shared/constants/pagination';
 
 const StyledMain = styled('div', {
   gridArea: 'main',
@@ -28,8 +34,6 @@ const StyledSearch = styled(Search, {
   marginTop: '5rem',
 });
 
-export const DEFAULT_SEARCH_RANGE = 20;
-
 const Main: NextPage = function () {
   const [searchParams, setSearchParams] = useState<ContentsSearchParams>({
     start: 0,
@@ -38,11 +42,9 @@ const Main: NextPage = function () {
     keyword: '',
   });
 
-  const { data } = useInfinityContents(searchParams);
-  const [pages] = (data?.pages ?? []) as unknown as [Contents[]];
-  // const results = (data?.pages[0] ?? undefined) as unknown as SuccessResponse<
-  //   Contents[]
-  // >;
+  const { data, isLoading } = useInfinityContents(searchParams);
+  const pages = (data?.pages[0] ??
+    undefined) as unknown as SuccessResponse<MainContentsResponse>;
 
   const doSearchTitle = (keyword: string) => {
     try {
@@ -75,8 +77,14 @@ const Main: NextPage = function () {
           onSearch={onSearch}
         />
       </SytledTopArea>
+      {isLoading && (
+        <StyledCardList>
+          {[...Array(20)].map(() => (
+            <Card key={Math.random()} />
+          ))}
+        </StyledCardList>
+      )}
       <CardList createObserver={createObserver} resultList={pages} />
-      {/* <CardList createObserver={createObserver} resultList={results?.data} /> */}
     </StyledMain>
   );
 };
