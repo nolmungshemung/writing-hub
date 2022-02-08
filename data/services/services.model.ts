@@ -16,6 +16,10 @@ export interface Contents {
   transitionNum: number;
 }
 
+export interface MainContentsResponse {
+  mainContentsList: Contents[];
+}
+
 export interface ContentsSearchParams {
   start: number;
   count: number;

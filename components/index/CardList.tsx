@@ -1,9 +1,10 @@
 import { Box, styled } from '@nolmungshemung/ui-kits';
 import { useEffect, useRef } from 'react';
-import { Contents } from '~/data/services/services.model';
+import { Contents, MainContentsResponse } from '~/data/services/services.model';
+import { SuccessResponse } from '~/shared/types';
 import Card from './Card';
 
-const StyledCardList = styled(Box, {
+export const StyledCardList = styled(Box, {
   gridArea: 'result',
   display: 'grid',
   gridTemplateColumns: 'repeat(4, 1fr)',
@@ -14,7 +15,7 @@ const StyledCardList = styled(Box, {
 });
 
 interface CardListProps {
-  resultList: Contents[];
+  resultList: SuccessResponse<MainContentsResponse>;
   createObserver: (target: HTMLDivElement) => void;
 }
 
@@ -27,23 +28,27 @@ const CardList = ({ resultList, createObserver }: CardListProps) => {
   }, []);
 
   return (
-    <StyledCardList>
-      {resultList === (null || undefined)
-        ? [...Array(20)].map(() => <Card key={Math.random()} />)
-        : resultList.map((search: Contents, index: number) => (
-            <Card
-              key={search.contentsId || index}
-              contentsId={search.contentsId}
-              title={search.title}
-              thumbnail={search.thumbnail}
-              introduction={search.introduction}
-              isTranslate={search.isTranslate}
-              language={search.language}
-              writer={search.writer}
-            />
-          ))}
+    <>
+      <StyledCardList>
+        {resultList === (null || undefined)
+          ? [...Array(20)].map(() => <Card key={Math.random()} />)
+          : resultList.data.mainContentsList.map(
+              (search: Contents, index: number) => (
+                <Card
+                  key={search.contentsId || index}
+                  contentsId={search.contentsId}
+                  title={search.title}
+                  thumbnail={search.thumbnail}
+                  introduction={search.introduction}
+                  isTranslate={search.isTranslate}
+                  language={search.language}
+                  writer={search.writer}
+                />
+              ),
+            )}
+      </StyledCardList>
       <Box ref={targetRef} />
-    </StyledCardList>
+    </>
   );
 };
 
