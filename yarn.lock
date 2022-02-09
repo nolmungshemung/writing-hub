@@ -1229,6 +1229,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/runtime@npm:^7.16.3":
+  version: 7.17.2
+  resolution: "@babel/runtime@npm:7.17.2"
+  dependencies:
+    regenerator-runtime: ^0.13.4
+  checksum: a48702d271ecc59c09c397856407afa29ff980ab537b3da58eeee1aeaa0f545402d340a1680c9af58aec94dfdcbccfb6abb211991b74686a86d03d3f6956cacd
+  languageName: node
+  linkType: hard
+
 "@babel/template@npm:^7.15.4, @babel/template@npm:^7.3.3":
   version: 7.15.4
   resolution: "@babel/template@npm:7.15.4"
@@ -1753,6 +1762,13 @@ __metadata:
   version: 1.0.3
   resolution: "@open-draft/until@npm:1.0.3"
   checksum: 323e92ebef0150ed0f8caedc7d219b68cdc50784fa4eba0377eef93533d3f46514eb2400ced83dda8c51bddc3d2c7b8e9cf95e5ec85ab7f62dfc015d174f62f2
+  languageName: node
+  linkType: hard
+
+"@panva/hkdf@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "@panva/hkdf@npm:1.0.1"
+  checksum: 883c423c006fdef48021ed3982938e814acac60b2b4820253064ef5d7d057c58684aa294af1aff767541a71cc23d878db60464e7243dc5150188d81c06c82196
   languageName: node
   linkType: hard
 
@@ -7634,6 +7650,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"jose@npm:^4.1.4, jose@npm:^4.3.7":
+  version: 4.5.0
+  resolution: "jose@npm:4.5.0"
+  checksum: 51142150a9f571ca318842d34ac0daec49fb70bfb6034c68fd46d8c804a8325065876067202310c8ff3cbfc5ca8e44d4712467b4da0d3cadf1e47c96989ca4ca
+  languageName: node
+  linkType: hard
+
 "js-levenshtein@npm:^1.1.6":
   version: 1.1.6
   resolution: "js-levenshtein@npm:1.1.6"
@@ -8662,6 +8685,30 @@ __metadata:
   languageName: node
   linkType: hard
 
+"next-auth@npm:^4.2.1":
+  version: 4.2.1
+  resolution: "next-auth@npm:4.2.1"
+  dependencies:
+    "@babel/runtime": ^7.16.3
+    "@panva/hkdf": ^1.0.1
+    cookie: ^0.4.1
+    jose: ^4.3.7
+    oauth: ^0.9.15
+    openid-client: ^5.1.0
+    preact: ^10.6.3
+    preact-render-to-string: ^5.1.19
+    uuid: ^8.3.2
+  peerDependencies:
+    nodemailer: ^6.6.5
+    react: ^17.0.2 || ^18.0.0-0
+    react-dom: ^17.0.2 || ^18.0.0-0
+  peerDependenciesMeta:
+    nodemailer:
+      optional: true
+  checksum: 08733486e731d38801606b70a9bfb21a213a5771f4de21ef7f64e13aa94b5cc45508b424ccb549b7b73be69ed597b87e3dcfba520c75195b46ccf44e3d199ea5
+  languageName: node
+  linkType: hard
+
 "next-seo@npm:^4.29.0":
   version: 4.29.0
   resolution: "next-seo@npm:4.29.0"
@@ -8926,6 +8973,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"oauth@npm:^0.9.15":
+  version: 0.9.15
+  resolution: "oauth@npm:0.9.15"
+  checksum: 957c0d8d85300398dcb0e293953650c0fc3facc795bee8228238414f19f59cef5fd4ee8d17a972c142924c10c5f6ec50ef80f77f4a6cc6e3c98f9d22c027801c
+  languageName: node
+  linkType: hard
+
 "object-assign@npm:^4.0.1, object-assign@npm:^4.1.0, object-assign@npm:^4.1.1":
   version: 4.1.1
   resolution: "object-assign@npm:4.1.1"
@@ -8933,7 +8987,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"object-hash@npm:^2.2.0":
+"object-hash@npm:^2.0.1, object-hash@npm:^2.2.0":
   version: 2.2.0
   resolution: "object-hash@npm:2.2.0"
   checksum: 55ba841e3adce9c4f1b9b46b41983eda40f854e0d01af2802d3ae18a7085a17168d6b81731d43fdf1d6bcbb3c9f9c56d22c8fea992203ad90a38d7d919bc28f1
@@ -9070,6 +9124,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"oidc-token-hash@npm:^5.0.1":
+  version: 5.0.1
+  resolution: "oidc-token-hash@npm:5.0.1"
+  checksum: d62aa8c665f1a0133a3694785e4cd75f471364e6a2f4fbf7997e193a49ccf8f8de15596f475c7fdf8510d021c3b72f7ff6ab8bc5b07bff4cf21d490177f164a5
+  languageName: node
+  linkType: hard
+
 "once@npm:^1.3.0, once@npm:^1.3.1, once@npm:^1.4.0":
   version: 1.4.0
   resolution: "once@npm:1.4.0"
@@ -9111,6 +9172,18 @@ __metadata:
     is-docker: ^2.0.0
     is-wsl: ^2.1.1
   checksum: 3333900ec0e420d64c23b831bc3467e57031461d843c801f569b2204a1acc3cd7b3ec3c7897afc9dde86491dfa289708eb92bba164093d8bd88fb2c231843c91
+  languageName: node
+  linkType: hard
+
+"openid-client@npm:^5.1.0":
+  version: 5.1.3
+  resolution: "openid-client@npm:5.1.3"
+  dependencies:
+    jose: ^4.1.4
+    lru-cache: ^6.0.0
+    object-hash: ^2.0.1
+    oidc-token-hash: ^5.0.1
+  checksum: 3566c9917c7081e058af9fe45bd1f516f23bc52b4f6f995919859b07b68361d5af5b38703b4af1db3758afd0e95e79b6b267c59c86472093a5e6b1e36efdefa0
   languageName: node
   linkType: hard
 
@@ -9575,6 +9648,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"preact-render-to-string@npm:^5.1.19":
+  version: 5.1.19
+  resolution: "preact-render-to-string@npm:5.1.19"
+  dependencies:
+    pretty-format: ^3.8.0
+  peerDependencies:
+    preact: ">=10"
+  checksum: b8b454d7b4bd93d6dcfc5e1269cfef1756e850c524e80340be62b88582cb88eb926a3edc0088f4dc2a454f56c1e09faa10bced081f25204342fd338275aa5af1
+  languageName: node
+  linkType: hard
+
+"preact@npm:^10.6.3":
+  version: 10.6.5
+  resolution: "preact@npm:10.6.5"
+  checksum: 020718a187e12d73cfb036dabb29fb64914c166633f255867ebcf6afca43d61a984d02375f90fe16fa93be662256a05c273e808cf60b08562c4440d2744d9b66
+  languageName: node
+  linkType: hard
+
 "prebuild-install@npm:5.3.0":
   version: 5.3.0
   resolution: "prebuild-install@npm:5.3.0"
@@ -9661,6 +9752,13 @@ __metadata:
     ansi-styles: ^5.0.0
     react-is: ^17.0.1
   checksum: 2979eae85a4f7ba1c3946faa8f5c6497cc80dc64ba499ccd5fdada267f82dc664f315a4c1cdd4c0b4b97edbae399a7bf0a957cc1b87feb91cd95f1e436834fed
+  languageName: node
+  linkType: hard
+
+"pretty-format@npm:^3.8.0":
+  version: 3.8.0
+  resolution: "pretty-format@npm:3.8.0"
+  checksum: 21a114d43ef06978f8f7f6212be4649b0b094f05d9b30e14e37550bf35c8ca24d8adbca9e5adc4cc15d9eaf7a1e7a30478a4dc37b30982bfdf0292a5b385484c
   languageName: node
   linkType: hard
 
@@ -12316,6 +12414,7 @@ typescript@4.4.3:
     jest: ^27.3.1
     msw: ^0.36.3
     next: 12
+    next-auth: ^4.2.1
     next-seo: ^4.29.0
     patch-package: ^6.4.7
     postinstall-postinstall: ^2.1.0
