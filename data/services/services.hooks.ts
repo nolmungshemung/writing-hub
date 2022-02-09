@@ -3,6 +3,8 @@ import {
   UseInfiniteQueryOptions,
   useMutation,
   UseMutationOptions,
+  useQuery,
+  UseQueryOptions,
 } from 'react-query';
 import { AxiosError } from 'axios';
 import { SuccessResponse } from '~/shared/types';
@@ -11,10 +13,12 @@ import {
   Writer,
   ContentsSearchParams,
   MainContentsResponse,
+  TranslatingContentsData,
 } from './services.model';
 import {
   getMainContents,
   getMainWriters,
+  getTranslatingContents,
   postWritingContents,
 } from './services.api';
 
@@ -65,6 +69,26 @@ export function useInfinityWriters(
       retry: 2,
       ...options,
       refetchOnWindowFocus: false,
+    },
+  );
+}
+
+export function useTranslatingContents(
+  contentsId: number,
+  options:
+    | UseQueryOptions<
+        SuccessResponse<TranslatingContentsData>,
+        AxiosError<unknown>,
+        SuccessResponse<TranslatingContentsData>
+      >
+    | undefined = {},
+) {
+  return useQuery<SuccessResponse<TranslatingContentsData>, AxiosError>(
+    ['/services/translating_contents', contentsId],
+    () => getTranslatingContents(contentsId),
+    {
+      retry: 2,
+      ...options,
     },
   );
 }
