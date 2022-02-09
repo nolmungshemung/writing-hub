@@ -1,34 +1,42 @@
 import React, { useState } from 'react';
 import { NextSeo } from 'next-seo';
-import { Box, Button, Input } from '@nolmungshemung/ui-kits';
+import { Box, Button } from '@nolmungshemung/ui-kits';
 import { BasicInput } from '~/components/Input';
 import * as Table from '~/components/Table';
-import { NextPage } from 'next';
+import { GetServerSidePropsContext, NextPage, PreviewData } from 'next';
 import { WritingContentsRequest } from '~/data/services/services.model';
 import TextEditor from '~/components/TextEditor/TextEditor';
-import { usePostContents } from '~/data/services/services.hooks';
+import {
+  usePostContents,
+  useTranslatingContents,
+} from '~/data/services/services.hooks';
 import { RiRefreshLine } from 'react-icons/ri';
-
-const initialWriting: WritingContentsRequest = {
-  title: '',
-  thumbnail: '',
-  introduction: '',
-  contents: '',
-  writerId: '',
-  language: '',
-  isTranslate: false,
-  originalId: 0,
-};
+import { getTranslatingContents } from '~/data/services/services.api';
+import { dehydrate, QueryClient } from 'react-query';
+import { useRouter } from 'next/router';
+import { ParsedUrlQuery } from 'querystring';
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 
 const Translating: NextPage = function () {
-  const [writingContents, setWritingContents] =
-    useState<WritingContentsRequest>(initialWriting);
+  const router = useRouter();
+  const contentsId = Number(router.query.contentsId);
+  const { data: targetOriginalContents, isLoading } =
+    useTranslatingContents(contentsId);
 
-  const {
-    data: response,
-    isLoading,
-    mutate,
-  } = usePostContents({
+  const [writingContents, setWritingContents] =
+    useState<WritingContentsRequest>({
+      title: '',
+      thumbnail: '',
+      introduction: '',
+      contents: '',
+      writerId: '',
+      language: '',
+      isTranslate: true,
+      originalId: contentsId,
+    });
+
+  const { data: response, mutate } = usePostContents({
     onSuccess() {
       window.alert(response?.msg ?? '저장되었습니다!');
     },
@@ -54,6 +62,11 @@ const Translating: NextPage = function () {
   const onThumbnailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     setWritingContents({ ...writingContents, thumbnail: value });
+  };
+
+  const onLanguageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    setWritingContents({ ...writingContents, language: value });
   };
 
   const onSubmit = () => {
@@ -87,41 +100,64 @@ const Translating: NextPage = function () {
           <Table.Wrapper css={{ width: '45%', height: '700px', margin: '0' }}>
             <tbody>
               <Table.TableRow>
-                <Table.TitleTd colspan="2">원문</Table.TitleTd>
+                <Table.TitleTd colSpan={2}>원문</Table.TitleTd>
               </Table.TableRow>
               <Table.TableRow>
                 <Table.TitleTd>{'제목'}</Table.TitleTd>
                 <Table.ContentsTd>
-                  <BasicInput readOnly />
+                  <span>
+                    {isLoading ? (
+                      <Skeleton width={200} />
+                    ) : (
+                      targetOriginalContents?.data.title ?? ''
+                    )}
+                  </span>
                 </Table.ContentsTd>
               </Table.TableRow>
               <Table.TableRow>
                 <Table.TitleTd>{'글 소개'}</Table.TitleTd>
                 <Table.ContentsTd>
-                  <BasicInput readOnly />
+                  <span>
+                    {isLoading ? (
+                      <Skeleton width={200} />
+                    ) : (
+                      targetOriginalContents?.data.introduction ?? ''
+                    )}
+                  </span>
                 </Table.ContentsTd>
               </Table.TableRow>
               <Table.TableRow>
                 <Table.TitleTd>{'썸네일'}</Table.TitleTd>
                 <Table.ContentsTd>
-                  <BasicInput readOnly />
+                  <span>
+                    {isLoading ? (
+                      <Skeleton width={200} />
+                    ) : (
+                      targetOriginalContents?.data.thumbnail ?? ''
+                    )}
+                  </span>
                 </Table.ContentsTd>
               </Table.TableRow>
               <Table.TableRow css={{ height: '600px' }}>
                 <Table.TitleTd>{'내용'}</Table.TitleTd>
                 <Table.ContentsTd>
-                  <Input.Text
+                  <Box
                     css={{
-                      width: '95%',
-                      height: '99%',
+                      width: '$width-xs',
+                      height: '600px',
                       border: 'none',
-                      '&:focus': {
-                        outline: 'none',
-                      },
-                      backgroundColor: '$gray',
+                      lineHeight: '$base',
+                      whiteSpace: 'pre-wrap',
+                      overflow: 'auto',
+                      paddingTop: '$sp-08',
                     }}
-                    readOnly
-                  />
+                  >
+                    {isLoading
+                      ? [...Array(20)].map((index) => (
+                          <Skeleton key={index + Math.random()} width={300} />
+                        ))
+                      : targetOriginalContents?.data.contents ?? ''}
+                  </Box>
                 </Table.ContentsTd>
               </Table.TableRow>
             </tbody>
@@ -140,7 +176,7 @@ const Translating: NextPage = function () {
           <Table.Wrapper css={{ width: '45%', height: '700px', margin: '0' }}>
             <tbody>
               <Table.TableRow>
-                <Table.TitleTd colspan="2">번역</Table.TitleTd>
+                <Table.TitleTd colSpan={2}>번역</Table.TitleTd>
               </Table.TableRow>
               <Table.TableRow>
                 <Table.TitleTd>{'제목'}</Table.TitleTd>
@@ -167,6 +203,12 @@ const Translating: NextPage = function () {
                   <BasicInput onChange={onThumbnailChange} />
                 </Table.ContentsTd>
               </Table.TableRow>
+              <Table.TableRow>
+                <Table.TitleTd>{'언어'}</Table.TitleTd>
+                <Table.ContentsTd>
+                  <BasicInput onChange={onLanguageChange} />
+                </Table.ContentsTd>
+              </Table.TableRow>
               <Table.TableRow css={{ height: '600px' }}>
                 <Table.TitleTd>{'내용'}</Table.TitleTd>
                 <Table.ContentsTd>
@@ -178,7 +220,6 @@ const Translating: NextPage = function () {
               </Table.TableRow>
             </tbody>
           </Table.Wrapper>
-          {isLoading && <div>Loading...</div>}
         </Box>
         <Box css={{ marginTop: '$sp-30' }}>
           <Button
@@ -208,5 +249,26 @@ const Translating: NextPage = function () {
     </>
   );
 };
+
+//  context의 type은 대체 무엇인가
+export async function getServerSideProps(
+  context: GetServerSidePropsContext<ParsedUrlQuery, PreviewData>,
+) {
+  try {
+    const queryClient = new QueryClient();
+    const contentsId = Number(context.query.contentsId);
+    await queryClient.prefetchQuery(
+      ['/services/translating_contents', contentsId],
+      () => getTranslatingContents(contentsId),
+    );
+    return {
+      props: {
+        dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
+      },
+    };
+  } catch (e) {
+    console.error(e);
+  }
+}
 
 export default Translating;
