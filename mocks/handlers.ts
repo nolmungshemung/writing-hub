@@ -6,13 +6,23 @@ import { ContentsFactory, ErrorResponseFactory } from './factories';
 export const handlers = [
   rest.get(`${API_URL}/services/main_contents`, (req, res, ctx) => {
     const keyword = req.url.searchParams.get('keyword');
-    const start = Number(req.url.searchParams.get('start'));
-    const count = Number(req.url.searchParams.get('count'));
-
-    const contents = ContentsFactory.buildList(100);
 
     if (keyword !== 'invalid') {
-      return res(ctx.status(200), ctx.json(contents.splice(0, start + count)));
+      const start = Number(req.url.searchParams.get('start'));
+      const count = Number(req.url.searchParams.get('count'));
+      const contents = ContentsFactory.buildList(count);
+
+      return res(
+        ctx.status(200),
+        ctx.json({
+          msg: 'success!',
+          data: {
+            main_contents_list: contents,
+            is_last: false,
+            start,
+          },
+        }),
+      );
     } else {
       const errorResponse = ErrorResponseFactory.build();
       return res(ctx.status(422), ctx.json(errorResponse));
