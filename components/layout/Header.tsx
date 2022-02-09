@@ -1,29 +1,59 @@
-import Link from 'next/link';
-import { Text, Button, AppBar, styled } from '@nolmungshemung/ui-kits';
+import { AppBar, Text, Button, Box, styled } from '@nolmungshemung/ui-kits';
+import Router from 'next/router';
 
-const StyledAppBar = styled(AppBar, {
-  gridArea: 'header',
-  display: 'flex',
-  alignItems: 'center',
-  borderBottom: 'solid 1px $gray',
-  ':nth-child(1)': {
-    marginLeft: '22.5rem',
-  },
-  ':nth-child(2)': {
-    marginLeft: '68.75rem',
-  },
+const HeaderButton = styled(Button, {
+  width: '5rem',
+  padding: '0 $sp-20',
+  height: '$height-md !important',
+  cursor: 'pointer',
+  marginRight: '$sp-12',
 });
 
-const Header = () => (
-  <StyledAppBar>
-    {/* passHref: href 속성을 Link의 children에게 전달 */}
-    <Link href="/main" passHref>
-      <Text>Writing Hub</Text>
-    </Link>
-    <Button outline="black" size="md">
-      로그인
-    </Button>
-  </StyledAppBar>
-);
+export function Header() {
+  const handleRouting = (path: string) => {
+    Router.push(path);
+  };
 
-export default Header;
+  return (
+    <AppBar
+      sticky={true}
+      css={{
+        paddingTop: '$sp-16',
+        justifyContent: 'space-around',
+        borderBottom: '1px solid $gray',
+        height: '4rem',
+      }}
+    >
+      <Text
+        weight="bold"
+        css={{
+          color: '#333333',
+          cursor: 'pointer',
+        }}
+        onClick={() => handleRouting('/')}
+      >
+        Writing Hub
+      </Text>
+      <Box>
+        {/* TODO: 로그인 세션에 따라서 다르게 처리하도록 수정 필요 */}
+        {/* <HeaderButton size="lg" color="white" outline="black">
+          필명등록
+        </HeaderButton>
+        <HeaderButton size="lg" color="white" outline="black">
+          로그아웃
+        </HeaderButton>
+        <HeaderButton size="lg" color="white" outline="black">
+          내피드
+        </HeaderButton> */}
+        <HeaderButton
+          size="lg"
+          color="white"
+          outline="black"
+          onClick={() => handleRouting('/login')}
+        >
+          로그인
+        </HeaderButton>
+      </Box>
+    </AppBar>
+  );
+}
