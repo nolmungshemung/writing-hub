@@ -71,6 +71,7 @@ const Writing: NextPage = function () {
           flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center',
+          marginTop: '$sp-32',
         }}
       >
         <Table.Wrapper css={{ width: '1200px', height: '750px' }}>
