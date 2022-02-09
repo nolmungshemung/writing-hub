@@ -2,17 +2,15 @@ import {
   useInfiniteQuery,
   UseInfiniteQueryOptions,
   useMutation,
-  useQuery,
-  UseQueryOptions,
   UseMutationOptions,
 } from 'react-query';
 import { AxiosError } from 'axios';
 import { SuccessResponse } from '~/shared/types';
 import {
-  Contents,
   WritingContentsRequest,
   Writer,
   ContentsSearchParams,
+  MainContentsResponse,
 } from './services.model';
 import {
   getMainContents,
@@ -20,8 +18,8 @@ import {
   postWritingContents,
 } from './services.api';
 
-export function useMainContents(
-  { start, count, baseTime, keyword }: ContentsSearchParams,
+export function useInfinityContents(
+  contentsSearchParams: ContentsSearchParams,
   /**
    * @see https://github.com/tannerlinsley/react-query/discussions/1195
    * query variables가 필요할 때
@@ -33,56 +31,35 @@ export function useMainContents(
    * TData: Query 함수의 최종 데이터
    */
   options:
-    | UseQueryOptions<
-        SuccessResponse<Contents[]>,
+    | UseInfiniteQueryOptions<
+        SuccessResponse<MainContentsResponse>,
         AxiosError<unknown>,
-        SuccessResponse<Contents[]>
+        SuccessResponse<MainContentsResponse>
       >
     | undefined = {},
 ) {
-  return useQuery<SuccessResponse<Contents[]>, AxiosError>(
-    ['/services/main_contents', { start, count, baseTime, keyword }],
-    () => getMainContents({ start, count, baseTime, keyword }),
+  return useInfiniteQuery<SuccessResponse<MainContentsResponse>, AxiosError>(
+    ['/services/main_contents', contentsSearchParams],
+    getMainContents,
     {
-      retry: 2,
       ...options,
     },
   );
 }
 
-export function useInfinityContents(
-  { start, count, baseTime, keyword }: ContentsSearchParams,
+export function useInfinityWriters(
+  contentsSearchParams: ContentsSearchParams,
   options:
     | UseInfiniteQueryOptions<
-        SuccessResponse<Contents[]>,
-        AxiosError<unknown>,
-        SuccessResponse<Contents[]>
-      >
-    | undefined = {},
-) {
-  return useInfiniteQuery<SuccessResponse<Contents[]>, AxiosError>(
-    ['/services/main_contents', { start, count, baseTime, keyword }],
-    () => getMainContents({ start, count, baseTime, keyword }),
-    {
-      retry: 2,
-      ...options,
-    },
-  );
-}
-
-export function useMainWriters(
-  { start, count, baseTime, keyword }: ContentsSearchParams,
-  options:
-    | UseQueryOptions<
         SuccessResponse<Writer[]>,
         AxiosError<unknown>,
         SuccessResponse<Writer[]>
       >
     | undefined = {},
 ) {
-  return useQuery<SuccessResponse<Writer[]>, AxiosError>(
-    ['/services/main_writers', { start, count, baseTime, keyword }],
-    () => getMainWriters({ start, count, baseTime, keyword }),
+  return useInfiniteQuery<SuccessResponse<Writer[]>, AxiosError>(
+    ['/services/main_writers', contentsSearchParams],
+    getMainWriters,
     {
       retry: 2,
       ...options,

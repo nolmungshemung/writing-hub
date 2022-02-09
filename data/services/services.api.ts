@@ -1,52 +1,41 @@
 import axios from '~/shared/axios';
 import { SuccessResponse } from '~/shared/types';
 import {
-  Contents,
+  MainContentsResponse,
   Writer,
   ReadingContentsData,
   TranslatingContentsData,
   FeedContentsData,
   WritingContentsRequest,
   ContentsSearchParams,
+  InfiniteQueryParam,
 } from './services.model';
 
 export async function getMainContents({
-  start,
-  count,
-  baseTime,
-  keyword,
-}: ContentsSearchParams) {
-  const { data } = await axios.get<SuccessResponse<Contents[]>>(
-    '/services/main_contents',
-    {
-      params: {
-        start,
-        count,
-        baseTime,
-        keyword,
-      },
+  pageParam = 0,
+  queryKey,
+}: InfiniteQueryParam) {
+  const [url, params] = queryKey as [string, ContentsSearchParams];
+  const { data } = await axios.get<SuccessResponse<MainContentsResponse>>(url, {
+    params: {
+      ...params,
+      start: pageParam,
     },
-  );
+  });
   return data;
 }
 
 export async function getMainWriters({
-  start,
-  count,
-  baseTime,
-  keyword,
-}: ContentsSearchParams) {
-  const { data } = await axios.get<SuccessResponse<Writer[]>>(
-    '/services/main_writers',
-    {
-      params: {
-        start,
-        count,
-        baseTime,
-        keyword,
-      },
+  pageParam = 0,
+  queryKey,
+}: InfiniteQueryParam) {
+  const [url, params] = queryKey as [string, ContentsSearchParams];
+  const { data } = await axios.get<SuccessResponse<Writer[]>>(url, {
+    params: {
+      ...params,
+      start: pageParam,
     },
-  );
+  });
   return data;
 }
 

@@ -1,3 +1,5 @@
+import { QueryKey } from 'react-query';
+
 export interface Writer {
   writerName: string;
   writerId: string;
@@ -18,6 +20,8 @@ export interface Contents {
 
 export interface MainContentsResponse {
   mainContentsList: Contents[];
+  isLast: boolean;
+  start: number;
 }
 
 export interface ContentsSearchParams {
@@ -51,4 +55,9 @@ export interface WritingContentsRequest {
   language: string;
   isTranslate: boolean;
   originalId: number;
+}
+
+export interface InfiniteQueryParam {
+  pageParam?: number;
+  queryKey: QueryKey;
 }

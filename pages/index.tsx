@@ -1,5 +1,5 @@
-import useSearch from '~/hooks/useSearch';
 import { useState } from 'react';
+import useSearch from '~/hooks/useSearch';
 import {
   ContentsSearchParams,
   MainContentsResponse,
@@ -42,7 +42,16 @@ const Main: NextPage = function () {
     keyword: '',
   });
 
-  const { data, isLoading } = useInfinityContents(searchParams);
+  const { data, isLoading, fetchNextPage } = useInfinityContents(searchParams, {
+    getNextPageParam: (lastPage) => {
+      const {
+        data: { isLast },
+      } = lastPage;
+
+      return !isLast ? DEFAULT_SEARCH_RANGE : undefined;
+    },
+  });
+
   const pages = (data?.pages[0] ??
     undefined) as unknown as SuccessResponse<MainContentsResponse>;
 
@@ -59,12 +68,6 @@ const Main: NextPage = function () {
   };
   const { onChange, onEnter, onSearch } = useSearch(doSearchTitle);
 
-  function fetchNextPage() {
-    setSearchParams((prev) => ({
-      ...prev,
-      start: prev.start + prev.count,
-    }));
-  }
   const createObserver = useIntersectionObserver(fetchNextPage);
 
   return (
@@ -100,7 +103,7 @@ export async function getServerSideProps() {
     };
     await queryClient.prefetchInfiniteQuery(
       ['/services/main_contents', queryParams],
-      () => getMainContents(queryParams),
+      getMainContents,
     );
     return {
       props: {
