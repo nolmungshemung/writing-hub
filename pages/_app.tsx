@@ -2,7 +2,7 @@ import type { AppProps } from 'next/app';
 import { Hydrate, QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { APP_STAGE } from '~/shared/constants/environments';
-import { globalCss } from '@nolmungshemung/ui-kits';
+import { globalCss, Box } from '@nolmungshemung/ui-kits';
 import { reset } from 'stitches-reset';
 import { DefaultSeo } from 'next-seo';
 import { Header } from '~/components/layout';
@@ -39,8 +39,10 @@ function MyApp({ Component, pageProps }: AppProps) {
       <DefaultSeo />
       <QueryClientProvider client={queryClient}>
         <Hydrate state={pageProps.dehydratedState}>
-          <Header />
-          <Component {...pageProps} />
+          <Box css={{ height: '100%' }}>
+            <Header />
+            <Component {...pageProps} />
+          </Box>
           <ReactQueryDevtools initialIsOpen={false} />
         </Hydrate>
       </QueryClientProvider>

@@ -31,7 +31,7 @@ const SytledTopArea = styled(Box, {
 
 const StyledSearch = styled(Search, {
   width: '33.125rem',
-  marginTop: '5rem',
+  marginTop: '$sp-50',
 });
 
 const Main: NextPage = function () {
