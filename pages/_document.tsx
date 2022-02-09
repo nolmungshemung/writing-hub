@@ -7,6 +7,10 @@ export default class MyDocument extends Document {
     return (
       <Html>
         <Head>
+          <meta
+            name="viewport"
+            content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,shrink-to-fit=no"
+          />
           <style
             id={'stitches'}
             dangerouslySetInnerHTML={{ __html: getCssText() }}

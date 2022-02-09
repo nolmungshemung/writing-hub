@@ -4,6 +4,8 @@ import { ReactQueryDevtools } from 'react-query/devtools';
 import { APP_STAGE } from '~/shared/constants/environments';
 import { globalCss } from '@nolmungshemung/ui-kits';
 import { reset } from 'stitches-reset';
+import { DefaultSeo } from 'next-seo';
+import { Header } from '~/components/layout';
 
 globalCss({
   ...reset,
@@ -33,12 +35,16 @@ queryClient.setDefaultOptions({
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <QueryClientProvider client={queryClient}>
-      <Hydrate state={pageProps.dehydratedState}>
-        <Component {...pageProps} />
-        <ReactQueryDevtools initialIsOpen={false} />
-      </Hydrate>
-    </QueryClientProvider>
+    <>
+      <DefaultSeo />
+      <QueryClientProvider client={queryClient}>
+        <Hydrate state={pageProps.dehydratedState}>
+          <Header />
+          <Component {...pageProps} />
+          <ReactQueryDevtools initialIsOpen={false} />
+        </Hydrate>
+      </QueryClientProvider>
+    </>
   );
 }
 
