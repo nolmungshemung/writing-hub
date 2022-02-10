@@ -7,6 +7,7 @@ import { globalCss, Box } from '@nolmungshemung/ui-kits';
 import { reset } from 'stitches-reset';
 import { DefaultSeo } from 'next-seo';
 import { Header } from '~/components/layout';
+import { SessionProvider } from 'next-auth/react';
 
 globalCss({
   ...reset,
@@ -34,7 +35,7 @@ queryClient.setDefaultOptions({
   },
 });
 
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   return (
     <>
       <DefaultSeo />
@@ -46,10 +47,12 @@ function MyApp({ Component, pageProps }: AppProps) {
       </Head>
       <QueryClientProvider client={queryClient}>
         <Hydrate state={pageProps.dehydratedState}>
-          <Box css={{ height: '100%' }}>
-            <Header />
-            <Component {...pageProps} />
-          </Box>
+          <SessionProvider session={session}>
+            <Box css={{ height: '100%' }}>
+              <Header />
+              <Component {...pageProps} />
+            </Box>
+          </SessionProvider>
           <ReactQueryDevtools initialIsOpen={false} />
         </Hydrate>
       </QueryClientProvider>
