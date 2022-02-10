@@ -1,5 +1,6 @@
 import { AppBar, Text, Button, Box, styled } from '@nolmungshemung/ui-kits';
 import Router from 'next/router';
+import { signIn, signOut, useSession } from 'next-auth/react';
 
 const HeaderButton = styled(Button, {
   width: '5rem',
@@ -10,6 +11,7 @@ const HeaderButton = styled(Button, {
 });
 
 export function Header() {
+  const { data: sessionData } = useSession();
   const handleRouting = (path: string) => {
     Router.push(path);
   };
@@ -35,24 +37,35 @@ export function Header() {
         Writing Hub
       </Text>
       <Box>
-        {/* TODO: 로그인 세션에 따라서 다르게 처리하도록 수정 필요 */}
-        {/* <HeaderButton size="lg" color="white" outline="black">
-          필명등록
-        </HeaderButton>
-        <HeaderButton size="lg" color="white" outline="black">
-          로그아웃
-        </HeaderButton>
-        <HeaderButton size="lg" color="white" outline="black">
-          내피드
-        </HeaderButton> */}
-        <HeaderButton
-          size="lg"
-          color="white"
-          outline="black"
-          onClick={() => handleRouting('/login')}
-        >
-          로그인
-        </HeaderButton>
+        {sessionData && (
+          <>
+            <HeaderButton size="lg" color="white" outline="black">
+              필명등록
+            </HeaderButton>
+            <HeaderButton size="lg" color="white" outline="black">
+              내피드
+            </HeaderButton>
+          </>
+        )}
+        {sessionData ? (
+          <HeaderButton
+            size="lg"
+            color="white"
+            outline="black"
+            onClick={signOut}
+          >
+            로그아웃
+          </HeaderButton>
+        ) : (
+          <HeaderButton
+            size="lg"
+            color="white"
+            outline="black"
+            onClick={signIn}
+          >
+            로그인
+          </HeaderButton>
+        )}
       </Box>
     </AppBar>
   );

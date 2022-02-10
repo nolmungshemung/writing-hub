@@ -1,6 +1,9 @@
 import type { NextPage } from 'next';
 import { NextSeo } from 'next-seo';
 import { Box, Text, Button, styled } from '@nolmungshemung/ui-kits';
+import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/router';
+import { useCallback } from 'react';
 
 const GuideText = styled(Text, {
   color: '$gray',
@@ -9,6 +12,14 @@ const GuideText = styled(Text, {
 });
 
 const Login: NextPage = function () {
+  const router = useRouter();
+  const { callbackUrl: urlParam } = router.query;
+
+  const onLoginButtonClick = useCallback(() => {
+    const callbackUrl = typeof urlParam === 'object' ? urlParam[0] : urlParam;
+    signIn('kakao', { callbackUrl });
+  }, [urlParam]);
+
   return (
     <>
       <NextSeo
@@ -39,6 +50,7 @@ const Login: NextPage = function () {
               borderRadius: '15px',
               backgroundColor: '#F4DC01',
             }}
+            onClick={onLoginButtonClick}
           >
             <Text size="xl" css={{ fontWeight: '$bold' }}>
               카카오톡 로그인
