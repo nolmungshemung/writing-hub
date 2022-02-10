@@ -43,6 +43,7 @@ export function useInfinityContents(
     getMainContents,
     {
       ...options,
+      refetchOnWindowFocus: false,
     },
   );
 }
@@ -63,6 +64,7 @@ export function useInfinityWriters(
     {
       retry: 2,
       ...options,
+      refetchOnWindowFocus: false,
     },
   );
 }
