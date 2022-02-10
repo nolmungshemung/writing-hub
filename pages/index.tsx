@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, Fragment } from 'react';
 import { NextPage } from 'next';
 import { dehydrate, QueryClient } from 'react-query';
 import Router from 'next/router';
@@ -11,9 +11,13 @@ import { getMainContents } from '~/data/services/services.api';
 import { Box, Search, styled } from '@nolmungshemung/ui-kits';
 import { useInfinityContents } from '~/data/services/services.hooks';
 import { SuccessResponse } from '~/shared/types';
-import CardList from '~/components/Main/CardList';
+import Card from '~/components/Main/Card';
 import { SkeletonCard } from '~/components/Skeleton';
-import { DEFAULT_SEARCH_RANGE } from '~/shared/constants/pagination';
+import {
+  DEFAULT_SEARCH_RANGE,
+  GRID_COLUMN_COUNT,
+} from '~/shared/constants/pagination';
+import { useVirtual } from 'react-virtual';
 
 const StyledMain = styled('div', {
   gridArea: 'main',
@@ -46,6 +50,8 @@ const StyledCardList = styled(Box, {
 
 const Main: NextPage = function () {
   const loadMoreRef = useRef<HTMLDivElement>(null);
+  const parentRef = useRef<HTMLDivElement>(null);
+
   const [searchParams, setSearchParams] = useState<ContentsSearchParams>({
     start: 0,
     count: DEFAULT_SEARCH_RANGE,
@@ -73,6 +79,26 @@ const Main: NextPage = function () {
     });
 
   const pages = (data?.pages ?? []) as SuccessResponse<MainContentsResponse>[];
+  const flatMainContents = pages
+    .map((page) => page.data.mainContentsList.map((contents) => contents))
+    .flat();
+
+  /**
+   * @see https://react-virtual.tanstack.com/docs/overview
+   * @see https://codesandbox.io/s/github/tannerlinsley/react-virtual/tree/main/examples/variable?file=/src/main.jsx:4250-4350
+   */
+  const rowVirtualizer = useVirtual({
+    size: flatMainContents.length / GRID_COLUMN_COUNT,
+    parentRef,
+    overscan: 5,
+  });
+
+  const columnVirtualizer = useVirtual({
+    horizontal: true,
+    size: GRID_COLUMN_COUNT,
+    parentRef,
+    overscan: 5,
+  });
 
   useIntersectionObserver({
     target: loadMoreRef,
@@ -94,9 +120,25 @@ const Main: NextPage = function () {
     }
 
     if (pages.length > 0) {
+      let cardIndex = 0;
+
       return (
         <>
-          <CardList pages={pages} onCardClick={onCardClick} />
+          {rowVirtualizer.virtualItems.map((virtualRow) => (
+            <Fragment key={virtualRow.index}>
+              {columnVirtualizer.virtualItems.map((virtualColumn) => {
+                const contents = flatMainContents[cardIndex++];
+
+                return (
+                  <Card
+                    {...contents}
+                    key={contents.contentsId + virtualColumn.index}
+                    onCardClick={onCardClick}
+                  />
+                );
+              })}
+            </Fragment>
+          ))}
           {/* 추가 데이터를 fetch 할 때 보여주는 스켈레톤 UI */}
           {isFetchingNextPage ? <SkeletonCard /> : undefined}
         </>
@@ -116,13 +158,20 @@ const Main: NextPage = function () {
           onSearch={onSearch}
         />
       </SytledTopArea>
-      <StyledCardList>{renderCardList()}</StyledCardList>
-      <Box
-        ref={loadMoreRef}
+      <StyledCardList
+        ref={parentRef}
         css={{
-          height: '$height-md',
+          height: `${rowVirtualizer.totalSize}px`,
         }}
-      />
+      >
+        {renderCardList()}
+        <Box
+          ref={loadMoreRef}
+          css={{
+            height: '$height-md',
+          }}
+        />
+      </StyledCardList>
     </StyledMain>
   );
 };
