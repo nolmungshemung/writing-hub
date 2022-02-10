@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { NextSeo } from 'next-seo';
-import { Box, Button } from '@nolmungshemung/ui-kits';
+import { Box, Button, styled } from '@nolmungshemung/ui-kits';
 import { BasicInput } from '~/components/Input';
 import * as Table from '~/components/Table';
 import { GetServerSidePropsContext, NextPage, PreviewData } from 'next';
@@ -17,6 +17,10 @@ import { useRouter } from 'next/router';
 import { ParsedUrlQuery } from 'querystring';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
+
+const StyledTextEditor = styled(TextEditor, {
+  width: '98%',
+});
 
 const Translating: NextPage = function () {
   const router = useRouter();
@@ -86,18 +90,26 @@ const Translating: NextPage = function () {
           justifyContent: 'center',
           alignItems: 'center',
           marginTop: '$sp-32',
+          height: 'calc(100% - $height-appbar - $space$sp-32 + 0.5rem)',
         }}
       >
         <Box
           css={{
-            display: 'flex',
-            flexDirection: 'row',
+            display: 'grid',
+            gridTemplateColumns: '1fr 50px 1fr',
             justifyContent: 'center',
             alignItems: 'center',
-            width: '90%',
+            width: '100%',
+            height: '100%',
           }}
         >
-          <Table.Wrapper css={{ width: '45%', height: '700px', margin: '0' }}>
+          <Table.Wrapper
+            css={{
+              width: 'calc(100% - $sp-50)',
+              height: '100%',
+              margin: '0 0 0 $sp-50',
+            }}
+          >
             <tbody>
               <Table.TableRow>
                 <Table.TitleTd colSpan={2}>원문</Table.TitleTd>
@@ -138,13 +150,13 @@ const Translating: NextPage = function () {
                   </span>
                 </Table.ContentsTd>
               </Table.TableRow>
-              <Table.TableRow css={{ height: '600px' }}>
+              <Table.TableRow css={{ height: '100%' }}>
                 <Table.TitleTd>{'내용'}</Table.TitleTd>
-                <Table.ContentsTd>
+                <Table.ContentsTd css={{ width: 'calc(100% - 20px)' }}>
                   <Box
                     css={{
-                      width: '$width-xs',
-                      height: '600px',
+                      width: '100%',
+                      height: '100%',
                       border: 'none',
                       lineHeight: '$base',
                       whiteSpace: 'pre-wrap',
@@ -154,7 +166,7 @@ const Translating: NextPage = function () {
                   >
                     {isLoading
                       ? [...Array(20)].map((index) => (
-                          <Skeleton key={index + Math.random()} width={300} />
+                          <Skeleton key={index + Math.random()} width="80%" />
                         ))
                       : targetOriginalContents?.data.contents ?? ''}
                   </Box>
@@ -164,16 +176,23 @@ const Translating: NextPage = function () {
           </Table.Wrapper>
           <Box
             css={{
-              textAlign: 'center',
-              width: '10%',
+              height: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              flexDirection: 'column',
+              backgroundColor: 'white',
             }}
           >
-            <Box>
-              <RiRefreshLine />
-            </Box>
-            <Box>번역</Box>
+            <RiRefreshLine size="24" color="#DBAA49" />
+            <Box css={{ color: '$primary' }}>번역</Box>
           </Box>
-          <Table.Wrapper css={{ width: '45%', height: '700px', margin: '0' }}>
+          <Table.Wrapper
+            css={{
+              height: '100%',
+              margin: '0 $sp-50 0 0',
+            }}
+          >
             <tbody>
               <Table.TableRow>
                 <Table.TitleTd colSpan={2}>번역</Table.TitleTd>
@@ -209,10 +228,10 @@ const Translating: NextPage = function () {
                   <BasicInput onChange={onLanguageChange} />
                 </Table.ContentsTd>
               </Table.TableRow>
-              <Table.TableRow css={{ height: '600px' }}>
+              <Table.TableRow css={{ height: '100%' }}>
                 <Table.TitleTd>{'내용'}</Table.TitleTd>
                 <Table.ContentsTd>
-                  <TextEditor
+                  <StyledTextEditor
                     value={writingContents.contents}
                     onChange={onContentsChange}
                   />
@@ -221,7 +240,13 @@ const Translating: NextPage = function () {
             </tbody>
           </Table.Wrapper>
         </Box>
-        <Box css={{ marginTop: '$sp-30' }}>
+        <Box
+          css={{
+            margin: '1rem 0',
+            width: '100%',
+            textAlign: 'center',
+          }}
+        >
           <Button
             size="lg"
             css={{
