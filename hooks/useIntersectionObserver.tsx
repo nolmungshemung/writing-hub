@@ -1,17 +1,58 @@
-function useIntersectionObserver(fetchNextPage: () => void) {
-  const handleIntersect = (entries: IntersectionObserverEntry[]) => {
-    entries.forEach((entry) => entry.isIntersecting && fetchNextPage());
-  };
+import { RefObject, useEffect } from 'react';
+import { AxiosError } from 'axios';
+import { FetchNextPageOptions, InfiniteQueryObserverResult } from 'react-query';
+import { MainContentsResponse } from '~/data/services/services.model';
+import { SuccessResponse } from '~/shared/types';
 
-  const createObserver = (target: HTMLDivElement) => {
-    const options = { threshold: 1.0 };
-
-    const observer = new IntersectionObserver(handleIntersect, options);
-
-    observer.observe(target);
-  };
-
-  return createObserver;
+export interface IUseIntersectionObserverProps
+  extends IntersectionObserverInit {
+  target: RefObject<HTMLDivElement>;
+  enabled?: boolean;
+  onIntersect: (
+    options?: FetchNextPageOptions | undefined,
+  ) => Promise<
+    InfiniteQueryObserverResult<
+      SuccessResponse<MainContentsResponse>,
+      AxiosError<any, any>
+    >
+  >;
 }
 
-export default useIntersectionObserver;
+export function useIntersectionObserver({
+  root,
+  rootMargin = '0px',
+  threshold = 1.0,
+  target,
+  enabled = true,
+  onIntersect,
+}: IUseIntersectionObserverProps) {
+  useEffect(() => {
+    if (!enabled) {
+      return;
+    }
+
+    const options = {
+      root,
+      rootMargin,
+      threshold,
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) =>
+        entries.forEach((entry) => entry.isIntersecting && onIntersect()),
+      options,
+    );
+
+    const el = target && target.current;
+
+    if (!el) {
+      return;
+    }
+
+    observer.observe(el);
+
+    return () => {
+      observer.unobserve(el);
+    };
+  }, [target.current, enabled]);
+}

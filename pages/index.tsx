@@ -1,18 +1,18 @@
-import { useState } from 'react';
-import useSearch from '~/hooks/useSearch';
+import { useState, useRef } from 'react';
+import { NextPage } from 'next';
+import { dehydrate, QueryClient } from 'react-query';
+import Router from 'next/router';
+import { useSearch, useIntersectionObserver } from '~/hooks';
 import {
   ContentsSearchParams,
   MainContentsResponse,
 } from '~/data/services/services.model';
 import { getMainContents } from '~/data/services/services.api';
 import { Box, Search, styled } from '@nolmungshemung/ui-kits';
-import { NextPage } from 'next';
-import CardList, { StyledCardList } from '~/components/index/CardList';
-import { dehydrate, QueryClient } from 'react-query';
 import { useInfinityContents } from '~/data/services/services.hooks';
-import useIntersectionObserver from '~/hooks/useIntersectionObserver';
 import { SuccessResponse } from '~/shared/types';
-import Card from '~/components/index/Card';
+import CardList from '~/components/Main/CardList';
+import { SkeletonCard } from '~/components/Skeleton';
 import { DEFAULT_SEARCH_RANGE } from '~/shared/constants/pagination';
 
 const StyledMain = styled('div', {
@@ -34,7 +34,18 @@ const StyledSearch = styled(Search, {
   marginTop: '$sp-50',
 });
 
+const StyledCardList = styled(Box, {
+  gridArea: 'result',
+  display: 'grid',
+  gridTemplateColumns: 'repeat(4, 1fr)',
+  gridTemplateRows: 'repeat(5, 1fr)',
+  columnGap: '1.5rem',
+  rowGap: '0.875rem',
+  marginTop: '2.875rem',
+});
+
 const Main: NextPage = function () {
+  const loadMoreRef = useRef<HTMLDivElement>(null);
   const [searchParams, setSearchParams] = useState<ContentsSearchParams>({
     start: 0,
     count: DEFAULT_SEARCH_RANGE,
@@ -42,33 +53,58 @@ const Main: NextPage = function () {
     keyword: '',
   });
 
-  const { data, isLoading, fetchNextPage } = useInfinityContents(searchParams, {
-    getNextPageParam: (lastPage) => {
-      const {
-        data: { isLast },
-      } = lastPage;
-
-      return !isLast ? DEFAULT_SEARCH_RANGE : undefined;
-    },
+  const { onChange, onEnter, onSearch } = useSearch((keyword: string) => {
+    setSearchParams((prev) => ({
+      ...prev,
+      baseTime: Date.now(),
+      keyword,
+    }));
   });
 
-  const pages = (data?.pages[0] ??
-    undefined) as unknown as SuccessResponse<MainContentsResponse>;
+  const { isLoading, data, isFetchingNextPage, fetchNextPage, hasNextPage } =
+    useInfinityContents(searchParams, {
+      getNextPageParam: (lastPage) => {
+        const {
+          data: { isLast, start },
+        } = lastPage;
 
-  const doSearchTitle = (keyword: string) => {
-    try {
-      setSearchParams((prev) => ({
-        ...prev,
-        baseTime: Date.now(),
-        keyword,
-      }));
-    } catch (e) {
-      console.error(e);
-    }
+        return !isLast ? start + DEFAULT_SEARCH_RANGE : false;
+      },
+    });
+
+  const pages = (data?.pages ?? []) as SuccessResponse<MainContentsResponse>[];
+
+  useIntersectionObserver({
+    target: loadMoreRef,
+    enabled: hasNextPage,
+    onIntersect: fetchNextPage,
+  });
+
+  const onCardClick = (contentsId: number) => {
+    Router.push({
+      pathname: '/contents',
+      query: { contentsId },
+    });
   };
-  const { onChange, onEnter, onSearch } = useSearch(doSearchTitle);
 
-  const createObserver = useIntersectionObserver(fetchNextPage);
+  const renderCardList = () => {
+    // 데이터 최초 로딩 시 보여주는 스켈레톤 UI
+    if (isLoading) {
+      return <SkeletonCard count={20} />;
+    }
+
+    if (pages.length > 0) {
+      return (
+        <>
+          <CardList pages={pages} onCardClick={onCardClick} />
+          {/* 추가 데이터를 fetch 할 때 보여주는 스켈레톤 UI */}
+          {isFetchingNextPage ? <SkeletonCard /> : undefined}
+        </>
+      );
+    }
+
+    return undefined;
+  };
 
   return (
     <StyledMain>
@@ -80,14 +116,13 @@ const Main: NextPage = function () {
           onSearch={onSearch}
         />
       </SytledTopArea>
-      {isLoading && (
-        <StyledCardList>
-          {[...Array(20)].map(() => (
-            <Card key={Math.random()} />
-          ))}
-        </StyledCardList>
-      )}
-      <CardList createObserver={createObserver} resultList={pages} />
+      <StyledCardList>{renderCardList()}</StyledCardList>
+      <Box
+        ref={loadMoreRef}
+        css={{
+          height: '$height-md',
+        }}
+      />
     </StyledMain>
   );
 };
