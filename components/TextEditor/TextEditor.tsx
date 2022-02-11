@@ -29,6 +29,7 @@ const TextEditor = function (props: TextEditorProps) {
         height: '90%',
         width: '100%',
         marginBottom: '40px',
+        overflow: 'auto',
       }}
     />
   );
