@@ -8,7 +8,7 @@ import {
   MainContentsResponse,
 } from '~/data/services/services.model';
 import { getMainContents } from '~/data/services/services.api';
-import { Box, Search, styled } from '@nolmungshemung/ui-kits';
+import { Box, Search, styled, Button } from '@nolmungshemung/ui-kits';
 import { useInfinityContents } from '~/data/services/services.hooks';
 import { SuccessResponse } from '~/shared/types';
 import Card from '~/components/Main/Card';
@@ -33,31 +33,29 @@ const SytledTopArea = styled(Box, {
   gridArea: 'top',
 });
 
-const StyledSearch = styled(Search, {
-  width: '33.125rem',
-  marginTop: '$sp-50',
-});
-
 const StyledCardList = styled(Box, {
   gridArea: 'result',
   display: 'grid',
   gridTemplateColumns: 'repeat(4, 1fr)',
   gridTemplateRows: 'repeat(5, 1fr)',
-  columnGap: '1.5rem',
-  rowGap: '0.875rem',
-  marginTop: '2.875rem',
+  columnGap: '$sp-24',
+  rowGap: '$sp-16',
+  marginTop: '$sp-32',
 });
+
+const initialState: ContentsSearchParams = {
+  start: 0,
+  count: DEFAULT_SEARCH_RANGE,
+  baseTime: Date.now(),
+  keyword: '',
+};
 
 const Main: NextPage = function () {
   const loadMoreRef = useRef<HTMLDivElement>(null);
   const parentRef = useRef<HTMLDivElement>(null);
 
-  const [searchParams, setSearchParams] = useState<ContentsSearchParams>({
-    start: 0,
-    count: DEFAULT_SEARCH_RANGE,
-    baseTime: Date.now(),
-    keyword: '',
-  });
+  const [searchParams, setSearchParams] =
+    useState<ContentsSearchParams>(initialState);
 
   const { onChange, onEnter, onSearch } = useSearch((keyword: string) => {
     setSearchParams((prev) => ({
@@ -106,6 +104,10 @@ const Main: NextPage = function () {
     onIntersect: fetchNextPage,
   });
 
+  const onWriterSearchButtonClick = () => {
+    Router.push('/writers');
+  };
+
   const onCardClick = (contentsId: number) => {
     Router.push({
       pathname: '/contents',
@@ -151,12 +153,34 @@ const Main: NextPage = function () {
   return (
     <StyledMain>
       <SytledTopArea>
-        <StyledSearch
-          placeholder="검색어를 입력해주세요."
-          onChange={onChange}
-          onEnter={onEnter}
-          onSearch={onSearch}
-        />
+        <Box
+          css={{
+            position: 'relative',
+            display: 'flex',
+            marginTop: '$sp-50',
+            justifyContent: 'center',
+            width: '1216px',
+          }}
+        >
+          <Search
+            placeholder="검색어를 입력해주세요."
+            onChange={onChange}
+            onEnter={onEnter}
+            onSearch={onSearch}
+          />
+          <Button
+            color="white"
+            outline="black"
+            css={{
+              position: 'absolute',
+              right: '0',
+              cursor: 'pointer',
+            }}
+            onClick={onWriterSearchButtonClick}
+          >
+            작가검색
+          </Button>
+        </Box>
       </SytledTopArea>
       <StyledCardList
         ref={parentRef}
@@ -179,14 +203,8 @@ const Main: NextPage = function () {
 export async function getServerSideProps() {
   try {
     const queryClient = new QueryClient();
-    const queryParams: ContentsSearchParams = {
-      start: 0,
-      count: DEFAULT_SEARCH_RANGE,
-      baseTime: Date.now(),
-      keyword: '',
-    };
     await queryClient.prefetchInfiniteQuery(
-      ['/services/main_contents', queryParams],
+      ['/services/main_contents', initialState],
       getMainContents,
     );
     return {
