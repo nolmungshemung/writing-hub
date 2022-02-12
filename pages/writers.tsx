@@ -15,6 +15,7 @@ import { SuccessResponse } from '~/shared/types';
 import { StyledCard } from '~/components/Main/Card';
 import { SkeletonCard } from '~/components/Skeleton';
 import { DEFAULT_SEARCH_RANGE } from '~/shared/constants/pagination';
+import { NextSeo } from 'next-seo';
 
 const StyledMain = styled('div', {
   gridArea: 'main',
@@ -126,6 +127,10 @@ const Main: NextPage = function () {
 
   return (
     <StyledMain>
+      <NextSeo
+        title="WritingHub: 작가 검색"
+        description="라이팅허브 작가 검색 화면"
+      />
       <SytledTopArea>
         <Box
           css={{

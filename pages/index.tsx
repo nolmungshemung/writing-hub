@@ -18,6 +18,7 @@ import {
   GRID_COLUMN_COUNT,
 } from '~/shared/constants/pagination';
 import { useVirtual } from 'react-virtual';
+import { NextSeo } from 'next-seo';
 
 const StyledMain = styled('div', {
   gridArea: 'main',
@@ -126,6 +127,10 @@ const Main: NextPage = function () {
 
       return (
         <>
+          <NextSeo
+            title="WritingHub: 작품 검색"
+            description="라이팅허브 작품 검색 화면"
+          />
           {rowVirtualizer.virtualItems.map((virtualRow) => (
             <Fragment key={virtualRow.index}>
               {columnVirtualizer.virtualItems.map((virtualColumn) => {
