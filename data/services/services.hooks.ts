@@ -14,10 +14,12 @@ import {
   ContentsSearchParams,
   MainContentsResponse,
   TranslatingContentsData,
+  ReadingContentsData,
 } from './services.model';
 import {
   getMainContents,
   getMainWriters,
+  getReadingContents,
   getTranslatingContents,
   postWritingContents,
 } from './services.api';
@@ -86,6 +88,26 @@ export function useTranslatingContents(
   return useQuery<SuccessResponse<TranslatingContentsData>, AxiosError>(
     ['/services/translating_contents', contentsId],
     () => getTranslatingContents(contentsId),
+    {
+      retry: 2,
+      ...options,
+    },
+  );
+}
+
+export function useReadingContents(
+  contentsId: number,
+  options:
+    | UseQueryOptions<
+        SuccessResponse<ReadingContentsData>,
+        AxiosError<unknown>,
+        SuccessResponse<ReadingContentsData>
+      >
+    | undefined = {},
+) {
+  return useQuery<SuccessResponse<ReadingContentsData>, AxiosError>(
+    ['/services/reading_contents', contentsId],
+    () => getReadingContents(contentsId),
     {
       retry: 2,
       ...options,

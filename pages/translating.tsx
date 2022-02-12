@@ -275,7 +275,6 @@ const Translating: NextPage = function () {
   );
 };
 
-//  context의 type은 대체 무엇인가
 export async function getServerSideProps(
   context: GetServerSidePropsContext<ParsedUrlQuery, PreviewData>,
 ) {
