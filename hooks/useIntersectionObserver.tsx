@@ -1,31 +1,27 @@
 import { RefObject, useEffect } from 'react';
 import { AxiosError } from 'axios';
 import { FetchNextPageOptions, InfiniteQueryObserverResult } from 'react-query';
-import { MainContentsResponse } from '~/data/services/services.model';
 import { SuccessResponse } from '~/shared/types';
 
-export interface IUseIntersectionObserverProps
+export interface IUseIntersectionObserverProps<T = unknown>
   extends IntersectionObserverInit {
   target: RefObject<HTMLDivElement>;
   enabled?: boolean;
   onIntersect: (
     options?: FetchNextPageOptions | undefined,
   ) => Promise<
-    InfiniteQueryObserverResult<
-      SuccessResponse<MainContentsResponse>,
-      AxiosError<any, any>
-    >
+    InfiniteQueryObserverResult<SuccessResponse<T>, AxiosError<any, any>>
   >;
 }
 
-export function useIntersectionObserver({
+export function useIntersectionObserver<T>({
   root,
   rootMargin = '0px',
   threshold = 1.0,
   target,
   enabled = true,
   onIntersect,
-}: IUseIntersectionObserverProps) {
+}: IUseIntersectionObserverProps<T>) {
   useEffect(() => {
     if (!enabled) {
       return;

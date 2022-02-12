@@ -1,23 +1,20 @@
-import { useState, useRef, Fragment } from 'react';
+import { useState, useRef } from 'react';
 import { NextPage } from 'next';
 import { dehydrate, QueryClient } from 'react-query';
 import Router from 'next/router';
-import { useSearch, useIntersectionObserver } from '~/hooks';
+import { useIntersectionObserver, useSearch } from '~/hooks';
 import {
   ContentsSearchParams,
-  MainContentsResponse,
+  MainWritersResponse,
+  Writer,
 } from '~/data/services/services.model';
-import { getMainContents } from '~/data/services/services.api';
+import { getMainWriters } from '~/data/services/services.api';
 import { Box, Search, styled, Button } from '@nolmungshemung/ui-kits';
-import { useInfinityContents } from '~/data/services/services.hooks';
+import { useInfinityWriters } from '~/data/services/services.hooks';
 import { SuccessResponse } from '~/shared/types';
-import Card from '~/components/Main/Card';
+import { StyledCard } from '~/components/Main/Card';
 import { SkeletonCard } from '~/components/Skeleton';
-import {
-  DEFAULT_SEARCH_RANGE,
-  GRID_COLUMN_COUNT,
-} from '~/shared/constants/pagination';
-import { useVirtual } from 'react-virtual';
+import { DEFAULT_SEARCH_RANGE } from '~/shared/constants/pagination';
 
 const StyledMain = styled('div', {
   gridArea: 'main',
@@ -52,7 +49,6 @@ const initialState: ContentsSearchParams = {
 
 const Main: NextPage = function () {
   const loadMoreRef = useRef<HTMLDivElement>(null);
-  const parentRef = useRef<HTMLDivElement>(null);
 
   const [searchParams, setSearchParams] =
     useState<ContentsSearchParams>(initialState);
@@ -66,7 +62,7 @@ const Main: NextPage = function () {
   });
 
   const { isLoading, data, isFetchingNextPage, fetchNextPage, hasNextPage } =
-    useInfinityContents(searchParams, {
+    useInfinityWriters(searchParams, {
       getNextPageParam: (lastPage) => {
         const {
           data: { isLast, start },
@@ -76,27 +72,10 @@ const Main: NextPage = function () {
       },
     });
 
-  const pages = (data?.pages ?? []) as SuccessResponse<MainContentsResponse>[];
-  const flatMainContents = pages
-    .map((page) => page.data.mainContentsList.map((contents) => contents))
+  const pages = (data?.pages ?? []) as SuccessResponse<MainWritersResponse>[];
+  const flatMainWriters = pages
+    .map((page) => page.data.mainWriterList.map((writer: Writer) => writer))
     .flat();
-
-  /**
-   * @see https://react-virtual.tanstack.com/docs/overview
-   * @see https://codesandbox.io/s/github/tannerlinsley/react-virtual/tree/main/examples/variable?file=/src/main.jsx:4250-4350
-   */
-  const rowVirtualizer = useVirtual({
-    size: flatMainContents.length / GRID_COLUMN_COUNT,
-    parentRef,
-    overscan: 5,
-  });
-
-  const columnVirtualizer = useVirtual({
-    horizontal: true,
-    size: GRID_COLUMN_COUNT,
-    parentRef,
-    overscan: 5,
-  });
 
   useIntersectionObserver({
     target: loadMoreRef,
@@ -104,14 +83,14 @@ const Main: NextPage = function () {
     onIntersect: fetchNextPage,
   });
 
-  const onWriterSearchButtonClick = () => {
-    Router.push('/writers');
+  const onContentsSearchButtonClick = () => {
+    Router.push('/');
   };
 
-  const onCardClick = (contentsId: number) => {
+  const onCardClick = (writerId: string) => {
     Router.push({
-      pathname: '/contents',
-      query: { contentsId },
+      pathname: '/feeds',
+      query: { writerId },
     });
   };
 
@@ -122,24 +101,20 @@ const Main: NextPage = function () {
     }
 
     if (pages.length > 0) {
-      let cardIndex = 0;
-
       return (
         <>
-          {rowVirtualizer.virtualItems.map((virtualRow) => (
-            <Fragment key={virtualRow.index}>
-              {columnVirtualizer.virtualItems.map((virtualColumn) => {
-                const contents = flatMainContents[cardIndex++];
-
-                return (
-                  <Card
-                    {...contents}
-                    key={contents.contentsId + virtualColumn.index}
-                    onCardClick={onCardClick}
-                  />
-                );
-              })}
-            </Fragment>
+          {flatMainWriters.map((writer: Writer, index: number) => (
+            <StyledCard
+              key={index}
+              onClick={() => onCardClick(writer.writerId)}
+              css={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <Box>{writer.writerName}</Box>
+            </StyledCard>
           ))}
           {isFetchingNextPage && <SkeletonCard />}
         </>
@@ -175,18 +150,13 @@ const Main: NextPage = function () {
               right: '0',
               cursor: 'pointer',
             }}
-            onClick={onWriterSearchButtonClick}
+            onClick={onContentsSearchButtonClick}
           >
-            작가검색
+            작품검색
           </Button>
         </Box>
       </SytledTopArea>
-      <StyledCardList
-        ref={parentRef}
-        css={{
-          height: `${rowVirtualizer.totalSize}px`,
-        }}
-      >
+      <StyledCardList>
         {renderCardList()}
         <Box
           ref={loadMoreRef}
@@ -203,8 +173,8 @@ export async function getServerSideProps() {
   try {
     const queryClient = new QueryClient();
     await queryClient.prefetchInfiniteQuery(
-      ['/services/main_contents', initialState],
-      getMainContents,
+      ['/services/main_writers', initialState],
+      getMainWriters,
     );
     return {
       props: {
