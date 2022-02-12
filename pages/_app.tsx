@@ -1,4 +1,5 @@
 import type { AppProps } from 'next/app';
+import Head from 'next/head';
 import { Hydrate, QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { APP_STAGE } from '~/shared/constants/environments';
@@ -37,6 +38,12 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <DefaultSeo />
+      <Head>
+        <meta
+          name="viewport"
+          content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,shrink-to-fit=no"
+        />
+      </Head>
       <QueryClientProvider client={queryClient}>
         <Hydrate state={pageProps.dehydratedState}>
           <Box css={{ height: '100%' }}>
