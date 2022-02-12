@@ -2,7 +2,7 @@ import axios from '~/shared/axios';
 import { SuccessResponse } from '~/shared/types';
 import {
   MainContentsResponse,
-  Writer,
+  MainWritersResponse,
   ReadingContentsData,
   TranslatingContentsData,
   FeedContentsData,
@@ -30,7 +30,7 @@ export async function getMainWriters({
   queryKey,
 }: InfiniteQueryParam) {
   const [url, params] = queryKey as [string, ContentsSearchParams];
-  const { data } = await axios.get<SuccessResponse<Writer[]>>(url, {
+  const { data } = await axios.get<SuccessResponse<MainWritersResponse>>(url, {
     params: {
       ...params,
       start: pageParam,

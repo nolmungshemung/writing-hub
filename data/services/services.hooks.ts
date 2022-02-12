@@ -10,7 +10,7 @@ import { AxiosError } from 'axios';
 import { SuccessResponse } from '~/shared/types';
 import {
   WritingContentsRequest,
-  Writer,
+  MainWritersResponse,
   ContentsSearchParams,
   MainContentsResponse,
   TranslatingContentsData,
@@ -56,13 +56,13 @@ export function useInfinityWriters(
   contentsSearchParams: ContentsSearchParams,
   options:
     | UseInfiniteQueryOptions<
-        SuccessResponse<Writer[]>,
+        SuccessResponse<MainWritersResponse>,
         AxiosError<unknown>,
-        SuccessResponse<Writer[]>
+        SuccessResponse<MainWritersResponse>
       >
     | undefined = {},
 ) {
-  return useInfiniteQuery<SuccessResponse<Writer[]>, AxiosError>(
+  return useInfiniteQuery<SuccessResponse<MainWritersResponse>, AxiosError>(
     ['/services/main_writers', contentsSearchParams],
     getMainWriters,
     {
