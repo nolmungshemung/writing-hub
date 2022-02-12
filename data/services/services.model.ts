@@ -24,6 +24,12 @@ export interface MainContentsResponse {
   start: number;
 }
 
+export interface MainWritersResponse {
+  mainWriterList: Writer[];
+  isLast: boolean;
+  start: number;
+}
+
 export interface ContentsSearchParams {
   start: number;
   count: number;
