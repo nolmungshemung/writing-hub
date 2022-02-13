@@ -140,7 +140,7 @@ const Main: NextPage = function () {
                   <Card
                     {...contents}
                     key={contents.contentsId + virtualColumn.index}
-                    onCardClick={onCardClick}
+                    onCardClick={() => onCardClick(contents.contentsId)}
                   />
                 );
               })}
