@@ -1,8 +1,13 @@
-import { useQuery, UseQueryOptions } from 'react-query';
+import {
+  UseMutationOptions,
+  useQuery,
+  UseQueryOptions,
+  useMutation,
+} from 'react-query';
 import { AxiosError } from 'axios';
 import { SuccessResponse } from '~/shared/types';
 import { UserData } from './user.model';
-import { getUserInfo } from './user.api';
+import { getUserInfo, postNameRegistration } from './user.api';
 
 export function useUserInfo(
   userId: string,
@@ -19,6 +24,19 @@ export function useUserInfo(
     () => getUserInfo(userId),
     {
       retry: 2,
+      ...options,
+    },
+  );
+}
+
+export function useNameRegistration(
+  options: UseMutationOptions<SuccessResponse, AxiosError<unknown>, UserData>,
+) {
+  return useMutation<SuccessResponse, AxiosError, UserData>(
+    '/user/name_registration',
+    postNameRegistration,
+    {
+      retry: false,
       ...options,
     },
   );

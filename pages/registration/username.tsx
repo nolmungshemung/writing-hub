@@ -1,9 +1,41 @@
+import { useState, ChangeEvent } from 'react';
 import { NextPage } from 'next';
 import { NextSeo } from 'next-seo';
 import { Box, Text, Button } from '@nolmungshemung/ui-kits';
 import { BasicInput } from '~/components/Input';
+import { useNameRegistration } from '~/data/user/user.hooks';
 
 const PenName: NextPage = function () {
+  const [userName, setUserName] = useState('');
+  const [showError, setShowError] = useState(false);
+
+  const { mutate } = useNameRegistration({
+    onSuccess() {
+      setShowError(false);
+      window.alert('필명이 등록(수정) 되었습니다!');
+    },
+    onError(error) {
+      const errorCode = error.response?.status;
+      if (errorCode === 404) {
+        setShowError(true);
+      } else if (errorCode === 422) {
+        setShowError(false);
+        window.alert('필명 등록(수정)에 실패했습니다. 관리자에게 문의하세요');
+      }
+    },
+  });
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setUserName(e.target.value);
+  };
+
+  const onPenNameRegist = () => {
+    mutate({
+      userId: '',
+      userName,
+    });
+  };
+
   return (
     <>
       <NextSeo
@@ -46,6 +78,8 @@ const PenName: NextPage = function () {
           >
             <BasicInput
               type="text"
+              value={userName}
+              onChange={handleChange}
               placeholder="필명"
               css={{
                 backgroundColor: '#EEE',
@@ -57,12 +91,28 @@ const PenName: NextPage = function () {
               }}
             />
           </Box>
+          {showError && (
+            <Box
+              css={{
+                marginBottom: '$sp-20',
+              }}
+            >
+              <Text
+                css={{
+                  color: 'rgba(222, 14, 14, 0.9)',
+                }}
+              >
+                이미 사용 중인 필명입니다. 다른 필명을 사용해주세요.
+              </Text>
+            </Box>
+          )}
           <Button
             color="primary"
             size="lg"
             css={{
               cursor: 'pointer',
             }}
+            onClick={onPenNameRegist}
           >
             등록하기
           </Button>

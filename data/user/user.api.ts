@@ -1,6 +1,6 @@
 import axios from '~/shared/axios';
 import { SuccessResponse } from '~/shared/types';
-import { UserData, NameRegistrationRequest } from './user.model';
+import { UserData } from './user.model';
 
 export async function getUserInfo(userId: string) {
   const { data } = await axios.get<SuccessResponse<UserData>>(
@@ -14,12 +14,10 @@ export async function getUserInfo(userId: string) {
   return data;
 }
 
-export async function postNameRegistration(
-  nameRegistrationRequest: NameRegistrationRequest,
-) {
+export async function postNameRegistration(userData: UserData) {
   const { data } = await axios.post<SuccessResponse>(
     '/user/name_registration',
-    nameRegistrationRequest,
+    userData,
   );
   return data;
 }
