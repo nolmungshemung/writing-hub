@@ -1,11 +1,13 @@
 import { rest, RestRequest } from 'msw';
 import { WritingContentsRequest } from '~/data/services/services.model';
+import { UserData } from '~/data/user/user.model';
 import { API_URL } from '~/shared/constants/environments';
 import {
   ContentsFactory,
   ErrorResponseFactory,
   WriterFactory,
 } from './factories';
+import { camelizeKeys } from 'humps';
 
 export const handlers = [
   rest.get(`${API_URL}/services/main_contents`, (req, res, ctx) => {
@@ -84,7 +86,37 @@ export const handlers = [
         const errorResponse = ErrorResponseFactory.build();
         return res(ctx.status(422), ctx.json(errorResponse));
       }
-      console.log(writingContents);
+
+      return res(
+        ctx.status(200),
+        ctx.json({
+          msg: '응답 성공',
+          data: {},
+        }),
+      );
+    },
+  ),
+  rest.post(
+    `${API_URL}/user/name_registration`,
+    (req: RestRequest<UserData>, res, ctx) => {
+      const userData = camelizeKeys(req.body) as UserData;
+      console.log(userData);
+
+      if (userData.userId === '') {
+        const errorResponse = ErrorResponseFactory.build();
+        return res(ctx.status(422), ctx.json(errorResponse));
+      }
+
+      if (userData.userName === 'invalid') {
+        return res(
+          ctx.status(404),
+          ctx.json({
+            msg: '이미 존재하는 필명입니다.',
+            data: {},
+          }),
+        );
+      }
+
       return res(
         ctx.status(200),
         ctx.json({
