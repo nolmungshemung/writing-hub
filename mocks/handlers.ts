@@ -13,7 +13,18 @@ export const handlers = [
   rest.get(`${API_URL}/services/main_contents`, (req, res, ctx) => {
     const keyword = req.url.searchParams.get('keyword');
 
-    if (keyword !== 'invalid') {
+    if (keyword === 'notfound') {
+      return res(
+        ctx.status(404),
+        ctx.json({
+          msg: '해당 작품을 찾을 수 없습니다.',
+          data: {},
+        }),
+      );
+    } else if (keyword === 'invalid') {
+      const errorResponse = ErrorResponseFactory.build();
+      return res(ctx.status(422), ctx.json(errorResponse));
+    } else {
       const start = Number(req.url.searchParams.get('start'));
       const count = Number(req.url.searchParams.get('count'));
       const contents = ContentsFactory.buildList(count);
@@ -31,15 +42,23 @@ export const handlers = [
           },
         }),
       );
-    } else {
-      const errorResponse = ErrorResponseFactory.build();
-      return res(ctx.status(422), ctx.json(errorResponse));
     }
   }),
   rest.get(`${API_URL}/services/main_writers`, (req, res, ctx) => {
     const keyword = req.url.searchParams.get('keyword');
 
-    if (keyword !== 'invalid') {
+    if (keyword === 'notfound') {
+      return res(
+        ctx.status(404),
+        ctx.json({
+          msg: '해당 작품을 찾을 수 없습니다.',
+          data: {},
+        }),
+      );
+    } else if (keyword === 'invalid') {
+      const errorResponse = ErrorResponseFactory.build();
+      return res(ctx.status(422), ctx.json(errorResponse));
+    } else {
       const start = Number(req.url.searchParams.get('start'));
       const count = Number(req.url.searchParams.get('count'));
       const writers = WriterFactory.buildList(count);
@@ -57,9 +76,6 @@ export const handlers = [
           },
         }),
       );
-    } else {
-      const errorResponse = ErrorResponseFactory.build();
-      return res(ctx.status(422), ctx.json(errorResponse));
     }
   }),
   rest.get(`${API_URL}/services/reading_contents`, (req, res, ctx) => {

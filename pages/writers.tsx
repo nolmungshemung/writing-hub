@@ -106,9 +106,9 @@ const Main: NextPage = function () {
     if (pages.length > 0) {
       return (
         <>
-          {flatMainWriters.map((writer: Writer, index: number) => (
+          {flatMainWriters.map((writer: Writer) => (
             <StyledCard
-              key={index}
+              key={writer.writerId}
               onClick={() => onCardClick(writer.writerId)}
               css={{
                 display: 'flex',
@@ -128,51 +128,53 @@ const Main: NextPage = function () {
   };
 
   return (
-    <StyledMain>
+    <>
       <NextSeo
         title="WritingHub: 작가 검색"
         description="라이팅허브 작가 검색 화면"
       />
-      <SytledTopArea>
-        <Box
-          css={{
-            position: 'relative',
-            display: 'flex',
-            marginTop: '$sp-50',
-            justifyContent: 'center',
-            width: '1216px',
-          }}
-        >
-          <Search
-            placeholder="검색어를 입력해주세요."
-            onChange={onChange}
-            onEnter={onEnter}
-            onSearch={onSearch}
-          />
-          <Button
-            color="white"
-            outline="black"
+      <StyledMain>
+        <SytledTopArea>
+          <Box
             css={{
-              position: 'absolute',
-              right: '0',
-              cursor: 'pointer',
+              position: 'relative',
+              display: 'flex',
+              marginTop: '$sp-50',
+              justifyContent: 'center',
+              width: '1216px',
             }}
-            onClick={onContentsSearchButtonClick}
           >
-            작품검색
-          </Button>
-        </Box>
-      </SytledTopArea>
-      <StyledCardList>
-        {renderCardList()}
-        <Box
-          ref={loadMoreRef}
-          css={{
-            height: '$height-md',
-          }}
-        />
-      </StyledCardList>
-    </StyledMain>
+            <Search
+              placeholder="검색어를 입력해주세요."
+              onChange={onChange}
+              onEnter={onEnter}
+              onSearch={onSearch}
+            />
+            <Button
+              color="white"
+              outline="black"
+              css={{
+                position: 'absolute',
+                right: '0',
+                cursor: 'pointer',
+              }}
+              onClick={onContentsSearchButtonClick}
+            >
+              작품검색
+            </Button>
+          </Box>
+        </SytledTopArea>
+        <StyledCardList>
+          {renderCardList()}
+          <Box
+            ref={loadMoreRef}
+            css={{
+              height: '$height-md',
+            }}
+          />
+        </StyledCardList>
+      </StyledMain>
+    </>
   );
 };
 
