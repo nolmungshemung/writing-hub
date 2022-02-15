@@ -18,16 +18,19 @@ export interface Contents {
   transitionNum: number;
 }
 
-export interface MainContentsResponse {
-  mainContentsList: Contents[];
+export interface MainPagingInfo {
   isLast: boolean;
   start: number;
 }
 
+export interface MainContentsResponse {
+  mainContentsList: Contents[];
+  paging: MainPagingInfo;
+}
+
 export interface MainWritersResponse {
   mainWriterList: Writer[];
-  isLast: boolean;
-  start: number;
+  paging: MainPagingInfo;
 }
 
 export interface ContentsSearchParams {
