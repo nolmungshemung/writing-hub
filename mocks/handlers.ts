@@ -24,8 +24,10 @@ export const handlers = [
           msg: 'success!',
           data: {
             main_contents_list: contents,
-            is_last: false,
-            start,
+            paging: {
+              is_last: false,
+              start,
+            },
           },
         }),
       );
@@ -48,8 +50,10 @@ export const handlers = [
           msg: 'success!',
           data: {
             main_writer_list: writers,
-            is_last: false,
-            start,
+            paging: {
+              is_last: false,
+              start,
+            },
           },
         }),
       );

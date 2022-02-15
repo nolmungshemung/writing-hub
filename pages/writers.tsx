@@ -66,7 +66,9 @@ const Main: NextPage = function () {
     useInfinityWriters(searchParams, {
       getNextPageParam: (lastPage) => {
         const {
-          data: { isLast, start },
+          data: {
+            paging: { isLast, start },
+          },
         } = lastPage;
 
         return !isLast ? start + DEFAULT_SEARCH_RANGE : false;
