@@ -8,10 +8,6 @@ import {
   WriterFactory,
 } from './factories';
 import { camelizeKeys } from 'humps';
-import {
-  DEFAULT_FEED_COUNT,
-  DEFAULT_START_PAGE,
-} from '~/shared/constants/pagination';
 
 export const handlers = [
   rest.get(`${API_URL}/services/main_contents`, (req, res, ctx) => {
@@ -124,7 +120,6 @@ export const handlers = [
     `${API_URL}/user/name_registration`,
     (req: RestRequest<UserData>, res, ctx) => {
       const userData = camelizeKeys(req.body) as UserData;
-      console.log(userData);
 
       if (userData.userId === '') {
         const errorResponse = ErrorResponseFactory.build();
