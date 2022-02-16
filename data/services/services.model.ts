@@ -18,19 +18,20 @@ export interface Contents {
   transitionNum: number;
 }
 
-export interface MainPagingInfo {
+export interface PagingInfo {
   isLast: boolean;
   start: number;
+  totalPages: number;
 }
 
 export interface MainContentsResponse {
   mainContentsList: Contents[];
-  paging: MainPagingInfo;
+  paging: PagingInfo;
 }
 
 export interface MainWritersResponse {
   mainWriterList: Writer[];
-  paging: MainPagingInfo;
+  paging: PagingInfo;
 }
 
 export interface ContentsSearchParams {
@@ -50,20 +51,19 @@ export interface TranslatingContentsData extends Contents {
   contents: string;
 }
 
-export interface FeedParams {
-  writerId: string;
-  count: number;
+export interface PagingParams {
   page: number;
 }
 
-export interface FeedPagingInfo extends MainPagingInfo {
-  totalPages: number;
+export interface FeedParams extends PagingParams {
+  writerId: string;
+  count: number;
 }
 
 export interface FeedContentsData {
   writer: Writer;
   feedContentsList: Contents[];
-  paging: FeedPagingInfo;
+  paging: PagingInfo;
 }
 
 export interface WritingContentsRequest {
