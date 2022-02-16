@@ -8,6 +8,10 @@ import {
   WriterFactory,
 } from './factories';
 import { camelizeKeys } from 'humps';
+import {
+  DEFAULT_FEED_COUNT,
+  DEFAULT_START_PAGE,
+} from '~/shared/constants/pagination';
 
 export const handlers = [
   rest.get(`${API_URL}/services/main_contents`, (req, res, ctx) => {
@@ -146,4 +150,34 @@ export const handlers = [
       );
     },
   ),
+  rest.get(`${API_URL}/services/feed_contents`, (req, res, ctx) => {
+    const writerId = req.url.searchParams.get('writer_id');
+    const count = Number(req.url.searchParams.get('count'));
+    const page = Number(req.url.searchParams.get('page'));
+
+    if (!writerId || isNaN(count) || isNaN(page)) {
+      const errorResponse = ErrorResponseFactory.build();
+      return res(ctx.status(422), ctx.json(errorResponse));
+    }
+
+    const totalPages = Math.floor(Math.random() * (100 - 10) + 10);
+    const writer = WriterFactory.build({ writerId });
+    const contents = ContentsFactory.buildList(count);
+
+    return res(
+      ctx.json({
+        status_code: 200,
+        msg: '응답 성공',
+        data: {
+          writer: writer,
+          feed_contents_list: contents,
+          paging: {
+            start: page,
+            is_last: false,
+            total_pages: totalPages,
+          },
+        },
+      }),
+    );
+  }),
 ];
