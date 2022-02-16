@@ -60,20 +60,25 @@ const MyFeed = function ({ feedParams }: MyFeedProps) {
             gridArea: 'top',
             position: 'relative',
             display: 'flex',
-            justifyContent: 'center',
+            alignItems: 'center',
             width: '100%',
             height: '5.375rem',
             paddingTop: '$sp-50',
+            '& .page-title': {
+              marginLeft: '45vw',
+            },
           }}
         >
-          <span>
+          <span className="page-title">
             {data?.data.writer.writerName ?? 'XXX'} 작가님의 피드입니다
           </span>
           <Button
+            size="lg"
             color="primary"
             outline="none"
             css={{
               cursor: 'pointer',
+              marginLeft: '23vw',
             }}
             onClick={onWritingClick}
           >
@@ -85,10 +90,10 @@ const MyFeed = function ({ feedParams }: MyFeedProps) {
             gridArea: 'contents',
             display: 'grid',
             gridTemplateColumns: 'repeat(4, 1fr)',
-            gridTemplateRows: 'repeat(5, 1fr)',
             columnGap: '$sp-24',
             rowGap: '$sp-16',
             marginTop: '$sp-32',
+            height: 'calc(100% - 5.375rem - 4rem)',
           }}
         >
           {isLoading ? (
@@ -106,14 +111,21 @@ const MyFeed = function ({ feedParams }: MyFeedProps) {
         <Box
           css={{
             gridArea: 'pagination',
+            width: '100%',
+            padding: '1rem 0',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
           }}
         >
-          <Pagination
-            totalPages={data?.data.paging.totalPages ?? 1}
-            displayAmount={DEFAULT_SHOW_PAGENATION_COUNT}
-            currentPage={page.page}
-            setPage={handleSetPage}
-          />
+          {data && (
+            <Pagination
+              totalPages={data?.data.paging.totalPages}
+              displayAmount={DEFAULT_SHOW_PAGENATION_COUNT}
+              currentPage={page.page}
+              setPage={handleSetPage}
+            />
+          )}
         </Box>
       </Box>
     </>

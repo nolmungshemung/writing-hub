@@ -7,9 +7,26 @@ type PaginationProps = {
   setPage: (page: number) => void;
 };
 
-const StyledPageButton = styled('button', {
-  '&.currentPage': {
-    fontWeight: 'bold',
+const StyeldPagination = styled('nav', {
+  width: '40rem',
+  textAlign: 'center',
+  '& button': {
+    width: '$space$sp-32',
+    height: '$space$sp-32',
+    margin: '0 $sp-04',
+    border: 'none',
+    backgroundColor: 'transparent',
+    color: '#999999',
+    padding: '0',
+    cursor: 'pointer',
+    '&.current-page': {
+      fontWeight: '$bold',
+      color: '$black',
+      textDecoration: 'underline',
+    },
+    '&:disabled': {
+      cursor: 'not-allowed',
+    },
   },
 });
 
@@ -43,39 +60,37 @@ export function Pagination({
   };
 
   return (
-    <>
-      <nav>
-        <button onClick={() => setPage(1)} disabled={currentPage === 1}>
-          &lt;&lt;
-        </button>
+    <StyeldPagination>
+      <button onClick={() => setPage(1)} disabled={currentPage === 1}>
+        &lt;&lt;
+      </button>
+      <button
+        onClick={() => setPage(currentPage - 1)}
+        disabled={currentPage === 1}
+      >
+        &lt;
+      </button>
+      {pagesArray().map((page) => (
         <button
-          onClick={() => setPage(currentPage - 1)}
-          disabled={currentPage === 1}
+          key={page}
+          onClick={() => setPage(page)}
+          className={page === currentPage ? 'current-page' : ''}
         >
-          &lt;
+          {page}
         </button>
-        {pagesArray().map((targetPage) => (
-          <StyledPageButton
-            key={targetPage}
-            onClick={() => setPage(targetPage)}
-            className={targetPage === currentPage ? 'currentPage' : ''}
-          >
-            {targetPage}
-          </StyledPageButton>
-        ))}
-        <button
-          onClick={() => setPage(currentPage + 1)}
-          disabled={currentPage === totalPages}
-        >
-          &gt;
-        </button>
-        <button
-          onClick={() => setPage(totalPages)}
-          disabled={currentPage === totalPages}
-        >
-          &gt;&gt;
-        </button>
-      </nav>
-    </>
+      ))}
+      <button
+        onClick={() => setPage(currentPage + 1)}
+        disabled={currentPage === totalPages}
+      >
+        &gt;
+      </button>
+      <button
+        onClick={() => setPage(totalPages)}
+        disabled={currentPage === totalPages}
+      >
+        &gt;&gt;
+      </button>
+    </StyeldPagination>
   );
 }
