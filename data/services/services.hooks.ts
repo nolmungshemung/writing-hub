@@ -15,8 +15,11 @@ import {
   MainContentsResponse,
   TranslatingContentsData,
   ReadingContentsData,
+  FeedContentsData,
+  FeedParams,
 } from './services.model';
 import {
+  getFeedContents,
   getMainContents,
   getMainWriters,
   getReadingContents,
@@ -132,6 +135,26 @@ export function usePostContents(
     postWritingContents,
     {
       retry: false,
+      ...options,
+    },
+  );
+}
+
+export function useFeedContents(
+  feedParams: FeedParams,
+  options:
+    | UseQueryOptions<
+        SuccessResponse<FeedContentsData>,
+        AxiosError<unknown>,
+        SuccessResponse<FeedContentsData>
+      >
+    | undefined = {},
+) {
+  return useQuery<SuccessResponse<FeedContentsData>, AxiosError>(
+    ['/services/feed_contents', feedParams],
+    () => getFeedContents(feedParams),
+    {
+      retry: 2,
       ...options,
     },
   );
