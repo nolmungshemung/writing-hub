@@ -50,9 +50,20 @@ export interface TranslatingContentsData extends Contents {
   contents: string;
 }
 
+export interface FeedParams {
+  writerId: string;
+  count: number;
+  page: number;
+}
+
+export interface FeedPagingInfo extends MainPagingInfo {
+  totalPages: number;
+}
+
 export interface FeedContentsData {
   writer: Writer;
   feedContentsList: Contents[];
+  paging: FeedPagingInfo;
 }
 
 export interface WritingContentsRequest {

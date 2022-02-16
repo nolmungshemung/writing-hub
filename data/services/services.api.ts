@@ -9,6 +9,7 @@ import {
   WritingContentsRequest,
   ContentsSearchParams,
   InfiniteQueryParam,
+  FeedParams,
 } from './services.model';
 
 export async function getMainContents({
@@ -63,13 +64,11 @@ export async function getTranslatingContents(contentsId: number) {
   return data;
 }
 
-export async function getFeedContents(writerId?: string) {
+export async function getFeedContents(feedParams: FeedParams) {
   const { data } = await axios.get<SuccessResponse<FeedContentsData>>(
     '/services/feed_contents',
     {
-      params: {
-        writerId,
-      },
+      params: feedParams,
     },
   );
   return data;
