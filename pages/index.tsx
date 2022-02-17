@@ -15,6 +15,7 @@ import Card from '~/components/Main/Card';
 import { SkeletonCard } from '~/components/Skeleton';
 import { DEFAULT_SEARCH_RANGE } from '~/shared/constants/pagination';
 import { NextSeo } from 'next-seo';
+import { MILLISEC_TO_SECOND } from '~/shared/constants/unit';
 
 const StyledMain = styled('div', {
   gridArea: 'main',
@@ -43,7 +44,7 @@ const StyledCardList = styled(Box, {
 const initialState: ContentsSearchParams = {
   start: 0,
   count: DEFAULT_SEARCH_RANGE,
-  baseTime: Date.now(),
+  baseTime: Math.floor(Date.now() / MILLISEC_TO_SECOND),
   keyword: '',
 };
 
@@ -56,7 +57,7 @@ const Main: NextPage = function () {
   const { onChange, onEnter, onSearch } = useSearch((keyword: string) => {
     setSearchParams((prev) => ({
       ...prev,
-      baseTime: Date.now(),
+      baseTime: Math.floor(Date.now() / MILLISEC_TO_SECOND),
       keyword,
     }));
   });
