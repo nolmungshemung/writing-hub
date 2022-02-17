@@ -3,26 +3,11 @@ import Head from 'next/head';
 import { Hydrate, QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { APP_STAGE } from '~/shared/constants/environments';
-import { globalCss, Box } from '@nolmungshemung/ui-kits';
-import { reset } from 'stitches-reset';
+import { Box } from '@nolmungshemung/ui-kits';
 import { DefaultSeo } from 'next-seo';
 import { Header } from '~/components/layout';
 import { SessionProvider } from 'next-auth/react';
-
-globalCss({
-  ...reset,
-  html: {
-    height: '100%',
-  },
-  body: {
-    ...reset.body,
-    height: '100%',
-    fontFamily: '$noto',
-  },
-  '#__next': {
-    height: '100%',
-  },
-})();
+import '~/styles/globalCss';
 
 if (APP_STAGE !== 'prod') {
   require('../mocks');
