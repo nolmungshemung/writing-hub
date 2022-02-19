@@ -3,10 +3,11 @@ import { NextSeo } from 'next-seo';
 import { Box, Button } from '@nolmungshemung/ui-kits';
 import { BasicInput } from '~/components/Input';
 import * as Table from '~/components/Table';
-import { NextPage } from 'next';
+import { GetServerSidePropsContext } from 'next';
 import { WritingContentsRequest } from '~/data/services/services.model';
 import TextEditor from '~/components/TextEditor/TextEditor';
 import { usePostContents } from '~/data/services/services.hooks';
+import { getSession } from 'next-auth/react';
 
 const initialWriting: WritingContentsRequest = {
   title: '',
@@ -19,7 +20,7 @@ const initialWriting: WritingContentsRequest = {
   originalId: 0,
 };
 
-const Writing: NextPage = function () {
+function Writing() {
   const [writingContents, setWritingContents] =
     useState<WritingContentsRequest>(initialWriting);
 
@@ -140,6 +141,19 @@ const Writing: NextPage = function () {
       </Box>
     </>
   );
-};
+}
 
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  try {
+    return {
+      props: {
+        session: await getSession(context),
+      },
+    };
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+Writing.auth = true;
 export default Writing;

@@ -3,7 +3,7 @@ import { NextSeo } from 'next-seo';
 import { Box, Button, styled } from '@nolmungshemung/ui-kits';
 import { BasicInput } from '~/components/Input';
 import * as Table from '~/components/Table';
-import { GetServerSidePropsContext, NextPage, PreviewData } from 'next';
+import { GetServerSidePropsContext, PreviewData } from 'next';
 import { WritingContentsRequest } from '~/data/services/services.model';
 import TextEditor from '~/components/TextEditor/TextEditor';
 import {
@@ -17,12 +17,13 @@ import { useRouter } from 'next/router';
 import { ParsedUrlQuery } from 'querystring';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
+import { getSession } from 'next-auth/react';
 
 const StyledTextEditor = styled(TextEditor, {
   width: '98%',
 });
 
-const Translating: NextPage = function () {
+function Translating() {
   const router = useRouter();
   const contentsId = Number(router.query.contentsId);
   const { data: targetOriginalContents, isLoading } =
@@ -273,7 +274,7 @@ const Translating: NextPage = function () {
       </Box>
     </>
   );
-};
+}
 
 export async function getServerSideProps(
   context: GetServerSidePropsContext<ParsedUrlQuery, PreviewData>,
@@ -288,6 +289,7 @@ export async function getServerSideProps(
     return {
       props: {
         dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
+        session: await getSession(context),
       },
     };
   } catch (e) {
@@ -295,4 +297,5 @@ export async function getServerSideProps(
   }
 }
 
+Translating.auth = true;
 export default Translating;
