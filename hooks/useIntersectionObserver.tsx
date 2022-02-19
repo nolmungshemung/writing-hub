@@ -19,7 +19,7 @@ export function useIntersectionObserver<T>({
   rootMargin = '0px',
   threshold = 1.0,
   target,
-  enabled = true,
+  enabled = false,
   onIntersect,
 }: IUseIntersectionObserverProps<T>) {
   useEffect(() => {
