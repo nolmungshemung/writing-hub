@@ -1,5 +1,4 @@
 import { useState, useRef } from 'react';
-import { NextPage } from 'next';
 import { dehydrate, QueryClient } from 'react-query';
 import Router from 'next/router';
 import { useSearch, useIntersectionObserver } from '~/hooks';
@@ -16,6 +15,8 @@ import { SkeletonCard } from '~/components/Skeleton';
 import { DEFAULT_SEARCH_RANGE } from '~/shared/constants/pagination';
 import { NextSeo } from 'next-seo';
 import { MILLISEC_TO_SECOND } from '~/shared/constants/unit';
+import { getSession } from 'next-auth/react';
+import { GetServerSidePropsContext } from 'next/types';
 
 const StyledMain = styled('div', {
   gridArea: 'main',
@@ -48,7 +49,7 @@ const initialState: ContentsSearchParams = {
   keyword: '',
 };
 
-const Main: NextPage = function () {
+function Main() {
   const loadMoreRef = useRef<HTMLDivElement>(null);
 
   const [searchParams, setSearchParams] =
@@ -170,9 +171,9 @@ const Main: NextPage = function () {
       </StyledMain>
     </>
   );
-};
+}
 
-export async function getServerSideProps() {
+export async function getServerSideProps(context: GetServerSidePropsContext) {
   try {
     const queryClient = new QueryClient();
     await queryClient.prefetchInfiniteQuery(
@@ -182,6 +183,7 @@ export async function getServerSideProps() {
     return {
       props: {
         dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
+        session: await getSession(context),
       },
     };
   } catch (e) {
@@ -189,4 +191,5 @@ export async function getServerSideProps() {
   }
 }
 
+Main.auth = false;
 export default Main;

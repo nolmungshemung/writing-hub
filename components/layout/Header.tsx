@@ -1,6 +1,7 @@
 import { AppBar, Text, Button, Box, styled } from '@nolmungshemung/ui-kits';
 import Router from 'next/router';
 import { signIn, signOut, useSession } from 'next-auth/react';
+import { WritingHubSession } from '~/data/user/user.model';
 
 const HeaderButton = styled(Button, {
   width: '5rem',
@@ -10,10 +11,16 @@ const HeaderButton = styled(Button, {
   marginRight: '$sp-12',
 });
 
+type QueryString<T = string | number> = Record<string, T>;
+
 export function Header() {
-  const { data: sessionData } = useSession();
-  const handleRouting = (path: string) => {
-    Router.push(path);
+  const { data: session } = useSession();
+
+  const handleRouting = (pathname: string, query?: QueryString) => {
+    Router.push({
+      pathname,
+      query,
+    });
   };
 
   return (
@@ -37,25 +44,37 @@ export function Header() {
         Writing Hub
       </Text>
       <Box>
-        {sessionData && (
+        {session ? (
           <>
-            <HeaderButton size="lg" color="white" outline="black">
+            <HeaderButton
+              size="lg"
+              color="white"
+              outline="black"
+              onClick={() => handleRouting('/registration/username')}
+            >
               필명등록
             </HeaderButton>
-            <HeaderButton size="lg" color="white" outline="black">
+            <HeaderButton
+              size="lg"
+              color="white"
+              outline="black"
+              onClick={() =>
+                handleRouting('/myfeed', {
+                  writerId: (session as WritingHubSession)?.user?.id ?? '',
+                })
+              }
+            >
               내피드
             </HeaderButton>
+            <HeaderButton
+              size="lg"
+              color="white"
+              outline="black"
+              onClick={signOut}
+            >
+              로그아웃
+            </HeaderButton>
           </>
-        )}
-        {sessionData ? (
-          <HeaderButton
-            size="lg"
-            color="white"
-            outline="black"
-            onClick={signOut}
-          >
-            로그아웃
-          </HeaderButton>
         ) : (
           <HeaderButton
             size="lg"

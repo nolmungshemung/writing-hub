@@ -1,17 +1,11 @@
-import type { NextPage } from 'next';
+import type { GetServerSidePropsContext } from 'next';
 import { NextSeo } from 'next-seo';
-import { Box, Text, Button, styled } from '@nolmungshemung/ui-kits';
-import { signIn } from 'next-auth/react';
+import { Box, Text, Button } from '@nolmungshemung/ui-kits';
+import { getSession, signIn } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { useCallback } from 'react';
 
-const GuideText = styled(Text, {
-  color: '$gray',
-  paddingRight: '$sp-16',
-  fontWeight: '$regular',
-});
-
-const Login: NextPage = function () {
+function Login() {
   const router = useRouter();
   const { callbackUrl: urlParam } = router.query;
 
@@ -35,10 +29,10 @@ const Login: NextPage = function () {
           justifyContent: 'center',
         }}
       >
-        <Box css={{ marginBottom: '8rem' }}>
+        <Box css={{ marginBottom: '$sp-50' }}>
           <Text css={{ fontSize: '5rem' }}>WritingHub</Text>
         </Box>
-        <Box css={{ marginBottom: '$sp-32' }}>
+        <Box>
           <Button
             size="lg"
             color="white"
@@ -57,31 +51,22 @@ const Login: NextPage = function () {
             </Text>
           </Button>
         </Box>
-        <Box>
-          <GuideText size="xl">라이팅허브가 처음이신가요?</GuideText>
-          <GuideText
-            size="xl"
-            css={{
-              color: '#333333',
-              textDecoration: 'underline',
-              cursor: 'pointer',
-            }}
-          >
-            회원가입
-          </GuideText>
-          <GuideText
-            size="xl"
-            css={{
-              color: '#000000',
-              cursor: 'pointer',
-            }}
-          >
-            계정찾기
-          </GuideText>
-        </Box>
       </Box>
     </>
   );
-};
+}
 
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  try {
+    return {
+      props: {
+        session: await getSession(context),
+      },
+    };
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+Login.auth = false;
 export default Login;

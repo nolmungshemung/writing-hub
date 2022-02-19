@@ -20,7 +20,14 @@ queryClient.setDefaultOptions({
   },
 });
 
-function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
+function MyApp({
+  Component,
+  pageProps: { session, ...pageProps },
+}: AppProps & {
+  Component: {
+    auth: boolean;
+  };
+}) {
   return (
     <>
       <DefaultSeo />

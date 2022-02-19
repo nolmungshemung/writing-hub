@@ -3,13 +3,15 @@ import { GetServerSidePropsContext, PreviewData } from 'next';
 import { NextSeo } from 'next-seo';
 import Router from 'next/router';
 import { ParsedUrlQuery } from 'querystring';
-import { dehydrate, QueryClient } from 'react-query';
+import { dehydrate, DehydratedState, QueryClient } from 'react-query';
 import { getReadingContents } from '~/data/services/services.api';
 import { useReadingContents } from '~/data/services/services.hooks';
 import { SkeletonCard } from '~/components/Skeleton';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import Card from '~/components/Main/Card';
+import { getSession } from 'next-auth/react';
+import { WritingHubSession } from '~/data/user/user.model';
 
 const StyledColBorder = styled(Box, {
   borderRight: '1px #999999 solid',
@@ -19,10 +21,11 @@ const StyledColBorder = styled(Box, {
 
 interface ReadingProps {
   contentsId: number;
-  dehydratedState: any;
+  dehydratedState: DehydratedState;
+  session: WritingHubSession | null;
 }
 
-const Reading = function ({ contentsId }: ReadingProps) {
+function Reading({ contentsId }: ReadingProps) {
   const { data, isLoading } = useReadingContents(contentsId);
 
   const onCardClick = (translatedContentsId: number) => {
@@ -245,16 +248,11 @@ const Reading = function ({ contentsId }: ReadingProps) {
       </Box>
     </>
   );
-};
+}
 
 export async function getServerSideProps(
   context: GetServerSidePropsContext<ParsedUrlQuery, PreviewData>,
-): Promise<
-  | {
-      props: ReadingProps;
-    }
-  | undefined
-> {
+) {
   try {
     const contentsId = Number(context.query.contentsId);
     const queryClient = new QueryClient();
@@ -267,6 +265,7 @@ export async function getServerSideProps(
       props: {
         contentsId: contentsId,
         dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
+        session: await getSession(context),
       },
     };
   } catch (e) {
@@ -274,4 +273,5 @@ export async function getServerSideProps(
   }
 }
 
+Reading.auth = false;
 export default Reading;

@@ -1,27 +1,30 @@
 import { Box, Button } from '@nolmungshemung/ui-kits';
 import { GetServerSidePropsContext, PreviewData } from 'next';
+import { getSession } from 'next-auth/react';
 import { NextSeo } from 'next-seo';
 import Router from 'next/router';
 import { ParsedUrlQuery } from 'querystring';
-import { dehydrate, QueryClient } from 'react-query';
+import { dehydrate, DehydratedState, QueryClient } from 'react-query';
 import { Pagination } from '~/components/common';
 import Card from '~/components/Main/Card';
 import { SkeletonCard } from '~/components/Skeleton';
 import { getFeedContents } from '~/data/services/services.api';
 import { useFeedContents } from '~/data/services/services.hooks';
 import { FeedParams } from '~/data/services/services.model';
+import { WritingHubSession } from '~/data/user/user.model';
 import { usePagination } from '~/hooks/usePagination';
 import { DEFAULT_START_PAGE } from '~/shared/constants/pagination';
 
 interface MyFeedProps {
   feedParams: FeedParams;
-  dehydratedState: any;
+  dehydratedState: DehydratedState;
+  session: WritingHubSession | null;
 }
 
 const DEFAULT_SHOW_FEED_COUNT = 8;
 const DEFAULT_SHOW_PAGENATION_COUNT = 10;
 
-const MyFeed = function ({ feedParams }: MyFeedProps) {
+function MyFeed({ feedParams }: MyFeedProps) {
   const { page, handleSetPage } = usePagination<FeedParams>(feedParams);
   const { data, isLoading } = useFeedContents(feedParams);
 
@@ -130,16 +133,11 @@ const MyFeed = function ({ feedParams }: MyFeedProps) {
       </Box>
     </>
   );
-};
+}
 
 export async function getServerSideProps(
   context: GetServerSidePropsContext<ParsedUrlQuery, PreviewData>,
-): Promise<
-  | {
-      props: MyFeedProps;
-    }
-  | undefined
-> {
+) {
   try {
     const writerId = context.query.writerId as string;
     const feedParams: FeedParams = {
@@ -157,6 +155,7 @@ export async function getServerSideProps(
       props: {
         feedParams: feedParams,
         dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
+        session: await getSession(context),
       },
     };
   } catch (e) {
@@ -164,4 +163,5 @@ export async function getServerSideProps(
   }
 }
 
+MyFeed.auth = true;
 export default MyFeed;
