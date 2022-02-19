@@ -51,8 +51,9 @@ export function useInfinityContents(
     ['/services/main_contents', contentsSearchParams],
     getMainContents,
     {
-      ...options,
+      retry: 2,
       refetchOnWindowFocus: false,
+      ...options,
     },
   );
 }
@@ -72,8 +73,8 @@ export function useInfinityWriters(
     getMainWriters,
     {
       retry: 2,
-      ...options,
       refetchOnWindowFocus: false,
+      ...options,
     },
   );
 }
