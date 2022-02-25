@@ -59,6 +59,7 @@
     "postinstall-postinstall": "^2.1.0",
     "prettier": "^2.5.1",
     "serverless": "^2.60.3",
+    "ts-node": "^10.5.0",
     "typescript": "4.4.3"
   },
   "packageManager": "yarn@3.0.2",
