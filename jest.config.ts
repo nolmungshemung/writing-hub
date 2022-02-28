@@ -7,10 +7,12 @@ const config: Config.InitialOptions = {
   setupFilesAfterEnv: ['@testing-library/jest-dom/extend-expect'],
 
   /* auto cleanup: 테스트가 끝날 때마다 다음 테스트를 위해 렌더링한 DOM 내용 지워줌 */
-  setupFiles: ['@testing-library/react/dont-cleanup-after-each'],
+  /* 적용 안됨 */
+  // setupFiles: ['@testing-library/react/dont-cleanup-after-each'],
 
   /* 테스트 파일 내 절대경로 지정 */
-  moduleNameMapper: { '^~/(.*)$': '<rootDir>/$1' },
+  /* test 파일을 test 대상과 같은 depth로 두어 상대경로가 더 용이 */
+  // moduleNameMapper: { '^~/(.*)$': '<rootDir>/$1' },
 
   /* DOM 테스트 (default: node) */
   testEnvironment: 'jsdom',
