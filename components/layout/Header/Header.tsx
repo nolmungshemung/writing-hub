@@ -51,6 +51,7 @@ export function Header() {
               color="white"
               outline="black"
               onClick={() => handleRouting('/registration/username')}
+              data-testid={'username-button'}
             >
               필명등록
             </HeaderButton>
@@ -63,6 +64,7 @@ export function Header() {
                   writerId: (session as WritingHubSession)?.user?.id ?? '',
                 })
               }
+              data-testid={'myfeed-button'}
             >
               내피드
             </HeaderButton>
@@ -71,6 +73,7 @@ export function Header() {
               color="white"
               outline="black"
               onClick={signOut}
+              data-testid={'logout-button'}
             >
               로그아웃
             </HeaderButton>
@@ -81,6 +84,7 @@ export function Header() {
             color="white"
             outline="black"
             onClick={signIn}
+            data-testid={'login-button'}
           >
             로그인
           </HeaderButton>
