@@ -139,9 +139,29 @@ export async function getServerSideProps(
   context: GetServerSidePropsContext<ParsedUrlQuery, PreviewData>,
 ) {
   try {
-    const writerId = context.query.writerId as string;
+    const writerId = context.query.writerId;
+    const session = await getSession(context);
+
+    // 로그인 정보가 없으면 접근 불가 -> 로그인 페이지로 리다이렉트
+    if (!session?.user) {
+      return {
+        redirect: {
+          permanent: false,
+          destination: '/login',
+        },
+        props: {},
+      };
+    }
+
+    // 존재하지 않는 컨텐츠에 접근할 때 404 리다이렉트
+    if (writerId === undefined) {
+      return {
+        notFound: true,
+      };
+    }
+
     const feedParams: FeedParams = {
-      writerId: writerId,
+      writerId: writerId as string,
       count: DEFAULT_SHOW_FEED_COUNT,
       page: DEFAULT_START_PAGE,
     };
@@ -155,7 +175,7 @@ export async function getServerSideProps(
       props: {
         feedParams: feedParams,
         dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
-        session: await getSession(context),
+        session,
       },
     };
   } catch (e) {

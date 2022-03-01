@@ -1,3 +1,4 @@
+import React from 'react';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { Hydrate, QueryClient, QueryClientProvider } from 'react-query';
@@ -6,7 +7,8 @@ import { APP_STAGE } from '~/shared/constants/environments';
 import { Box } from '@nolmungshemung/ui-kits';
 import { DefaultSeo } from 'next-seo';
 import { Header } from '~/components/layout';
-import { SessionProvider } from 'next-auth/react';
+import { SessionProvider, useSession } from 'next-auth/react';
+import Router from 'next/router';
 import '~/styles/globalCss';
 
 if (APP_STAGE !== 'prod') {
@@ -19,6 +21,31 @@ queryClient.setDefaultOptions({
     staleTime: Infinity,
   },
 });
+
+interface AuthProps {
+  children: React.ReactElement;
+}
+
+function Auth({ children }: AuthProps) {
+  const { data: session, status } = useSession({ required: true });
+  const isUser = !!session?.user;
+
+  if (isUser) {
+    return children;
+  }
+
+  React.useEffect(() => {
+    if (status === 'loading') {
+      return;
+    }
+
+    if (!isUser) {
+      Router.push('/login');
+    }
+  }, [status, isUser]);
+
+  return null;
+}
 
 function MyApp({
   Component,
@@ -42,7 +69,13 @@ function MyApp({
           <SessionProvider session={session}>
             <Box css={{ height: '100%' }}>
               <Header />
-              <Component {...pageProps} />
+              {Component.auth ? (
+                <Auth>
+                  <Component {...pageProps} />
+                </Auth>
+              ) : (
+                <Component {...pageProps} />
+              )}
             </Box>
           </SessionProvider>
           <ReactQueryDevtools initialIsOpen={false} />
