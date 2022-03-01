@@ -282,6 +282,26 @@ export async function getServerSideProps(
   try {
     const queryClient = new QueryClient();
     const contentsId = Number(context.query.contentsId);
+    const session = await getSession(context);
+
+    // 로그인 정보가 없으면 접근 불가 -> 로그인 페이지로 리다이렉트
+    if (!session?.user) {
+      return {
+        redirect: {
+          permanent: false,
+          destination: '/login',
+        },
+        props: {},
+      };
+    }
+
+    // 존재하지 않는 컨텐츠에 접근할 때 404 리다이렉트
+    if (isNaN(contentsId)) {
+      return {
+        notFound: true,
+      };
+    }
+
     await queryClient.prefetchQuery(
       ['/services/translating_contents', contentsId],
       () => getTranslatingContents(contentsId),
@@ -289,7 +309,7 @@ export async function getServerSideProps(
     return {
       props: {
         dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
-        session: await getSession(context),
+        session,
       },
     };
   } catch (e) {

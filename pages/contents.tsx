@@ -28,6 +28,13 @@ interface ReadingProps {
 function Reading({ contentsId }: ReadingProps) {
   const { data, isLoading } = useReadingContents(contentsId);
 
+  const onTranslatingButtonClick = () => {
+    Router.push({
+      pathname: '/translating',
+      query: { contentsId },
+    });
+  };
+
   const onCardClick = (translatedContentsId: number) => {
     Router.push({
       pathname: '/contents',
@@ -196,6 +203,7 @@ function Reading({ contentsId }: ReadingProps) {
                   margin: '0 $sp-06',
                   cursor: 'pointer',
                 }}
+                onClick={onTranslatingButtonClick}
               >
                 {'번역하기'}
               </Button>
@@ -255,6 +263,13 @@ export async function getServerSideProps(
 ) {
   try {
     const contentsId = Number(context.query.contentsId);
+
+    if (isNaN(contentsId)) {
+      return {
+        notFound: true,
+      };
+    }
+
     const queryClient = new QueryClient();
     await queryClient.prefetchQuery(
       ['/services/reading_contents', contentsId],
