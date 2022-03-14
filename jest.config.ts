@@ -12,7 +12,11 @@ const config: Config.InitialOptions = {
 
   /* 테스트 파일 내 절대경로 지정 */
   /* test 파일을 test 대상과 같은 depth로 두어 상대경로가 더 용이 */
-  // moduleNameMapper: { '^~/(.*)$': '<rootDir>/$1' },
+  moduleNameMapper: {
+    '^~/(.*)$': '<rootDir>/$1',
+    '\\.(css|less|sass|scss)$': '<rootDir>/mocks/jestMocks/styleMock.ts',
+    '\\.(gif|ttf|eot|svg)$': '<rootDir>/mocks/jestMocks/fileMock.js',
+  },
 
   /* DOM 테스트 (default: node) */
   testEnvironment: 'jsdom',
