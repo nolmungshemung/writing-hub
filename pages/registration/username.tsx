@@ -3,8 +3,15 @@ import { NextSeo } from 'next-seo';
 import { Box, Text, Button } from '@nolmungshemung/ui-kits';
 import { BasicInput } from '~/components/Input';
 import { useNameRegistration } from '~/data/user/user.hooks';
+import { useSession } from 'next-auth/react';
+import { WritingHubSession } from '~/data/user/user.model';
 
 const PenName = function () {
+  const { data: session } = useSession();
+  const {
+    user: { id: userId },
+  } = session as WritingHubSession;
+
   const [userName, setUserName] = useState('');
   const [showError, setShowError] = useState(false);
 
@@ -30,7 +37,7 @@ const PenName = function () {
 
   const onPenNameRegist = () => {
     mutate({
-      userId: '',
+      userId,
       userName,
     });
   };
@@ -121,4 +128,5 @@ const PenName = function () {
   );
 };
 PenName.auth = true;
+
 export default PenName;
