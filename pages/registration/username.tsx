@@ -1,11 +1,10 @@
 import { useState, ChangeEvent } from 'react';
-import { NextPage } from 'next';
 import { NextSeo } from 'next-seo';
 import { Box, Text, Button } from '@nolmungshemung/ui-kits';
 import { BasicInput } from '~/components/Input';
 import { useNameRegistration } from '~/data/user/user.hooks';
 
-const PenName: NextPage = function () {
+const PenName = function () {
   const [userName, setUserName] = useState('');
   const [showError, setShowError] = useState(false);
 
@@ -121,5 +120,5 @@ const PenName: NextPage = function () {
     </>
   );
 };
-
+PenName.auth = true;
 export default PenName;
